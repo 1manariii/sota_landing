@@ -1,0 +1,297 @@
+@use '../../app/styles/variables.scss' as *;
+
+.rentStepsSection {
+  padding: 100px 0;
+  background-color: var(--color-bg);
+  overflow: hidden;
+  position: relative;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  align-items: center;
+
+  display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.sectionTitle {
+  /* --- БАЗОВЫЕ СТИЛИ (МОБИЛЬНЫЕ <= 768px) --- */
+  writing-mode: horizontal-tb; /* Горизонтальный текст */
+  text-orientation: mixed;
+  
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative; /* Для позиционирования линии на мобильных */
+  display: block;
+  width: 100%;
+  padding: 0 15px;
+  line-height: 1.3;
+
+  /* Линия для мобильных (снизу) */
+  &::after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 3px;
+    background: var(--color-accent);
+    margin: 12px auto 0; /* Центрируем снизу */
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+    transition: all 0.3s ease;
+  }
+
+  /* --- ДЕСКТОП (> 768px) --- */
+  @media (min-width: 768px) {
+    writing-mode: sideways-lr; /* Вертикальный текст */
+    text-orientation: mixed;
+    width: max-content;
+    font-size: 2.5rem;
+    margin: 0 auto 40px; /* Отступ только снизу (визуально справа при верт. тексте, но мы это исправим высотой) */
+    padding: 0;
+    
+    /* Задаем фиксированную высоту, чтобы текст центрировался внутри неё, 
+       а линия могла встать ровно под последним символом */
+    height: 320px; 
+    display: flex;
+    align-items: center; /* Центрируем текст по вертикали (внутри высоты) */
+    justify-content: center;
+    position: relative;
+
+    /* Исправленная линия для десктопа */
+    &::after {
+      position: absolute;
+      
+      /* Позиционируем СПРАВА от текста */
+      right: -25px; /* Отступ справа от конца строки (который теперь справа) */
+      top: 50%;     /* Начинаем с середины высоты контейнера */
+      transform: translateY(-50%); /* Сдвигаем вверх на 50% своей высоты для идеального центра */
+      
+      /* Размеры линии (теперь она ВЕРТИКАЛЬНАЯ, так как стоит сбоку от вертикального текста) */
+      width: 4px;   /* Толщина линии */
+      height: 320px; /* Длина линии */
+      
+      margin: 0;
+      
+      background: var(--color-accent);
+      border-radius: 2px;
+      box-shadow: 0 0 15px rgba(255, 107, 0, 0.6);
+      
+      /* Опционально: если хочешь, чтобы линия росла вместе с текстом, 
+         можно убрать height и использовать проценты, но фиксированный размер надежнее */
+    }
+  }
+}
+.hexagonContainer {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centerRing {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  z-index: 0;
+  animation: spinReverse 20s linear infinite;
+}
+
+@keyframes spinReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* Обертка */
+.hexagonWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(var(--scale));
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: var(--z-index);
+  opacity: var(--opacity);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: none;
+
+  &:hover {
+    z-index: 11;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.25) !important;
+  }
+}
+
+/* --- МАГИЯ ШЕСТИУГОЛЬНИКА С РАМКОЙ --- */
+.hexagon {
+  position: relative;
+  width: 100px;
+  height: 115px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent; 
+}
+
+
+/* 1. Задний слой - Оранжевая рамка */
+.hexagon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent); 
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Плавная пружина */
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+  /* Важно: transform-origin в центре для равномерного масштабирования */
+  transform-origin: center center;
+  transform: scale(1); 
+}
+
+/* 2. Передний слой - Внутренняя часть (черная/прозрачная) */
+.hexagon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Фиксированный размер внутренней части относительно родителя */
+  width: 84%;  /* Толщина рамки = (100% - 84%) / 2 = 8% с каждой стороны */
+  height: 84%; 
+  background: #1a1a1a; 
+  transform: translate(-50%, -50%) scale(1); /* Центрирование + скейл */
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  z-index: 2;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center center;
+}
+
+/* Состояние Active */
+.hexagonWrapper.active .hexagon::after {
+  background: #000; /* Черный центр */
+  /* Чуть уменьшаем внутреннюю часть, чтобы рамка казалась толще при увеличении внешней */
+  /* Подбираем коэффициент так, чтобы визуальная толщина была красивой */
+  width: 80%; 
+  height: 80%;
+  /* Сохраняем центрирование */
+  transform: translate(-50%, -50%) scale(1); 
+}
+
+.hexagonWrapper.active .hexagon::after {
+   animation: pulseInner 2s infinite ease-in-out;
+}
+@keyframes pulseInner {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(0.98); }
+}
+/* Контейнер для контента (цифра и текст) */
+.hexagonInner {
+  position: relative;
+  z-index: 3; /* Поверх псевдо-элементов */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  /* Важно: pointer-events none, чтобы клики проходили сквозь текст на соту, если нужно */
+  pointer-events: none; 
+}
+
+.stepNumber {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+  /* Градиентный текст или просто оранжевый */
+  background: linear-gradient(to bottom, var(--color-accent), #ff9e55);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  .active & {
+    background: linear-gradient(to bottom, #fff, #ffe0b2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+  }
+}
+
+.stepText {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  
+  .active & {
+    color: #eee;
+  }
+}
+
+.tooltip {
+  font-size: 0.9rem;
+  color: #ccc;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 8px 16px;
+  border-radius: 20px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+
+  .active &, .hexagonWrapper:hover & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .hexagonContainer {
+    height: 400px;
+  }
+  
+  // .hexagonWrapper {
+  //    --x: calc(var(--x) * 0.6) !important;
+  //    --y: calc(var(--y) * 0.6) !important;
+  // }
+
+  .hexagon {
+    width: 80px;
+    height: 92px;
+  }
+  
+  .hexagon::after {
+    width: 86%; /* Сохраняем пропорции рамки */
+    height: 86%;
+  }
+
+  .stepNumber { font-size: 1.6rem; }
+  .stepText { font-size: 0.6rem; }
+  .sectionTitle { font-size: 1.8rem; }
+}
+

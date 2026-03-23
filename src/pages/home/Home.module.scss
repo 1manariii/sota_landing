@@ -1,0 +1,28 @@
+.home-page {
+  position: relative;
+  overflow: hidden;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.decor {
+  position: absolute;
+  z-index: -1;
+  opacity: 0.1;
+  pointer-events: none;
+  
+  &.sota-1 { top: 10%; left: -5%; width: 300px; }
+  &.sota-2 { top: 40%; right: -5%; width: 200px; }
+  &.sota-3 { bottom: 10%; left: 10%; width: 250px; }
+  // Добавь остальные позиции
+}

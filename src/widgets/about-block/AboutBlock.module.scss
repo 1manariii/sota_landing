@@ -1,0 +1,57 @@
+.about-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  margin-top: 40px;
+}
+
+.about-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  &--reverse {
+    @media (min-width: 769px) {
+      direction: rtl; // Меняем порядок колонок на десктопе
+      .about-item__text { direction: ltr; } // Возвращаем текст в норму
+      .about-item__image { direction: ltr; }
+    }
+  }
+
+  &__text {
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      color: var(--color-accent);
+      margin-bottom: 15px;
+    }
+  }
+
+  &__image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s;
+    }
+
+    &:hover img {
+      transform: scale(1.03);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+import logo from './logo.png'
+import banner1 from './banner1.png'
+import banner2 from './banner2.png'
+import banner3 from './banner3.png'
+import banner4 from './banner4.png'
+import invest1 from './invest1.png'
+import invest2 from './invest2.png'
+import invest3 from './invest3.png'
+import vk from './vk.svg'
+import instagram from './instagram.svg'
+import tg from './tg.svg'
+import youtube from './youtube.svg'
+
+export { logo, banner1, banner2, banner3, banner4, invest1, invest2, invest3, vk, instagram, tg, youtube} 

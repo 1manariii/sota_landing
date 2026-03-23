@@ -1,0 +1,315 @@
+@use '../../app/styles/variables.scss' as *;
+
+.section {
+  padding: 80px 0;
+  background-color: var(--color-bg);
+  position: relative;
+  overflow: hidden; /* Важно, чтобы модалка не вылезала за пределы секции если нужно, но лучше оставить visible для overlay */
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Сетка карточек */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  justify-content: center;
+}
+
+/* Карточка */
+.card {
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+
+  &:hover, &.active {
+    transform: translateY(-10px);
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 30px rgba(255, 107, 0, 0.2);
+  }
+
+  &.active {
+    background: rgba(255, 107, 0, 0.05);
+  }
+}
+
+.cardImage {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+  }
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.cardShortDesc {
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.5;
+  white-space: pre-line; /* Чтобы работали переносы строк \n */
+}
+
+/* --- МОДАЛЬНОЕ ОКНО (BOTTOM SHEET) --- */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end; /* Прижимаем к низу */
+  justify-content: center;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 900px; /* Ограничение ширины на больших экранах */
+  height: 85vh; /* Почти на всю высоту */
+  background: var(--color-surface);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+  
+  /* Анимация выезда снизу */
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  &.open {
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    height: 80vh;/* Небольшой отступ снизу на десктопе */
+    border-radius: 30px 30px 0 0; /* Только верхние углы */
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.3s;
+
+  &:hover {
+    background: var(--color-accent);
+  }
+}
+
+.modalBody {
+  padding: 40px 30px 60px;
+  color: #fff;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.modalTitle {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--color-accent);
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.modalMainText {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.modalSubText {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 15px;
+}
+
+/* Список преимуществ */
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.featureItem {
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkIcon {
+  color: var(--color-accent);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Сетка статистики */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  background: rgba(255,255,255,0.03);
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statValue {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Скроллбар для модалки */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+.modalContent::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.2);
+}
+.modalContent::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 4px;
+}
+
+/* --- Стили для зон размещения --- */
+.zonesSection {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zonesTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.zonesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.zoneTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 107, 0, 0.1); /* Полупрозрачный оранжевый фон */
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: default;
+
+  &:hover {
+    background: var(--color-accent);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+  }
+}
+
+.zoneIcon {
+  font-size: 1rem;
+}
+
+/* Адаптив для зон */
+@media (max-width: 600px) {
+  .zonesGrid {
+    gap: 8px;
+  }
+  
+  .zoneTag {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    width: 100%; /* На очень маленьких экранах можно сделать на всю ширину */
+    justify-content: center;
+  }
+}

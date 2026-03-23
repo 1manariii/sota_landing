@@ -1,0 +1,31 @@
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  &--primary {
+    background-color: var(--color-accent);
+    color: #fff;
+    
+    &:hover {
+      background-color: var(--color-accent-hover);
+      transform: translateY(-2px);
+    }
+  }
+
+  &--outline {
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+    background: transparent;
+
+    &:hover {
+      background: var(--color-accent);
+      color: #fff;
+    }
+  }
+}

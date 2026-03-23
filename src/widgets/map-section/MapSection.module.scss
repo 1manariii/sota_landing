@@ -1,0 +1,173 @@
+@use '../../app/styles/variables.scss' as *;
+
+.mapSection {
+  position: relative;
+  width: 100%;
+  height: 600px; /* Высота всей секции */
+  overflow: hidden;
+  display: flex;
+  background: #eee;
+}
+
+/* Контейнер карты */
+.mapContainer {
+  width: 100%;
+  height: 100%;
+  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  z-index: 1;
+
+  &.shifted {
+    width: calc(100% - 400px); /* Уменьшаем ширину на размер панели */
+    
+    @media (max-width: 768px) {
+      width: 100%; /* На мобильных карту не сжимаем, а скрываем или оставляем как есть */
+      opacity: 0.5; /* Просто затемняем */
+      pointer-events: none;
+    }
+  }
+}
+
+.leafletMap {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Выдвижная панель */
+.productsPanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background: var(--color-bg);
+  box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+  z-index: 80;
+  transform: translateX(100%); /* Скрыта за правым краем */
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow-y: auto;
+  border-left: 1px solid rgba(255,255,255,0.1);
+
+  &.open {
+    transform: translateX(0); /* Выезжает */
+  }
+
+  @media (max-width: 768px) {
+    width: 100%; /* На весь экран на мобильных */
+    transform: translateY(100%); /* Скрыта снизу */
+    
+    &.open {
+      transform: translateY(0);
+    }
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: none;
+  z-index: 10;
+  line-height: 1;
+  padding: 5px;
+  
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.panelContent {
+  padding: 60px 20px 20px;
+  color: #fff;
+}
+
+.panelTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+.postomatName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.postomatAddress {
+  color: #888;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+.productsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.productCard {
+  display: flex;
+  gap: 15px;
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 12px;
+  transition: transform 0.2s;
+  border: 1px solid rgba(255,255,255,0.05);
+
+  &:hover {
+    transform: translateX(-5px);
+    border-color: var(--color-accent);
+  }
+}
+
+.productImageWrapper {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+.productImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.productName {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.productDesc {
+  font-size: 0.85rem;
+  color: #ccc;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Обрезать описание после 2 строк */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #666;
+  padding: 40px 0;
+}

@@ -1,0 +1,268 @@
+@use '../../app/styles/variables.scss' as *;
+
+.section {
+  padding: 80px 0;
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  perspective: 1000px; /* Важно для 3D эффекта */
+}
+
+/* Контейнер карточки */
+.cardContainer {
+  background-color: transparent;
+  height: 500px; /* Фиксированная высота */
+  cursor: none;
+  position: relative;
+  
+  /* Передача цвета из JS */
+  --card-color: #FF6B00; 
+}
+
+/* Внутренняя обертка, которая будет вращаться */
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Пружинистый эффект */
+  transform-style: preserve-3d;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+  .cardContainer:hover &, .cardContainer.active & {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Общие стили для сторон */
+.cardFace {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Скрываем заднюю часть при вращении */
+  backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- ЛИЦЕВАЯ СТОРОНА (ОТЗЫВ) --- */
+.cardFront {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.imageWrapper {
+  position: relative;
+  height: 60%;
+  width: 100%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .cardContainer:hover & img {
+    transform: scale(1.1);
+  }
+
+  .gradientOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, #1a1a1a, transparent);
+  }
+}
+
+.reviewContent {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #1a1a1a;
+  position: relative;
+  z-index: 2;
+}
+
+.quoteIcon {
+  font-size: 3rem;
+  color: var(--card-color);
+  line-height: 1;
+  margin-bottom: -10px;
+  opacity: 0.8;
+}
+
+.reviewText {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #eee;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  
+  strong {
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  
+  span {
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+  }
+}
+
+.hoverHint {
+  font-size: 0.75rem;
+  color: var(--card-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 15px;
+  opacity: 0.7;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* --- ОБРАТНАЯ СТОРОНА (ФРАНШИЗА) --- */
+.cardBack {
+  background: var(--card-color); /* Цвет берется из инлайн-стиля */
+  color: #fff;
+  transform: rotateY(180deg); /* Изначально перевернута */
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.backContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.franchiseTitle {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.franchiseDesc {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.statsList {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .statLabel {
+    opacity: 0.8;
+  }
+  
+  .statValue {
+    font-weight: 800;
+    text-align: right;
+  }
+}
+
+.actionBtn {
+  background: #fff;
+  color: var(--card-color);
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 30px;
+  cursor: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  width: 100%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    background: #1a1a1a;
+    color: #fff;
+  }
+}
+
+/* Фоновый узор для задней стороны (опционально) */
+.backPattern {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cardContainer {
+    height: 450px;
+  }
+}

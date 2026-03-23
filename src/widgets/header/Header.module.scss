@@ -1,0 +1,211 @@
+@use '../../app/styles/variables.scss' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 90;
+  background-color: rgba(15, 15, 15, 0.95); // Полупрозрачный темный фон
+  backdrop-filter: blur(10px); // Эффект размытия фона под хедером
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    z-index: 1001; // Чтобы лого было поверх меню на мобильном
+    
+    img {
+      height: 80px;
+      width: auto;
+      object-fit: contain;
+      transition: transform 0.3s;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &__nav {
+    // Десктопное меню
+    @media (min-width: 769px) {
+      display: block;
+    }
+
+    // Скрываем на мобильном по умолчанию
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &__item {
+    list-style: none;
+  }
+
+  &__link {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+
+    // Подчеркивание при наведении
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-accent);
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+
+    &--highlight {
+      // Стили для выделенной кнопки в меню (если нужно)
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+  }
+
+  // Бургер кнопка
+  &__burger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: none; // Для кастомного курсора
+    z-index: 1002;
+    padding: 0;
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+
+    &-line {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    // Анимация бургера при открытии (опционально, если добавишь класс active)
+    &.active &-line:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+    &.active &-line:nth-child(2) {
+      opacity: 0;
+    }
+    &.active &-line:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+  }
+
+  // Полноэкранное мобильное меню
+  &__fullscreen-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #0f0f0f;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: slideDown 0.4s ease-out;
+
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  &__fullscreen-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  &__fullscreen-item {
+    list-style: none;
+    text-align: center;
+  }
+
+  &__fullscreen-link {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+
+    &--highlight {
+      color: var(--color-accent);
+    }
+  }
+}
+
+// Логотип внутри мобильного меню
+.menu-logo {
+  max-width: 150px;
+  margin-top: 20px;
+  opacity: 0.8;
+}
+
+// Анимация появления меню
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Утилитарный класс для контейнера (если он не задан глобально)
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

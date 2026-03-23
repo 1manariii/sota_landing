@@ -1,0 +1,41 @@
+.brands {
+  background-color: var(--color-bg);
+}
+
+.brands-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.brands-item {
+  width: 150px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: var(--color-surface);
+  border-radius: 12px;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+    background: #252525;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(1.5); /* Делаем логотипы белыми/серыми */
+    transition: filter 0.3s;
+  }
+
+  &:hover img {
+    filter: grayscale(0%) brightness(1); /* Цвет при наведении */
+  }
+}

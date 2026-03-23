@@ -1,0 +1,120 @@
+@use '../../app/styles/variables.scss' as *;
+
+.heroBanner {
+  position: relative;
+  height: 100vh; /* На весь экран */
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #000;
+}
+
+/* --- ФОНОВЫЙ СЛАЙДЕР --- */
+.backgroundSlider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  animation: fadeLoop 20s infinite; /* 4 слайда * 5 секунд = 20с цикл */
+}
+
+/* Анимация появления и исчезновения */
+@keyframes fadeLoop {
+  0%, 25% { opacity: 1; transform: scale(1); }
+  20%, 25% { transform: scale(1.05); } /* Легкий зум эффект */
+  25.1%, 100% { opacity: 0; }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Затемнение 60% */
+  z-index: 2;
+  backdrop-filter: blur(3px); /* Легкое размытие фона */
+}
+
+/* --- КОНТЕНТ --- */
+.contentWrapper {
+  position: relative;
+  z-index: 3; /* Поверх фона и затемнения */
+  width: 100%;
+  max-width: var(--container-width);
+  padding: 0 20px;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    font-size: 2.2rem;
+  }
+
+  .highlight {
+    color: var(--color-accent); /* Оранжевый акцент для второй строки */
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #e0e0e0;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.buttonsGroup {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    width: 100%;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
