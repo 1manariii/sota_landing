@@ -211,6 +211,7 @@ const EmployeeModal: React.FC<{
 // === Основной компонент страницы ===
 export const About = () => {
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+    // @ts-ignore
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {

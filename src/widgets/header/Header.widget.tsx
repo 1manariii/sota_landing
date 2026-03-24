@@ -41,7 +41,6 @@ export const Header = () => {
           <ul className={styles.header__list}>
             {navLinks.map((link) => {
               const isAnchor = link.href.includes('#');
-              const cleanPath = link.href.split('#')[0];
               
               return (
                 <li 
