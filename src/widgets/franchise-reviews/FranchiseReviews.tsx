@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './FranchiseReviews.module.scss';
+import { photo1 } from '../../shared/assets';
 
 // Импортируй свои картинки здесь
 // import photo1 from '../../shared/assets/review-1.png';
@@ -11,7 +12,7 @@ const REVIEWS = [
     id: 1,
     type: 'box', // 'box' или 'cell'
     color: '#FF6B00', // Оранжевый для БОКСА
-    image: 'https://via.placeholder.com/400x500/FF6B00/FFFFFF?text=BOX+Photo', // Замени на photo1
+    image: photo1, // Замени на photo1
     author: 'Александр М.',
     city: 'Москва',
     reviewText: 'Установил СОТА БОКС в ТЦ рядом с домом. Окупился за 14 месяцев! Пассивный доход реально работает, обслуживаю раз в неделю.',
@@ -26,7 +27,7 @@ const REVIEWS = [
     id: 2,
     type: 'cell',
     color: '#FF9E00', // Светло-оранжевый для ЯЧЕЙКИ
-    image: 'https://via.placeholder.com/400x500/FF9E00/FFFFFF?text=CELL+Photo', // Замени на photo2
+    image: photo1, // Замени на photo2
     author: 'Елена С.',
     city: 'Санкт-Петербург',
     reviewText: 'Не была готова покупать целый постамат. Купила 5 ячеек в чужом боксе. Отличный старт для тестирования ниши!',
@@ -41,7 +42,7 @@ const REVIEWS = [
     id: 3,
     type: 'box',
     color: '#E65C00', // Темно-оранжевый
-    image: 'https://via.placeholder.com/400x500/E65C00/FFFFFF?text=BOX+Photo', // Замени на photo3
+    image: photo1, // Замени на photo3
     author: 'Дмитрий К.',
     city: 'Казань',
     reviewText: 'Разместил в коворкинге. Студенты и фрилансеры постоянно берут технику в аренду. Лучшее вложение этого года.',
