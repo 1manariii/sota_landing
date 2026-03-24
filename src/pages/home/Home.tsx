@@ -1,12 +1,8 @@
 
-import { AboutSection } from '../../widgets/about-block/AboutBlock.widget';
-import { CatalogCarousel } from '../../widgets/catalog-carousel/CatalogCarousel.widget';
-import { FaqSection } from '../../widgets/faq-section/FaqSection.widget';
 import { Footer } from '../../widgets/footer/Footer.widget';
 import { FranchiseReviews } from '../../widgets/franchise-reviews/FranchiseReviews';
 import { Header } from '../../widgets/header/Header.widget';
 import { HeroBanner } from '../../widgets/hero-banner/HeroBanner.widget';
-import { Instructions } from '../../widgets/instrictions/Instructions.widget';
 import { InvestmentProducts } from '../../widgets/investment-products/InvestmentProducts.widgets';
 import { MapProducts } from '../../widgets/map-section/MapSection.widget';
 import { RentSteps } from '../../widgets/rent-steps/RentSteps';

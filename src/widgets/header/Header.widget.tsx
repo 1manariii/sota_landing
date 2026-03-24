@@ -1,7 +1,6 @@
 import { useMobileMenu } from '../../features/mobile-menu/useMobileMenu';
 import { openTelegramBot } from '../../features/open-bot/openSotaBot';
 import { logo } from '../../shared/assets';
-import { BASE_URL } from '../../shared/lib/config';
 import { Button } from '../../shared/ui/button';
 
 // ✅ Импортируем как объект styles
