@@ -4,20 +4,35 @@
   left: 0;
   width: 100px;
   height: 100px;
-  border-radius: 50%;
+  border-radius: 0; // ← убираем скругление для клип-пути
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
   
-  /* Эффект инверсии: белый круг на темном фоне сделает цвета под ним инвертированными */
+  /* === ФОРМА СОТЫ (шестиугольник) === */
+  clip-path: polygon(
+    50% 0%,      // верх
+    100% 25%,    // верх-право
+    100% 75%,    // низ-право
+    50% 100%,    // низ
+    0% 75%,      // низ-лево
+    0% 25%       // верх-лево
+  );
+  
+  
+  /* Эффект инверсии */
   background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
   backdrop-filter: invert(1); 
-  mix-blend-mode: exclusion; /* Дублирующая страховка для совместимости */
+  mix-blend-mode: exclusion;
   
+  /* Обводка по форме шестиугольника */
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
   
-  transition: width 0.3s, height 0.3s;
+  transition: 
+    width 0.3s ease,
+    height 0.3s ease,
+    clip-path 0.3s ease; // ← плавное изменение формы при анимации
 
   @media (hover: none) and (pointer: coarse) {
     display: none;
@@ -29,4 +44,7 @@ body.cursor-active .magic-cursor {
   width: 150px;
   height: 150px;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+  
+  /* Опционально: можно сделать соту более «вытянутой» при активации */
+  /* clip-path: polygon(50% 5%, 95% 25%, 95% 75%, 50% 95%, 5% 75%, 5% 25%); */
 }

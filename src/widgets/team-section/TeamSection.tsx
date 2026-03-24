@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './TeamSection.module.scss';
+import { photo1 } from '../../shared/assets';
 
 const TEAM_DATA = [
   {
@@ -7,28 +8,28 @@ const TEAM_DATA = [
     name: 'Алексей Иванов',
     role: 'CEO & Основатель',
     bio: 'Более 10 лет в IT и ритейле. Идея создать SOTA пришла после личного опыта сложной аренды техники.',
-    photo: 'https://via.placeholder.com/400x400/333/fff?text=Alexey', // Замени на import photo1
+    photo: photo1, // Замени на import photo1
   },
   {
     id: 2,
     name: 'Мария Петрова',
     role: 'Операционный директор',
     bio: 'Отвечает за логистику и сеть постаматов. Знает каждый адрес установки лично.',
-    photo: 'https://via.placeholder.com/400x400/333/fff?text=Maria', // Замени на import photo2
+    photo: photo1, // Замени на import photo2
   },
   {
     id: 3,
     name: 'Дмитрий Соколов',
     role: 'Технический директор',
     bio: 'Разработал архитектуру бота и систему умных замков. Делает так, чтобы всё работало как часы.',
-    photo: 'https://via.placeholder.com/400x400/333/fff?text=Dmitry', // Замени на import photo3
+    photo: photo1, // Замени на import photo3
   },
   {
     id: 4,
     name: 'Елена Смирнова',
     role: 'Маркетолог',
     bio: 'Продвигает идею шеринг-экономики. Знает, как рассказать людям о преимуществах аренды.',
-    photo: 'https://via.placeholder.com/400x400/333/fff?text=Elena', // Замени на import photo4
+    photo: photo1, // Замени на import photo4
   },
 ];
 

@@ -10,5 +10,6 @@ import vk from './vk.svg'
 import instagram from './instagram.svg'
 import tg from './tg.svg'
 import youtube from './youtube.svg'
+import photo1 from './photo1.jpg'
 
-export { logo, banner1, banner2, banner3, banner4, invest1, invest2, invest3, vk, instagram, tg, youtube} 
+export { logo, banner1, banner2, banner3, banner4, invest1, invest2, invest3, vk, instagram, tg, youtube, photo1} 

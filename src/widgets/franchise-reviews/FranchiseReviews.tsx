@@ -62,7 +62,7 @@ export const FranchiseReviews = () => {
     <section className={styles.section}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>ИСТОРИИ УСПЕХА ФРАНЧАЙЗИ</h2>
-        
+
         <div className={styles.cardsGrid}>
           {REVIEWS.map((item) => (
             <div
@@ -73,7 +73,7 @@ export const FranchiseReviews = () => {
               style={{ '--card-color': item.color } as React.CSSProperties}
             >
               <div className={styles.cardInner}>
-                
+
                 {/* ЛИЦЕВАЯ СТОРОНА (ОТЗЫВ) */}
                 <div className={`${styles.cardFace} ${styles.cardFront}`}>
                   <div className={styles.imageWrapper}>
@@ -96,7 +96,7 @@ export const FranchiseReviews = () => {
                   <div className={styles.backContent}>
                     <h3 className={styles.franchiseTitle}>{item.franchiseTitle}</h3>
                     <p className={styles.franchiseDesc}>{item.franchiseDesc}</p>
-                    
+
                     <div className={styles.statsList}>
                       {item.stats.map((stat, idx) => (
                         <div key={idx} className={styles.statRow}>
@@ -106,9 +106,9 @@ export const FranchiseReviews = () => {
                       ))}
                     </div>
 
-                    <button className={styles.actionBtn}>
-                      Стать партнером
-                    </button>
+                    <button className={styles.actionBtn} onClick={() => {
+                      window.open('https://docs.google.com/forms/d/1V-kvVo2-4-B11L6t__o51U3nsYyrQbJ2-fhsdfmjw4A/edit')
+                    }}>Стать партнером</button>
                   </div>
                   {/* Декоративный элемент фона */}
                   <div className={styles.backPattern}></div>

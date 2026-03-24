@@ -5,7 +5,21 @@
   margin: 0;
   padding: 0;
 }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; // Отступ для фиксированного хедера
+}
 
+// ✅ Секции с якорями должны иметь отступ сверху, чтобы не перекрываться хедером
+section[id],
+main[id] {
+  scroll-margin-top: 100px;
+}
+
+// ✅ Опционально: скрытый якорь для совместимости
+:target {
+  scroll-margin-top: 100px;
+}
 body {
   background-color: var(--color-bg);
   color: var(--color-text);

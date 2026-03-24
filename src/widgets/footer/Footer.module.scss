@@ -4,7 +4,6 @@
   background-color: #050505;
   padding: 60px 0 20px;
   border-top: 1px solid #222;
-  margin-top: 60px;
   width: 100%;
 }
 
@@ -73,7 +72,9 @@
 }
 
 /* --- ОБЩИЕ СТИЛИ ДЛЯ КОЛОНОК (МЕНЮ, КОНТАКТЫ, РЕКВИЗИТЫ) --- */
-.footerMenu, .footerContacts, .footerRequisites {
+.footerMenu,
+.footerContacts,
+.footerRequisites {
   .menuTitle {
     color: var(--color-accent);
     margin-bottom: 20px;
@@ -115,7 +116,8 @@
 
       &:hover {
         color: #fff;
-        padding-left: 5px; /* Легкий сдвиг при наведении */
+        padding-left: 5px;
+        /* Легкий сдвиг при наведении */
       }
     }
   }
@@ -136,7 +138,7 @@
   border-top: 1px solid #1a1a1a;
   color: #555;
   font-size: 0.8rem;
-  
+
   @media (max-width: 768px) {
     padding: 20px 0;
   }
@@ -148,19 +150,19 @@
     grid-template-columns: 1fr;
     gap: 30px;
     text-align: center;
-    
+
     // Центрируем элементы на мобильных
     .footerSocialIcons {
       justify-content: center;
     }
-    
+
     .footerBrand {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
   }
-  
+
   .footerAppButton {
     max-width: 250px;
     margin-left: auto;

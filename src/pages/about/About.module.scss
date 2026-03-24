@@ -1,0 +1,670 @@
+@use '../../app/styles/variables.scss' as *;
+
+// === ПЕРЕМЕННЫЕ ===
+$hex-size: 200px; // ✅ Чуть уменьшили, так как текст теперь снаружи
+$hex-padding: 14px;
+$animation-speed: 0.6s;
+$ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+// === ПРАВИЛЬНЫЙ ШЕСТИУГОЛЬНИК (острая вершина) ===
+%hexagon {
+  clip-path: polygon(
+    50% 0%,
+    93.30127% 25%,
+    93.30127% 75%,
+    50% 100%,
+    6.69873% 75%,
+    6.69873% 25%
+  );
+}
+
+// === СЕКЦИЯ ===
+.aboutSection {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0A0A0A 0%, #111 50%, #0A0A0A 100%);
+  color: #fff;
+  overflow: hidden;
+  padding: 40px 20px 80px;
+}
+
+// === HERO ===
+.aboutHero {
+  position: relative;
+  max-width: var(--container-width, 1200px);
+  margin: 0 auto 80px;
+  padding: 60px 20px;
+  text-align: center;
+  z-index: 2;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #fff, #FF6B00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSubtitle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #ccc;
+  max-width: 700px;
+  margin: 0 auto 48px;
+}
+
+// === СТАТИСТИКА ===
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+  
+  &:hover {
+    background: rgba(255, 107, 0, 0.15);
+    border-color: var(--color-accent, #FF6B00);
+    transform: translateY(-4px);
+  }
+}
+
+.statIcon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-accent, #FF6B00);
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+// === ФОНОВОЙ УЗОР ===
+.heroPattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(ellipse at center, rgba(255, 107, 0, 0.08) 0%, transparent 60%),
+    repeating-radial-gradient(circle at 0 0, transparent 0, rgba(255, 255, 255, 0.03) 1px, transparent 2px);
+  background-size: 100% 100%, 40px 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+// === СЕКЦИЯ КОМАНДЫ ===
+.teamSection {
+  position: relative;
+  max-width: var(--container-width, 1200px);
+  margin: 0 auto;
+  padding: 40px 20px;
+  z-index: 2;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.sectionDesc {
+  text-align: center;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto 48px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+// === СЕТКА ШЕСТИУГОЛЬНИКОВ ===
+.hexGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($hex-size, 1fr));
+  gap: 40px 20px; // ✅ Увеличили вертикальный отступ для текста снизу
+  justify-items: center;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 16px;
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// === КАРТОЧКА-ШЕСТИУГОЛЬНИК ===
+.hexCard {
+  position: relative;
+  width: $hex-size;
+  // ✅ Высота больше не фиксирована — подстраивается под контент
+  height: auto;
+  min-height: $hex-size;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  animation: hexReveal $animation-speed $ease-bounce forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  &:hover {
+    .hexInner {
+      transform: scale(1.05);
+    }
+    .hexGlow {
+      opacity: 1;
+      filter: blur(20px);
+    }
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+}
+
+.hexInner {
+  position: relative;
+  width: $hex-size;
+  height: $hex-size;
+  @extend %hexagon;
+  background: linear-gradient(145deg, #1a1a1a, #252525);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; // ✅ Чтобы шестиугольник не сжимался
+}
+
+.hexPhoto {
+  position: relative;
+  width: 75%;
+  height: 75%;
+  @extend %hexagon;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  &:hover img {
+    transform: scale(1.1);
+  }
+}
+
+.hexOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  .hexCard:hover & {
+    opacity: 1;
+  }
+}
+
+.hexRole {
+  font-size: 0.75rem;
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0 8px;
+  line-height: 1.3;
+}
+
+// ✅ ТЕПЕРЬ ВНЕ ШЕСТИУГОЛЬНИКА — полная ширина, без обрезки
+.hexName {
+  width: 100%; // ✅ Занимает всю ширину hexCard
+  max-width: $hex-size;
+  margin-top: 14px; // ✅ Отступ от шестиугольника
+  padding: 0 8px;
+  
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  line-height: 1.3;
+  
+  // ✅ Разрешаем перенос без ограничений clip-path
+  white-space: normal;
+  word-break: break-word;
+  
+  // Тень для читаемости
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+// ✅ ДОПОЛНИТЕЛЬНЫЙ БЛОК ДЛЯ РОЛИ (вне шестиугольника)
+.hexRoleOuter {
+  width: 100%;
+  max-width: $hex-size;
+  margin-top: 6px;
+  padding: 0 8px;
+  
+  font-size: 0.8rem;
+  color: var(--color-accent, #FF6B00);
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+  
+  white-space: normal;
+  word-break: break-word;
+}
+
+// Свечение при ховере
+.hexGlow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: $hex-size;
+  height: $hex-size;
+  @extend %hexagon;
+  background: radial-gradient(ellipse at center, rgba(255, 107, 0, 0.4) 0%, transparent 70%);
+  filter: blur(15px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+// === МОДАЛЬНОЕ ОКНО ===
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  opacity: 0;
+  animation: modalFadeIn 0.3s ease forwards;
+}
+
+.modalContent {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: linear-gradient(145deg, #1a1a1a, #202020);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+  transform: scale(0.95) translateY(20px);
+  animation: modalSlideIn 0.4s $ease-bounce forwards;
+}
+
+.modalClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: var(--color-accent, #FF6B00);
+    border-color: transparent;
+    transform: rotate(90deg);
+  }
+}
+
+.modalGrid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+// Фото в модалке
+.modalPhotoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 24px;
+  }
+}
+
+.modalPhotoWrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 20px;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @extend %hexagon;
+    border: 3px solid var(--color-accent, #FF6B00);
+  }
+  
+  // Декоративная шестиугольная рамка
+  .modalPhotoHex {
+    position: absolute;
+    inset: -8px;
+    @extend %hexagon;
+    border: 2px solid rgba(255, 107, 0, 0.5);
+    pointer-events: none;
+    animation: hexRotate 20s linear infinite;
+  }
+}
+
+.modalName {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.modalRole {
+  font-size: 1rem;
+  color: var(--color-accent, #FF6B00);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.modalSocial {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 107, 0, 0.2);
+    border-color: var(--color-accent);
+    transform: translateX(4px);
+  }
+}
+
+// Инфо секция
+.modalInfoSection {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease 0.2s forwards;
+}
+
+.modalSectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 24px 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.modalBio {
+  color: #ccc;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+// Навыки
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.skillTag {
+  padding: 8px 16px;
+  background: rgba(255, 107, 0, 0.15);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: tagPop 0.3s ease forwards;
+}
+
+.modalCTA {
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--color-accent, #FF6B00);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  &:hover {
+    background: #e65c00;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4);
+  }
+}
+
+// === ПЛАВАЮЩИЕ ШЕСТИУГОЛЬНИКИ НА ФОНЕ ===
+.floatingHex {
+  position: absolute;
+  @extend %hexagon;
+  background: radial-gradient(ellipse at center, rgba(255, 107, 0, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  animation: floatHex 25s ease-in-out infinite;
+}
+
+.hex1 {
+  width: 120px;
+  height: 120px;
+  top: 15%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.hex2 {
+  width: 80px;
+  height: 80px;
+  top: 60%;
+  right: 10%;
+  animation-delay: -8s;
+  animation-duration: 30s;
+}
+
+.hex3 {
+  width: 60px;
+  height: 60px;
+  bottom: 20%;
+  left: 15%;
+  animation-delay: -15s;
+  animation-duration: 35s;
+}
+
+// === KEYFRAMES ===
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hexReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+  to {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes tagPop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hexRotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes floatHex {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-30px) rotate(180deg);
+    opacity: 1;
+  }
+}
+
+// === АДАПТИВ ===
+@media (max-width: 768px) {
+  .aboutHero {
+    padding: 40px 16px;
+  }
+  
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+  
+  .modalContent {
+    padding: 24px 20px;
+  }
+  
+  .modalPhotoWrapper {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hexGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 12px;
+  }
+  
+  .hexCard {
+    width: 160px;
+    min-height: 160px;
+  }
+  
+  .hexInner {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .hexGlow {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .hexName {
+    font-size: 0.9rem;
+  }
+  
+  .hexRoleOuter {
+    font-size: 0.7rem;
+  }
+  
+  .statCard {
+    padding: 16px 12px;
+  }
+  
+  .statValue {
+    font-size: 1.5rem;
+  }
+}

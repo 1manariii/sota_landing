@@ -3,7 +3,7 @@ import styles from './InvestmentProducts.module.scss';
 import { invest1, invest2, invest3 } from '../../shared/assets';
 
 // Изображения
-const IMG_CELL = invest1; 
+const IMG_CELL = invest1;
 const IMG_BOX = invest2;
 const IMG_POINT = invest3;
 
@@ -98,10 +98,10 @@ export const InvestmentProducts = () => {
     <section className={styles.section}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>ВЫБЕРИТЕ ПРОДУКТ ИНВЕСТИЦИЙ</h2>
-        
+
         <div className={styles.cardsGrid}>
           {/* Карточка 1: Ячейка */}
-          <div 
+          <div
             className={`${styles.card} ${activeId === 'cell' ? styles.active : ''}`}
             onClick={() => setActiveId('cell')}
           >
@@ -110,12 +110,12 @@ export const InvestmentProducts = () => {
             </div>
             <h3 className={styles.cardTitle}>СОТА ЯЧЕЙКА</h3>
             <p className={styles.cardShortDesc}>
-              Доходность - 30% годовых<br/>Окупаемость - 6 мес.
+              Доходность - 30% годовых<br />Окупаемость - 6 мес.
             </p>
           </div>
 
           {/* Карточка 2: Бокс */}
-          <div 
+          <div
             className={`${styles.card} ${activeId === 'box' ? styles.active : ''}`}
             onClick={() => setActiveId('box')}
           >
@@ -124,12 +124,12 @@ export const InvestmentProducts = () => {
             </div>
             <h3 className={styles.cardTitle}>СОТА БОКС</h3>
             <p className={styles.cardShortDesc}>
-              Доходность - 35% годовых<br/>Окупаемость - 12 мес.
+              Доходность - 35% годовых<br />Окупаемость - 12 мес.
             </p>
           </div>
 
           {/* Карточка 3: Поинт */}
-          <div 
+          <div
             className={`${styles.card} ${activeId === 'point' ? styles.active : ''}`}
             onClick={() => setActiveId('point')}
           >
@@ -138,7 +138,7 @@ export const InvestmentProducts = () => {
             </div>
             <h3 className={styles.cardTitle}>СОТА ПОИНТ</h3>
             <p className={styles.cardShortDesc}>
-              Доходность - 35% годовых<br/>Окупаемость - 18 мес.
+              Доходность - 35% годовых<br />Окупаемость - 18 мес.
             </p>
           </div>
         </div>
@@ -147,17 +147,17 @@ export const InvestmentProducts = () => {
       {/* Модальное окно (Bottom Sheet) */}
       {activeData && (
         <div className={styles.modalOverlay} onClick={() => setActiveId(null)}>
-          <div 
-            className={`${styles.modalContent} ${styles.open}`} 
+          <div
+            className={`${styles.modalContent} ${styles.open}`}
             onClick={(e) => e.stopPropagation()}
           >
             <button className={styles.closeBtn} onClick={() => setActiveId(null)}>
               <span>&times;</span>
             </button>
-            
+
             <div className={styles.modalBody}>
               <h2 className={styles.modalTitle}>{activeData.title}</h2>
-              
+
               <p className={styles.modalMainText}>{activeData.mainText}</p>
               <p className={styles.modalSubText}>{activeData.subText}</p>
 
@@ -184,6 +184,10 @@ export const InvestmentProducts = () => {
                 </div>
               )}
 
+              <button className={styles.actionBtn} onClick={() => {
+                window.open('https://docs.google.com/forms/d/1V-kvVo2-4-B11L6t__o51U3nsYyrQbJ2-fhsdfmjw4A/edit')
+              }}>Стать партнером</button>
+
               {/* НОВЫЙ БЛОК: Зоны размещения */}
               {activeData.zones && (
                 <div className={styles.zonesSection}>
@@ -198,6 +202,8 @@ export const InvestmentProducts = () => {
                   </div>
                 </div>
               )}
+
+
             </div>
           </div>
         </div>

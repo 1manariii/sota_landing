@@ -43,7 +43,7 @@ export const RentSteps = () => {
   }, []);
 
   return (
-    <section className={styles.rentStepsSection}>
+    <section className={styles.rentStepsSection} id="instructions">
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Как арендовать товар?</h2>
         
