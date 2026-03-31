@@ -1,12 +1,7 @@
-import { openTelegramBot } from '../../features/open-bot/openSotaBot';
 import { banner1, banner2, banner3, banner4 } from '../../shared/assets';
 import { Button } from '../../shared/ui/button';
 import styles from './HeroBanner.module.scss';
 
-// Массив фоновых изображений
-// Убедись, что файлы лежат в папке public/assets или src/shared/assets
-// Если в public: пути '/assets/banner1.jpg' и т.д.
-// Если в src: нужно сделать import banner1 from './assets/banner1.jpg'
 const backgroundImages = [
   banner1, // Замени расширения на свои (.png, .webp)
   banner2,
@@ -16,10 +11,7 @@ const backgroundImages = [
 
 export const HeroBanner = () => {
   const handleBuyBox = () => {
-    // Логика для кнопки "Купить СОТА БОКС"
-    // Например, скролл к секции товаров или открытие другого бота
-    console.log('Купить СОТА БОКС');
-    // window.open('https://t.me/...', '_blank'); 
+    window.open('https://sotarental.online', '_blank');
   };
 
   return (
@@ -52,13 +44,13 @@ export const HeroBanner = () => {
           </p>
 
           <div className={styles.buttonsGroup}>
-            <Button onClick={openTelegramBot} variant="primary">
+            <Button onClick={handleBuyBox} variant="primary">
               Арендовать товар
             </Button>
-            
-            <Button onClick={handleBuyBox} variant="outline">
-              КУПИТЬ СОТА БОКС
-            </Button>
+
+            {/*<Button onClick={handleBuyBox} variant="outline">*/}
+            {/*  КУПИТЬ СОТА БОКС*/}
+            {/*</Button>*/}
           </div>
         </div>
       </div>

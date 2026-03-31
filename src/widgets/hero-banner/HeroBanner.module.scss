@@ -108,6 +108,12 @@
   margin-top: 20px;
   flex-wrap: wrap;
   justify-content: center;
+  width: 80%;
+  button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
   @media (max-width: 600px) {
     flex-direction: column;

@@ -6,10 +6,31 @@
   left: 0;
   width: 100%;
   z-index: 90;
-  background-color: rgba(15, 15, 15, 0.95); // Полупрозрачный темный фон
-  backdrop-filter: blur(10px); // Эффект размытия фона под хедером
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  padding: 12px;
+  //background-color: rgba(15, 15, 15, 0.95);
+  //backdrop-filter: blur(10px);
+  //border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  // 🔹 Анимация появления/исчезновения
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+
+  // 🔹 Видимое состояние
+  &--visible {
+    transform: translateY(0);
+  }
+
+  // 🔹 Скрытое состояние (явное, для надёжности)
+  &--hidden {
+    transform: translateY(-100%);
+  }
+
+  // 🔹 Исключение: всегда показывать если меню открыто
+  &__nav--open ~ &,
+  &:has(.header__nav--open) {
+    transform: translateY(0) !important;
+  }
 
   &__container {
     display: flex;
@@ -17,6 +38,9 @@
     align-items: center;
     height: 80px;
     max-width: var(--container-width);
+    background-color: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
     margin: 0 auto;
     padding: 0 20px;
   }
@@ -24,14 +48,14 @@
   &__logo {
     display: flex;
     align-items: center;
-    z-index: 1001; // Чтобы лого было поверх меню на мобильном
-    
+    z-index: 1001;
+
     img {
       height: 80px;
       width: auto;
       object-fit: contain;
       transition: transform 0.3s;
-      
+
       &:hover {
         transform: scale(1.05);
       }
@@ -39,12 +63,9 @@
   }
 
   &__nav {
-    // Десктопное меню
     @media (min-width: 769px) {
       display: block;
     }
-
-    // Скрываем на мобильном по умолчанию
     @media (max-width: 768px) {
       display: none;
     }
@@ -72,7 +93,6 @@
       color: var(--color-accent);
     }
 
-    // Подчеркивание при наведении
     &::after {
       content: '';
       position: absolute;
@@ -89,13 +109,11 @@
     }
 
     &--highlight {
-      // Стили для выделенной кнопки в меню (если нужно)
       color: var(--color-accent);
       font-weight: 700;
     }
   }
 
-  // Бургер кнопка
   &__burger {
     display: none;
     flex-direction: column;
@@ -104,7 +122,7 @@
     height: 20px;
     background: transparent;
     border: none;
-    cursor: none; // Для кастомного курсора
+    cursor: none;
     z-index: 1002;
     padding: 0;
 
@@ -122,19 +140,19 @@
       transform-origin: center;
     }
 
-    // Анимация бургера при открытии (опционально, если добавишь класс active)
     &.active &-line:nth-child(1) {
       transform: translateY(9px) rotate(45deg);
     }
+
     &.active &-line:nth-child(2) {
       opacity: 0;
     }
+
     &.active &-line:nth-child(3) {
       transform: translateY(-9px) rotate(-45deg);
     }
   }
 
-  // Полноэкранное мобильное меню
   &__fullscreen-menu {
     position: fixed;
     top: 0;
@@ -184,14 +202,25 @@
   }
 }
 
-// Логотип внутри мобильного меню
+// 🔹 Контент страницы: добавляем отступ чтобы не перекрывался скрытым хедером
+// (опционально, если контент прижат к верху)
+body {
+  padding-top: 0;
+
+  @media (min-width: 769px) {
+    // На десктопе отступ только когда хедер видим
+    .header--visible ~ & {
+      padding-top: 80px;
+    }
+  }
+}
+
 .menu-logo {
   max-width: 150px;
   margin-top: 20px;
   opacity: 0.8;
 }
 
-// Анимация появления меню
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -203,7 +232,6 @@
   }
 }
 
-// Утилитарный класс для контейнера (если он не задан глобально)
 .container {
   max-width: 1200px;
   margin: 0 auto;

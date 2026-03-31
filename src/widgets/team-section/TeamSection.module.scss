@@ -17,35 +17,98 @@
   font-size: 2.5rem;
   font-weight: 800;
   color: #fff;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-/* Макет: Слева соты, Справа текст */
-.layout {
+.instruction {
+  text-align: center;
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+
+  &Icon {
+    font-size: 1.2rem;
+    animation: bounce 2s infinite;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Макет: гибкий, адаптируется под наличие панели */
+.layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   gap: 60px;
   min-height: 400px;
-  
+  transition: justify-content 0.4s ease;
+
+  // 🔹 Когда панель видима — выравнивание по левому краю
+  &_withPanel {
+    justify-content: flex-start;
+  }
+
   @media (max-width: 900px) {
     flex-direction: column;
+    align-items: center;
     gap: 40px;
+
+    // На мобильных всегда по центру
+    &_withPanel {
+      justify-content: center;
+    }
   }
 }
 
 /* --- ЛЕВАЯ ЧАСТЬ: СЕТКА СОТ --- */
 .hexGrid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 30px;
   justify-content: center;
-  max-width: 500px;
-  
-  @media (max-width: 900px) {
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  // 🔹 ПО УМОЛЧАНИЮ: на всю ширину, центрирована
+  &_full {
+    width: 100%;
     max-width: 100%;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  // 🔹 ПРИ АКТИВНОМ ВЫБОРЕ: сдвиг влево, фикс. ширина
+  &_shifted {
+    width: auto;
+    max-width: 600px;
+    justify-content: flex-start;
+    margin-right: auto;
+    padding-left: 0;
+
+    @media (min-width: 1200px) {
+      padding-left: 20px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    max-width: 100% !important;
+    width: 100% !important;
+    gap: 25px;
+
+    // На мобильных отключаем сдвиг
+    &_shifted {
+      justify-content: center;
+      margin: 0 auto;
+      padding-left: 0;
+    }
   }
 }
 
@@ -53,21 +116,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
   cursor: none;
   transition: transform 0.3s ease;
-  
+
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 8px;
+  }
+
+  &.active {
+    transform: scale(1.1);
   }
 }
 
 .hexagon {
   position: relative;
-  width: 100px;
-  height: 115px;
-  
-  /* Задний оранжевый слой (рамка/фон) */
+  width: 140px;
+  height: 160px;
+
+  @media (max-width: 768px) {
+    width: 110px;
+    height: 125px;
+  }
+
+  @media (max-width: 480px) {
+    width: 90px;
+    height: 105px;
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -79,29 +164,28 @@
     transition: all 0.3s ease;
     box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
   }
-  
-  /* Передний слой (вырез под фото) */
+
   &::after {
     content: '';
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 85%; height: 85%;
-    background: var(--color-bg); /* Цвет фона сайта, чтобы создать эффект рамки */
+    background: var(--color-bg);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     z-index: 2;
     transition: all 0.3s ease;
   }
-  
-  /* Активное состояние при наведении */
+
   .hexWrapper.active & {
     &::before {
       background: #fff;
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
-      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
+      transform: scale(1.12);
     }
     &::after {
-      width: 82%; height: 82%; /* Рамка становится толще */
+      width: 80%;
+      height: 80%;
       background: #000;
     }
   }
@@ -116,7 +200,6 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* Обрезаем фото по форме шестиугольника внутри */
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
@@ -124,21 +207,53 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
-  
+  transition: transform 0.4s ease;
+
   .hexWrapper:hover & {
-    transform: scale(1.1);
+    transform: scale(1.15);
   }
+
+  .hexWrapper.active & {
+    transform: scale(1.05);
+  }
+}
+
+.activeIndicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  border: 2px solid var(--color-bg);
+  z-index: 4;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+
+  .hexWrapper.active & {
+    opacity: 1;
+    transform: scale(1);
+    animation: pulse 1.5s infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 107, 0, 0); }
 }
 
 .memberNameShort {
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  opacity: 0.7;
-  
+  opacity: 0.8;
+  transition: all 0.3s ease;
+
+  .hexWrapper:hover &,
   .hexWrapper.active & {
     opacity: 1;
     color: var(--color-accent);
@@ -147,29 +262,31 @@
 
 /* --- ПРАВАЯ ЧАСТЬ: ИНФО ПАНЕЛЬ --- */
 .infoPanel {
-  width: 400px;
-  min-height: 250px;
+  display: none;
+  width: 420px;
+  min-height: 280px;
   background: rgba(255, 255, 255, 0.03);
   border-left: 4px solid var(--color-accent);
-  padding: 30px;
+  padding: 35px;
   border-radius: 0 20px 20px 0;
   position: relative;
   overflow: hidden;
-  
-  /* Анимация появления */
+  flex-shrink: 0; // 🔹 Не сжимать панель
+
   opacity: 0;
   transform: translateX(30px);
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  pointer-events: none; /* Чтобы не мешал кликам, когда скрыт */
-  
+  pointer-events: none;
+
   &.visible {
+    display: flex;
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
     background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   }
-  
+
   @media (max-width: 900px) {
     width: 100%;
     max-width: 500px;
@@ -177,7 +294,7 @@
     border-top: 4px solid var(--color-accent);
     border-radius: 0 0 20px 20px;
     transform: translateY(20px);
-    
+
     &.visible {
       transform: translateY(0);
     }
@@ -212,7 +329,7 @@
 
 .infoBio {
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.7;
   color: #ccc;
   margin-bottom: 20px;
 }
@@ -230,8 +347,22 @@
   font-size: 1.1rem;
   text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
   font-style: italic;
+  line-height: 1.5;
+}
+
+.placeholderIcon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }

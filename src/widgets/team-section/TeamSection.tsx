@@ -1,87 +1,116 @@
 import { useState } from 'react';
 import styles from './TeamSection.module.scss';
-import { photo1 } from '../../shared/assets';
+import { photo1, photo4, photo3, photo2 } from '../../shared/assets';
 
 const TEAM_DATA = [
-  {
-    id: 1,
-    name: 'Алексей Иванов',
-    role: 'CEO & Основатель',
-    bio: 'Более 10 лет в IT и ритейле. Идея создать SOTA пришла после личного опыта сложной аренды техники.',
-    photo: photo1, // Замени на import photo1
-  },
-  {
-    id: 2,
-    name: 'Мария Петрова',
-    role: 'Операционный директор',
-    bio: 'Отвечает за логистику и сеть постаматов. Знает каждый адрес установки лично.',
-    photo: photo1, // Замени на import photo2
-  },
-  {
-    id: 3,
-    name: 'Дмитрий Соколов',
-    role: 'Технический директор',
-    bio: 'Разработал архитектуру бота и систему умных замков. Делает так, чтобы всё работало как часы.',
-    photo: photo1, // Замени на import photo3
-  },
-  {
-    id: 4,
-    name: 'Елена Смирнова',
-    role: 'Маркетолог',
-    bio: 'Продвигает идею шеринг-экономики. Знает, как рассказать людям о преимуществах аренды.',
-    photo: photo1, // Замени на import photo4
-  },
+    {
+        id: 1,
+        name: 'ВЛАДИСЛАВ',
+        role: 'ГЕНЕРАЛЬНЫЙ ДИРЕКТОР & СООСНОВАТЕЛЬ',
+        bio: 'БОЛЕЕ 8 ЛЕТ В IT. ПОСЛЕДНИЕ 5 ЛЕТИ ЗАНИМАЕТСЯ РАЗВИТИЕМ, УЛУЧШЕНИЕМ И ПРОДВИЖЕНИЕМ ИТ-ПРОДУКТОВ.',
+        photo: photo1,
+    },
+    {
+        id: 2,
+        name: 'ВАДИМ',
+        role: 'ОПЕРАЦИОННЫЙ ДИРЕКТОР & СООСНОВАТЕЛЬ',
+        bio: 'ВАДИМ АМБАСАДОР ШЕРИНГ СЕРВИСОВ И УМНОГО ПОТРЕБЛЕНИЯ. АКТИВНО ИЗУЧАЕТ БИЗНЕС АНАЛИТИКУ И АВТОМАТИЗАЦИЮ.',
+        photo: photo2,
+    },
+    {
+        id: 3,
+        name: 'АЙРАТ',
+        role: 'ДИРЕКТОР ПО РАЗВИТИЮ & СООСНОВАТЕЛЬ',
+        bio: '11 ЛЕТ РАБОТАЕТ В IT из которых более 8 лет на руководящей должности.',
+        photo: photo3,
+    },
+    {
+        id: 4,
+        name: 'МУШЕГ',
+        role: 'ТЕХНИЧЕСКИЙ ДИРЕКТОР',
+        bio: 'возглавляет работу по созданию инновационных, технологичных решений, формирующих будущее ШЕРИНГ сервиса.',
+        photo: photo4,
+    },
 ];
 
 export const TeamSection = () => {
-  // Храним ID активного сотрудника. По умолчанию null (ничего не выбрано) или можно поставить 1
-  const [activeId, setActiveId] = useState<number | null>(null);
+    // 🔹 По умолчанию ничего не выбрано (сетка на всю ширину)
+    const [activeId, setActiveId] = useState<number | null>(null);
+    // Если хотите, чтобы первый был активен И сетка на всю ширину — см. вариант Б ниже 👇
 
-  const activeMember = TEAM_DATA.find(m => m.id === activeId);
+    const activeMember = TEAM_DATA.find(m => m.id === activeId);
 
-  return (
-    <section className={styles.section}>
-      <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>КОМАНДА SOTA</h2>
-        
-        <div className={styles.layout}>
-          {/* ЛЕВАЯ ЧАСТЬ: СЕТКА С СОТАМИ */}
-          <div className={styles.hexGrid}>
-            {TEAM_DATA.map((member) => (
-              <div
-                key={member.id}
-                className={`${styles.hexWrapper} ${activeId === member.id ? styles.active : ''}`}
-                onMouseEnter={() => setActiveId(member.id)}
-                onMouseLeave={() => setActiveId(null)} // Можно убрать, если хочешь, чтобы карточка оставалась при уходе мыши
-              >
-                <div className={styles.hexagon}>
-                  <div className={styles.hexInner}>
-                    <img src={member.photo} alt={member.name} className={styles.memberPhoto} />
-                  </div>
+    // 🔹 Клик: если кликнули на активного — сбрасываем, иначе выбираем
+    const handleHexClick = (id: number) => {
+        setActiveId( id);
+    };
+
+    return (
+        <section className={styles.section}>
+            <div className={styles.container}>
+                <h2 className={styles.sectionTitle}>КОМАНДА SOTA</h2>
+
+                <p className={styles.instruction}>
+                    <span className={styles.instructionIcon}>👆</span>
+                    Нажмите на соту, чтобы узнать о члене команды
+                </p>
+
+                <div className={`${styles.layout} ${activeId ? styles.layout_withPanel : ''}`}>
+                    {/* ЛЕВАЯ ЧАСТЬ: СЕТКА С СОТАМИ */}
+                    <div className={`${styles.hexGrid} ${activeId ? styles.hexGrid_shifted : styles.hexGrid_full}`}>
+                        {TEAM_DATA.map((member) => {
+                            const isActive = activeId === member.id;
+
+                            return (
+                                <button
+                                    key={member.id}
+                                    type="button"
+                                    className={`${styles.hexWrapper} ${isActive ? styles.active : ''}`}
+                                    onClick={() => handleHexClick(member.id)}
+                                    aria-pressed={isActive}
+                                    aria-label={`Показать информацию о ${member.name}`}
+                                >
+                                    <div className={styles.hexagon}>
+                                        <div className={styles.hexInner}>
+                                            <img
+                                                src={member.photo}
+                                                alt={member.name}
+                                                className={styles.memberPhoto}
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                        <span className={styles.activeIndicator} />
+                                    </div>
+                                    <span className={styles.memberNameShort}>{member.name.split(' ')[0]}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* ПРАВАЯ ЧАСТЬ: ИНФОРМАЦИОННАЯ КАРТОЧКА */}
+                    <div
+                        className={`${styles.infoPanel} ${activeMember ? styles.visible : ''}`}
+                        aria-live="polite"
+                    >
+                        {activeMember ? (
+                            <div className={styles.infoContent} key={activeMember.id}>
+                                <h3 className={styles.infoName}>{activeMember.name}</h3>
+                                <p className={styles.infoRole}>{activeMember.role}</p>
+                                <div className={styles.infoBio}>{activeMember.bio}</div>
+                                <div className={styles.infoDecor}></div>
+                            </div>
+                        ) : (
+                            <div className={styles.placeholderText}>
+                                <p>
+                                    <span className={styles.placeholderIcon}>✨</span><br />
+                                    Выберите сотрудника,<br />
+                                    чтобы прочитать подробнее
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <span className={styles.memberNameShort}>{member.name.split(' ')[0]}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* ПРАВАЯ ЧАСТЬ: ИНФОРМАЦИОННАЯ КАРТОЧКА */}
-          <div className={`${styles.infoPanel} ${activeMember ? styles.visible : ''}`}>
-            {activeMember ? (
-              <div className={styles.infoContent} key={activeMember.id}> {/* Key нужен для анимации смены контента */}
-                <h3 className={styles.infoName}>{activeMember.name}</h3>
-                <p className={styles.infoRole}>{activeMember.role}</p>
-                <div className={styles.infoBio}>{activeMember.bio}</div>
-                
-                <div className={styles.infoDecor}></div>
-              </div>
-            ) : (
-              <div className={styles.placeholderText}>
-                <p>Наведите на сотрудника,<br/>чтобы узнать подробнее</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+            </div>
+        </section>
+    );
 };

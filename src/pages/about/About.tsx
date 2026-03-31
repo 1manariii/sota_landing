@@ -1,17 +1,19 @@
+// src/pages/About/About.tsx
 import { useState, useEffect } from 'react';
 import styles from './About.module.scss';
 import { Header } from '../../widgets/header/Header.widget';
 import { Footer } from '../../widgets/footer/Footer.widget';
-import { photo1 } from '../../shared/assets';
+import { photo1, photo2, photo4, photo3 } from '../../shared/assets';
 
 // === Типы данных ===
 interface Employee {
     id: number;
     name: string;
     role: string;
+    subRole?: string;
     photo: string;
     bio: string;
-    skills: string[];
+    responsibilities?: string[];
     social?: { telegram?: string; vk?: string; email?: string };
 }
 
@@ -21,7 +23,7 @@ interface CompanyStats {
     icon?: string;
 }
 
-// === Данные ===
+// === Данные: статистика компании ===
 const COMPANY_STATS: CompanyStats[] = [
     { label: 'Лет на рынке', value: '5+', icon: '🚀' },
     { label: 'Постаматов', value: '500+', icon: '📦' },
@@ -29,64 +31,61 @@ const COMPANY_STATS: CompanyStats[] = [
     { label: 'Городов', value: '45', icon: '🌍' },
 ];
 
+// === Данные: команда (4 человека) ===
 const EMPLOYEES: Employee[] = [
     {
         id: 1,
-        name: 'Анна Петрова',
-        role: 'Генеральный директор',
+        name: 'Владислав',
+        role: 'Генеральный директор & Сооснователь',
         photo: photo1,
-        bio: 'Основатель компании. 10+ лет в логистике и ритейле. Верит, что технологии должны делать жизнь проще.',
-        skills: ['Стратегия', 'Лидерство', 'Логистика', 'Инновации'],
-        social: { telegram: '@anna_sota', email: 'anna@sota.ru' }
+        bio: 'Более 8 лет в IT. Последние 5 лет занимается развитием, улучшением и продвижением IT-продуктов. За последние 2 года удалось создать устойчивую модель бизнеса 3х IT-продуктов с суммарным объемом выручки более 500 млн руб/год.',
+        responsibilities: [
+            'В рамках развития продукта прокат совместно с командой пришёл к идее создания сервиса SOTA Box'
+        ],
+        social: { telegram: '@vlad_sota', email: 'vlad@sota.ru' }
     },
     {
         id: 2,
-        name: 'Максим Соколов',
-        role: 'Технический директор',
-        photo: photo1,
-        bio: 'Архитектор нашей платформы. Пишет код, который работает. Любит чистый код и чёрный кофе.',
-        skills: ['React', 'Node.js', 'DevOps', 'AI/ML'],
-        social: { telegram: '@max_dev', vk: 'max Sokolov' }
+        name: 'Вадим',
+        role: 'Операционный директор & Сооснователь',
+        photo: photo2,
+        bio: 'Амбассадор шеринг-сервисов и умного потребления. Активно изучает бизнес-аналитику и автоматизацию.',
+        responsibilities: [
+            'Контроль состояния и доступности товаров',
+            'Обеспечение клиентского сервиса и бесперебойности процессов',
+            'Повышение операционной эффективности и масштабирование'
+        ],
+        social: { telegram: '@vadim_ops' }
     },
     {
         id: 3,
-        name: 'Елена Волкова',
-        role: 'Руководитель отдела партнёрств',
-        photo: photo1,
-        bio: 'Находит идеальных партнёров для нашей сети. Умеет слушать и договариваться.',
-        skills: ['Переговоры', 'CRM', 'Аналитика', 'Коммуникация'],
-        social: { email: 'elena@sota.ru' }
+        name: 'Айрат',
+        role: 'Директор по развитию & Сооснователь',
+        photo: photo3,
+        bio: '11 лет работает в IT, из которых более 8 лет на руководящей должности.',
+        responsibilities: [
+            'Развитие партнёрской сети (франшиза)',
+            'Расширение географии и точек присутствия',
+            'Поиск и запуск новых направлений роста'
+        ],
+        social: { email: 'airat@sota.ru' }
     },
     {
         id: 4,
-        name: 'Дмитрий Козлов',
-        role: 'Ведущий дизайнер',
-        photo: photo1,
-        bio: 'Создаёт интерфейсы, в которые влюбляются. Считает, что красота должна быть функциональной.',
-        skills: ['UI/UX', 'Figma', 'Motion', 'Брендинг'],
-        social: { telegram: '@dim_design' }
-    },
-    {
-        id: 5,
-        name: 'Ольга Новикова',
-        role: 'Менеджер по качеству',
-        photo: photo1,
-        bio: 'Следит, чтобы каждый постамат работал как часы. Перфекционист с большим сердцем.',
-        skills: ['QA', 'Процессы', 'Поддержка', 'Обучение'],
-        social: { email: 'olga@sota.ru' }
-    },
-    {
-        id: 6,
-        name: 'Иван Морозов',
-        role: 'Разработчик backend',
-        photo: photo1,
-        bio: 'Делает так, чтобы сервера не падали, а данные летали. Тихий герой нашей инфраструктуры.',
-        skills: ['Python', 'PostgreSQL', 'Redis', 'Docker'],
-        social: { telegram: '@ivan_py' }
+        name: 'Мушег',
+        role: 'Технический директор',
+        photo: photo4,
+        bio: 'Возглавляет работу по созданию инновационных, технологичных решений, формирующих будущее шеринг-сервиса. Обладает глубокими знаниями в области разработки IT-продуктов и практическим подходом к исследованиям и разработкам.',
+        responsibilities: [
+            'Архитектура платформы',
+            'R&D и инновации',
+            'Техническая стратегия'
+        ],
+        social: { telegram: '@musheg_tech' }
     },
 ];
 
-// В компоненте HexagonCard
+// === Карточка-шестиугольник ===
 const HexagonCard: React.FC<{
     employee: Employee;
     onClick: () => void;
@@ -108,11 +107,11 @@ const HexagonCard: React.FC<{
                     </div>
                 </div>
             </div>
-            
-            {/* ✅ Текст снаружи — без обрезки */}
+
+            {/* Текст снаружи — без обрезки */}
             <div className={styles.hexName}>{employee.name}</div>
-            <div className={styles.hexRoleOuter}>{employee.role}</div>
-            
+            <div className={styles.hexRoleOuter}>{employee.role.split('&')[0].trim()}</div>
+
             {/* Декоративная рамка-свечение */}
             <div className={styles.hexGlow} />
         </button>
@@ -124,14 +123,14 @@ const EmployeeModal: React.FC<{
     employee: Employee | null;
     onClose: () => void;
 }> = ({ employee, onClose }) => {
-    // Закрытие по Escape
     useEffect(() => {
         if (!employee) return;
+
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === 'Escape') onClose();
         };
         document.addEventListener('keydown', handleEscape);
-        document.body.style.overflow = 'hidden'; // Блок скролла
+        document.body.style.overflow = 'hidden';
 
         return () => {
             document.removeEventListener('keydown', handleEscape);
@@ -143,10 +142,7 @@ const EmployeeModal: React.FC<{
 
     return (
         <div className={styles.modalOverlay} onClick={onClose}>
-            <div
-                className={styles.modalContent}
-                onClick={(e) => e.stopPropagation()} // Чтобы клик внутри не закрывал модалку
-            >
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <button className={styles.modalClose} onClick={onClose} aria-label="Закрыть">
                     ✕
                 </button>
@@ -156,7 +152,6 @@ const EmployeeModal: React.FC<{
                     <div className={styles.modalPhotoSection}>
                         <div className={styles.modalPhotoWrapper}>
                             <img src={employee.photo} alt={employee.name} />
-                            {/* Шестиугольная рамка вокруг фото */}
                             <div className={styles.modalPhotoHex} />
                         </div>
                         <h3 className={styles.modalName}>{employee.name}</h3>
@@ -166,12 +161,22 @@ const EmployeeModal: React.FC<{
                         {employee.social && (
                             <div className={styles.modalSocial}>
                                 {employee.social.telegram && (
-                                    <a href={`https://t.me/${employee.social.telegram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                                    <a
+                                        href={`https://t.me/${employee.social.telegram.replace('@', '')}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialLink}
+                                    >
                                         📱 Telegram
                                     </a>
                                 )}
                                 {employee.social.vk && (
-                                    <a href={`https://vk.com/${employee.social.vk}`} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                                    <a
+                                        href={`https://vk.com/${employee.social.vk}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialLink}
+                                    >
                                         💬 VK
                                     </a>
                                 )}
@@ -184,19 +189,24 @@ const EmployeeModal: React.FC<{
                         )}
                     </div>
 
-                    {/* Био + навыки */}
+                    {/* Био + обязанности */}
                     <div className={styles.modalInfoSection}>
                         <h4 className={styles.modalSectionTitle}>О себе</h4>
                         <p className={styles.modalBio}>{employee.bio}</p>
 
-                        <h4 className={styles.modalSectionTitle}>Навыки</h4>
-                        <div className={styles.skillsList}>
-                            {employee.skills.map((skill, idx) => (
-                                <span key={idx} className={styles.skillTag} style={{ animationDelay: `${idx * 50}ms` }}>
-                                    {skill}
-                                </span>
-                            ))}
-                        </div>
+                        {employee.responsibilities && employee.responsibilities.length > 0 && (
+                            <>
+                                <h4 className={styles.modalSectionTitle}>В SOTA Box отвечает за</h4>
+                                <ul className={styles.responsibilitiesList}>
+                                    {employee.responsibilities.map((resp, idx) => (
+                                        <li key={idx} className={styles.responsibilityItem}>
+                                            <span className={styles.bullet}>•</span>
+                                            {resp}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
 
                         <button className={styles.modalCTA} onClick={onClose}>
                             Вернуться к команде
@@ -211,33 +221,43 @@ const EmployeeModal: React.FC<{
 // === Основной компонент страницы ===
 export const About = () => {
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
-    // @ts-ignore
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        // Триггер анимации появления после монтирования
         setIsLoaded(true);
     }, []);
 
     return (
         <div className='about-page'>
             <Header />
+
             <section className={styles.aboutSection}>
-                {/* === HERO: О компании === */}
+                {/* === HERO: Миссия компании === */}
                 <div className={styles.aboutHero}>
                     <div className={styles.heroContent}>
                         <h1 className={styles.heroTitle}>О КОМПАНИИ</h1>
-                        <p className={styles.heroSubtitle}>
-                            Мы создаём умные решения для логистики последнего метра.
-                            Наша миссия — сделать получение посылок таким же простым, как чашка кофе.
-                        </p>
+
+                        <div className={styles.missionText}>
+                            <p>
+                                <strong>Наша команда уверена,</strong> что будущее рынка проката — за цифровизацией привычного сервиса аренды вещей.
+                                Наша цель — создать единую, унифицированную платформу аренды товаров, которая объединит предпринимателей и пользователей в одной удобной экосистеме.
+                            </p>
+                            <p>
+                                Для предпринимателей это возможность масштабировать полезный сервис и сделать аренду доступной большему числу людей.
+                                Для пользователей — простой и современный способ получить все необходимое для комфортной жизни без лишних затрат и в духе разумного потребления.
+                            </p>
+                            <p>
+                                Аренда товаров через постаматы/ПВЗ и мобильное приложение — это не просто удобный сервис, а инструмент трансформации потребительской модели.
+                                <strong> Мы верим,</strong> что именно объединение технологий, бизнеса и новой культуры потребления станет ключом к будущему индустрии проката.
+                            </p>
+                        </div>
 
                         {/* Статистика */}
                         <div className={styles.statsGrid}>
                             {COMPANY_STATS.map((stat, idx) => (
                                 <div
                                     key={idx}
-                                    className={styles.statCard}
+                                    className={`${styles.statCard} ${isLoaded ? styles.loaded : ''}`}
                                     style={{ animationDelay: `${idx * 100}ms` }}
                                 >
                                     <span className={styles.statIcon}>{stat.icon}</span>
@@ -256,7 +276,7 @@ export const About = () => {
                 <div className={styles.teamSection}>
                     <h2 className={styles.sectionTitle}>НАША КОМАНДА</h2>
                     <p className={styles.sectionDesc}>
-                        Люди, которые делают СОТА возможной. Кликните на любого, чтобы узнать подробнее.
+                        Люди, которые делают SOTA возможной. Кликните на любого, чтобы узнать подробнее.
                     </p>
 
                     <div className={styles.hexGrid}>
@@ -265,7 +285,7 @@ export const About = () => {
                                 key={employee.id}
                                 employee={employee}
                                 onClick={() => setSelectedEmployee(employee)}
-                                delay={idx * 100} // Staggered animation
+                                delay={idx * 120}
                             />
                         ))}
                     </div>
@@ -282,6 +302,7 @@ export const About = () => {
                 <div className={`${styles.floatingHex} ${styles.hex2}`} />
                 <div className={`${styles.floatingHex} ${styles.hex3}`} />
             </section>
+
             <Footer />
         </div>
     );

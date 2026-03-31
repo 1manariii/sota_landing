@@ -1,13 +1,14 @@
 
 import { Footer } from '../../widgets/footer/Footer.widget';
-import { FranchiseReviews } from '../../widgets/franchise-reviews/FranchiseReviews';
 import { Header } from '../../widgets/header/Header.widget';
 import { HeroBanner } from '../../widgets/hero-banner/HeroBanner.widget';
-import { InvestmentProducts } from '../../widgets/investment-products/InvestmentProducts.widgets';
 import { MapProducts } from '../../widgets/map-section/MapSection.widget';
 import { RentSteps } from '../../widgets/rent-steps/RentSteps';
 import { TeamSection } from '../../widgets/team-section/TeamSection';
 import './Home.module.scss';
+
+// import { FranchiseReviews } from '../../widgets/franchise-reviews/FranchiseReviews';
+// import { InvestmentProducts } from '../../widgets/investment-products/InvestmentProducts.widgets';
 
 export const HomePage = () => {
   return (
@@ -18,8 +19,8 @@ export const HomePage = () => {
         <RentSteps />
         {/* <AboutSection /> */}
         <MapProducts />
-        <InvestmentProducts />
-        <FranchiseReviews />
+        {/*<InvestmentProducts />*/}
+        {/*<FranchiseReviews />*/}
         {/* <FaqSection /> */}
         <TeamSection />
         {/* Декоративные элементы (соты) */}
