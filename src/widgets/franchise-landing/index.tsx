@@ -55,11 +55,11 @@ export const FranchiseLanding = () => {
         <div className='franchise-page'>
             <HoneycombBackground type="dark" />
             <Header />
-            <MarketHero isLoaded={true} />
-            <Features isLoaded={true} />
-            <Investment isLoaded={true} />
-            <Process isLoaded={true} />
-            <Contact isLoaded={true} />
+            <MarketHero />
+            <Features />
+            <Investment />
+            <Process />
+            <Contact />
             <Footer />
         </div>
     );

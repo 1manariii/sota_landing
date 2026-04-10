@@ -11,7 +11,7 @@ const INVESTMENT_METRICS: InvestmentMetric[] = [
     { label: 'Срок изготовления', value: '45 рабочих дней' },
 ];
 
-const InvestmentMetricCard: React.FC<{ metric: InvestmentMetric; index: number }> = ({ metric, index }) => {
+const InvestmentMetricCard: React.FC<{ metric: InvestmentMetric; index: number }> = ({ metric }) => {
     return (
         <div className={`${styles.investmentCard} ${metric.highlight ? styles.highlight : ''}`}>
             <div className={styles.investmentValue}>{metric.value}</div>

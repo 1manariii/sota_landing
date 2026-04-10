@@ -11,7 +11,7 @@ const FEATURE_COLUMNS: FeatureColumn[] = [
     { title: 'УНИФИКАЦИЯ', icon: '🔄', items: ['Приведение всех объектов инфраструктуры к единому формату', 'Стандартизация процессов', 'Единая экосистема'], img: franchiseImg3 },
 ];
 
-const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({ column, index }) => {
+const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({ column }) => {
     return (
         <div className={styles.featureColumn}>
             <div className={styles.featureHeader}>
@@ -29,7 +29,7 @@ const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({
     );
 };
 
-const Features:FC<IProps> = ({isLoaded=true}) => {
+const Features:FC<IProps> = () => {
     return (
         <section className={`${styles.featuresSection} ${styles.glassSection}`}>
             <div className={`${styles.featuresContent} container`}>
