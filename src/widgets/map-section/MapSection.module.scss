@@ -28,6 +28,9 @@ $gray-bg: #f9f9f9;
   @media (max-width: 992px) {
     flex-direction: column;
     height: auto;
+    height: 400px;
+    min-height: 400px;
+    width: 100%;
     gap: 20px;
   }
 }
@@ -129,6 +132,7 @@ $gray-bg: #f9f9f9;
 
   @media (max-width: 992px) {
     height: 500px;
+    width: 100%;
   }
 }
 

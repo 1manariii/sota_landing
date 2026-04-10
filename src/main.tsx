@@ -11,7 +11,9 @@ import Catalog from './pages/cataloge/Catalog';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<><HomePage /><CursorFilter /></>} />
+      <Route path="/" element={<><HomePage />
+        {/* <CursorFilter /> */}
+      </>} />
       <Route path="/about" element={<><About /><CursorFilter /></>} />
       <Route path="/franchise" element={<><FranchisePage /><CursorFilter /></>} />
       <Route path="/catalog" element={<><Catalog /><CursorFilter /></>} />

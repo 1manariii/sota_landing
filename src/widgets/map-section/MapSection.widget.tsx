@@ -92,14 +92,6 @@ const createSotaCustomization = (): VectorCustomization[] => {
       elements: 'geometry.outline',
       stylers: { color: colors.waterOutline, opacity: 0.5 },
     },
-
-    // 🌳 ПАРКИ (Сделаны нейтрально-серыми)
-    {
-      tags: { any: ['park', 'vegetation', 'national_park', 'garden'] },
-      elements: 'geometry.fill',
-      stylers: { color: colors.park, opacity: 1 },
-    },
-
     // 🏢 ЗДАНИЯ
     {
       tags: { any: ['building'] },
@@ -119,26 +111,12 @@ const createSotaCustomization = (): VectorCustomization[] => {
       elements: 'geometry.fill',
       stylers: { color: colors.roadMinor, opacity: 1 },
     },
-    // Основные дороги и магистрали
-    {
-      tags: { any: ['road_4', 'road_5', 'road_6', 'road_7', 'highway'] },
-      elements: 'geometry.fill',
-      stylers: { color: colors.roadMajor, opacity: 1 },
-    },
     // Обводка всех дорог
     {
-      tags: { any: ['road', 'road_1', 'road_2', 'road_3', 'road_4', 'road_5', 'road_6', 'road_7', 'highway'] },
+      tags: { any: ['road', 'road_1', 'road_2', 'road_3', 'road_4', 'road_5', 'road_6', 'road_7'] },
       elements: 'geometry.outline',
       stylers: { color: colors.roadOutline, opacity: 1 },
     },
-
-    // 🚇 МЕТРО (Оранжевое)
-    {
-      tags: { any: ['metro_station'] },
-      elements: 'geometry.fill',
-      stylers: { color: colors.metro, opacity: 1 },
-    },
-
     // 📍 POI (Интересные места) - ОРАНЖЕВЫЙ АКЦЕНТ
     {
       tags: { any: ['poi'] },
@@ -174,12 +152,12 @@ const createSotaCustomization = (): VectorCustomization[] => {
     
     // Улицы (Светло-серые)
     {
-      tags: { any: ['address', 'street'] },
+      tags: { any: ['address'] },
       elements: 'label.text.fill',
       stylers: { color: colors.textSecondary, opacity: 0.9, weight: 400 },
     },
     {
-      tags: { any: ['address', 'street'] },
+      tags: { any: ['address'] },
       elements: 'label.text.outline',
       stylers: { color: colors.background, opacity: 1 }, // Обводка цветом фона
     },
@@ -270,8 +248,7 @@ export const MapProducts = () => {
         location: {
           center: [37.6173, 55.7558],
           zoom: 5,
-        },
-        mode: 'vector', // Важно для кастомизации
+        }
       });
 
       // Добавляем слой схемы с кастомизацией SOTA
