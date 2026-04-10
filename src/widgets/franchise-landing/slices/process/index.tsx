@@ -1,29 +1,31 @@
 import { useEffect, useState } from 'react';
 import styles from './styles.module.scss'
+import stylesScroll from '../../Franchise.module.scss'
 import useScrollReveal from '../../../../shared/hooks/useScrollReveal';
+import { benefitIcon1, benefitIcon2, benefitIcon3, benefitIcon4, processIcon1, processIcon2, processIcon3, processIcon4 } from '../../../../shared/assets';
 
 interface ProcessStep { title: string; description: string; icon: string; }
 interface BenefitItem { title: string; description: string; icon: string; comingSoon?: boolean; }
 
 const PROCESS_STEPS: ProcessStep[] = [
-    { title: 'Производство постамата', description: 'Изготовление и настройка оборудования', icon: '🏭' },
-    { title: 'Поиск локации, согласование', description: 'Подбор оптимального места установки', icon: '🔍' },
-    { title: 'Закупка оборудования', description: 'Комплектация всем необходимым', icon: '🛒' },
-    { title: 'Настройка и подключение', description: 'Запуск и интеграция в систему', icon: '⚙️' },
+    { title: 'Производство постамата', description: 'Изготовление и настройка оборудования', icon: processIcon1 },
+    { title: 'Поиск локации, согласование', description: 'Подбор оптимального места установки', icon: processIcon2 },
+    { title: 'Закупка оборудования', description: 'Комплектация всем необходимым', icon: processIcon3 },
+    { title: 'Настройка и подключение', description: 'Запуск и интеграция в систему', icon: processIcon4 },
 ];
+
 const BENEFITS: BenefitItem[] = [
-    { title: 'Ежемесячный доход', description: 'Стабильный пассивный доход от аренды', icon: '💰' },
-    { title: 'Подписку на сервис', description: 'Доступ ко всем обновлениям и функциям', icon: '📲' },
-    { title: 'Материальный актив', description: 'Постамат остается вашей собственностью', icon: '📋' },
-    { title: 'Доступ к личному кабинету', description: 'Управление и аналитика в реальном времени', icon: '🔐', comingSoon: true },
+    { title: 'Ежемесячный доход', description: 'Стабильный пассивный доход от аренды', icon: benefitIcon1 },
+    { title: 'Подписку на сервис', description: 'Доступ ко всем обновлениям и функциям', icon: benefitIcon2 },
+    { title: 'Материальный актив', description: 'Постамат остается вашей собственностью', icon: benefitIcon3 },
+    { title: 'Доступ к личному кабинету', description: 'Управление и аналитика в реальном времени', icon: benefitIcon4, comingSoon: true },
 ];
 
-
-
+// Добавлен styles.animateOnScroll
 const ProcessStepCard: React.FC<{ step: ProcessStep; index: number; isLoaded: boolean }> = ({ step, index, isLoaded }) => {
     return (
-        <div className={`${styles.processStep} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
-            <span className={styles.processIcon}>{step.icon}</span>
+        <div className={`${styles.processStep} ${stylesScroll.animateOnScroll} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+            <img src={step.icon} className={styles.icon} />
             <div className={styles.processContent}>
                 <h4 className={styles.processTitle}>{step.title}</h4>
                 <p className={styles.processDesc}>{step.description}</p>
@@ -32,10 +34,11 @@ const ProcessStepCard: React.FC<{ step: ProcessStep; index: number; isLoaded: bo
     );
 };
 
+// Добавлен styles.animateOnScroll
 const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isLoaded: boolean; isRight?: boolean }> = ({ benefit, index, isLoaded, isRight = false }) => {
     return (
-        <div className={`${styles.benefitCard} ${isRight ? styles.right : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
-            <span className={styles.benefitIcon}>{benefit.icon}</span>
+        <div className={`${styles.benefitCard} ${stylesScroll.animateOnScroll} ${isRight ? styles.right : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+            <img src={benefit.icon} className={styles.icon} />
             <div className={styles.benefitContent}>
                 <h4 className={styles.benefitTitle}>{benefit.title}</h4>
                 <p className={styles.benefitDesc}>{benefit.description}</p>
@@ -48,18 +51,19 @@ const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isLoaded: boo
 const Process = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Инициализируем наблюдатель скролла
     useScrollReveal();
 
     useEffect(() => {
         setIsLoaded(true);
     }, []);
+
     return (
         <section className={`${styles.processSection} ${styles.glassSection}`}>
             <div className={`${styles.processContainer} container`}>
 
                 {/* Список процесса (слева) */}
-                <div className={`${styles.processColumn} ${styles.animateOnScroll}`}>
+                {/* Убрали animateOnScroll с колонки */}
+                <div className={styles.processColumn}>
                     <h3 className={styles.processColumnTitle}>ЧТО МЫ ДЕЛАЕМ ПОСЛЕ ВАШИХ ИНВЕСТИЦИЙ В SOTA BOX?</h3>
                     <div className={styles.processList}>
                         {PROCESS_STEPS.map((step, index) => (
@@ -88,7 +92,8 @@ const Process = () => {
                 </div>
 
                 {/* Список преимуществ (справа) */}
-                <div className={`${styles.benefitsColumn} ${styles.animateOnScroll}`}>
+                {/* Убрали animateOnScroll с колонки */}
+                <div className={styles.benefitsColumn}>
                     <h3 className={styles.benefitsColumnTitle}>ЧТО В ИТОГЕ ПОЛУЧАЕТЕ ВЫ?</h3>
                     <div className={styles.benefitsList}>
                         {BENEFITS.map((benefit, index) => (

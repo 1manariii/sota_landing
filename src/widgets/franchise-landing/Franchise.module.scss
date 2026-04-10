@@ -3,7 +3,7 @@
 // === Глобальная страница с градиентом ===
 .franchise-page {
     min-height: 100vh;
-    background: linear-gradient(135deg, #0a0a0a 0%, #2d2d2d 100%); // Черно-серый градиент
+    background: linear-gradient(135deg, #0a0a0a 0%, #2d2d2d 100%);
     position: relative;
     overflow-x: hidden;
 }
@@ -54,26 +54,20 @@
 }
 
 // === Общие анимации при скролле ===
-/* Базовое состояние: скрыто */
 .animateOnScroll {
     opacity: 0;
+    /* Важно: добавляем начальный сдвиг, чтобы был эффект движения */
+    transform: translateY(30px); 
 }
 
-/* Класс, добавляемый при появлении */
 .animate-in {
-    opacity: 1;
+    opacity: 1 !important; /* !important нужен, чтобы перебить inline-стили или высокую специфичность */
+    transform: translateY(0) !important;
     transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Класс, добавляемый при уходе с экрана */
 .animate-out {
-    opacity: 0;
+    opacity: 0 !important;
+    transform: translateY(30px) !important;
     transition: opacity 0.5s ease-in, transform 0.5s ease-in;
-}
-
-// === Адаптив для общих элементов (если потребуется) ===
-@media (max-width: 768px) {
-    .franchise-page {
-        // Можно добавить глобальные отступы если нужно
-    }
 }

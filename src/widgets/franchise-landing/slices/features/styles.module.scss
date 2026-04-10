@@ -1,6 +1,5 @@
 @use '../../../../app/styles/variables.scss' as *;
 
-// === Переменные секции ===
 $primary-orange: #FF6B00;
 $secondary-orange: #FF8533;
 $dark-bg: #1a1a1a;
@@ -9,19 +8,15 @@ $text-dark: #2c2c2c;
 $text-light: #ffffff;
 $transition: all 0.3s ease;
 
-// === Основной контейнер секции ===
 .featuresSection {
     padding: 100px 20px;
     background: $light-bg;
     position: relative;
 }
 
-// === Класс для секций с матовым стеклом ===
 .glassSection {
     position: relative;
     overflow: hidden;
-    
-    // Эффект матового стекла
     background: rgba(255, 255, 255, 0.05); 
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -41,7 +36,7 @@ $transition: all 0.3s ease;
 .sectionTitle {
     font-size: clamp(24px, 4vw, 36px);
     font-weight: 900;
-    color: $text-dark;
+    color: $text-light;
     text-align: center;
     margin-bottom: 60px;
     text-transform: uppercase;
@@ -50,7 +45,6 @@ $transition: all 0.3s ease;
     z-index: 2;
 }
 
-// === Сетка карточек ===
 .featuresGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -59,24 +53,26 @@ $transition: all 0.3s ease;
     margin: 0 auto 60px;
 }
 
+// === Карточка признака ===
 .featureColumn {
     background: $primary-orange;
     border-radius: 20px;
     padding: 40px 30px;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: $transition;
+    
+    // УБРАНО: opacity: 0 и transform, так как это делает .animateOnScroll
+    // Оставляем transition только для hover-эффектов, 
+    // но важно, чтобы глобальный .animate-in перебивал начальные значения
+    
     position: relative;
     z-index: 2;
     
-    &.loaded {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
+    // Hover эффект
     &:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 40px rgba(255, 107, 0, 0.3);
+        // Важно: при ховере мы не хотим сбрасывать анимацию появления,
+        // поэтому используем !important или более специфичный селектор, 
+        // если глобальные стили конфликтуют.
     }
 }
 
@@ -85,14 +81,16 @@ $transition: all 0.3s ease;
     margin-bottom: 30px;
 }
 
-// Стили для изображения внутри заголовка
 .featureImg {
     width: 100%;
     height: auto;
-    max-height: 150px; // Ограничение высоты для аккуратности
+    max-height: 150px;
     object-fit: contain;
     margin-bottom: 15px;
     border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .featureTitle {
@@ -129,12 +127,17 @@ $transition: all 0.3s ease;
     line-height: 1;
 }
 
-// === Доля рынка (Market Share) ===
+// === Доля рынка ===
 .marketShare {
     text-align: center;
     margin-top: 40px;
     position: relative;
     z-index: 2;
+    
+    // Начальное состояние для анимации этого блока
+    // Если вы добавили класс animateOnScroll в JSX, то эти свойства будут перебиты глобальными,
+    // но для надежности можно продублировать логику здесь, если глобальные стили не подгрузятся.
+    // Однако лучше полагаться на глобальный класс.
 }
 
 .shareLabel {
@@ -142,57 +145,41 @@ $transition: all 0.3s ease;
     font-weight: 900;
     color: $primary-orange;
     line-height: 1;
+    // Можно добавить небольшой сдвиг для эффекта
+    transition: all 0.8s ease-out;
+    
+    // Класс .animate-in добавляется родителю .marketShare, но нам нужно анимировать цифру.
+    // Проще всего добавить класс animateOnScroll самому блоку .marketShare, 
+    // тогда весь блок появится целиком.
+    // Если хотите анимировать цифру отдельно, нужна более сложная структура.
+    // В текущем решении .marketShare появится целиком благодаря stylesScroll.animateOnScroll.
+}
+
+// Переопределяем стили для shareLabel, когда родитель имеет класс animate-in
+.marketShare.animate-in .shareLabel {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .shareText {
     font-size: 18px;
-    color: $text-dark;
+    color: $text-light;
     margin-top: 10px;
 }
 
 // === Адаптив ===
 @media (max-width: 768px) {
-    .featuresSection {
-        padding: 60px 20px;
-    }
-
-    .sectionTitle {
-        font-size: 24px;
-        margin-bottom: 40px;
-    }
-
-    .featuresGrid {
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-
-    .featureColumn {
-        padding: 30px 20px;
-    }
-
-    .featureTitle {
-        font-size: 18px;
-    }
-
-    .featureItem {
-        font-size: 14px;
-    }
-
-    .shareLabel {
-        font-size: 56px;
-    }
-
-    .shareText {
-        font-size: 16px;
-    }
+    .featuresSection { padding: 60px 20px; }
+    .sectionTitle { font-size: 24px; margin-bottom: 40px; }
+    .featuresGrid { gap: 20px; margin-bottom: 40px; }
+    .featureColumn { padding: 30px 20px; }
+    .featureTitle { font-size: 18px; }
+    .featureItem { font-size: 14px; }
+    .shareLabel { font-size: 56px; }
+    .shareText { font-size: 16px; }
 }
 
 @media (max-width: 480px) {
-    .shareLabel {
-        font-size: 48px;
-    }
-    
-    .featureImg {
-        max-height: 120px;
-    }
+    .shareLabel { font-size: 48px; }
+    .featureImg { max-height: 120px; }
 }

@@ -1,6 +1,5 @@
 @use '../../../../app/styles/variables.scss' as *;
 
-// === Переменные секции ===
 $primary-orange: #FF6B00;
 $secondary-orange: #FF8533;
 $dark-bg: #1a1a1a;
@@ -8,10 +7,11 @@ $text-light: #ffffff;
 $text-dark: #2c2c2c;
 $transition: all 0.3s ease;
 
-// === Основной контейнер секции ===
 .investmentSection {
-    padding: 100px 20px; // Прозрачный фон для видности сот
+    padding: 100px 20px;
     position: relative;
+    // Если фон должен быть прозрачным для видности сот, убедитесь, что здесь нет background-color
+    // или он установлен в глобальном классе страницы
 }
 
 .investmentContent {
@@ -24,17 +24,15 @@ $transition: all 0.3s ease;
 .sectionTitle {
     font-size: clamp(24px, 4vw, 36px);
     font-weight: 900;
-    color: $text-dark; // На темном фоне лучше белый, но если нужен контраст с фоном, можно оставить
+    color: $text-light; // Белый цвет для контраста на темном фоне
     text-align: center;
     margin-bottom: 60px;
     text-transform: uppercase;
     line-height: 1.3;
-    color: $text-light; // Исправлено на белый для темного фона
     position: relative;
     z-index: 2;
 }
 
-// === Сетка контента ===
 .investmentGrid {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -50,11 +48,10 @@ $transition: all 0.3s ease;
     }
 }
 
-// === Визуализация постамата ===
 .postamatVisual {
     display: flex;
     justify-content: center;
-    order: 1; // На мобильных будет первым
+    order: 1;
     
     @media (min-width: 969px) {
         order: 1;
@@ -86,7 +83,7 @@ $transition: all 0.3s ease;
 }
 
 .screenText {
-    color: $text-dark;
+    color: $text-light;
     font-weight: 700;
     font-size: 16px;
     letter-spacing: 1px;
@@ -115,12 +112,11 @@ $transition: all 0.3s ease;
     letter-spacing: 2px;
 }
 
-// === Контейнер метрик ===
 .metricsContainer {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    order: 2; // На мобильных будет вторым
+    order: 2;
     
     @media (min-width: 969px) {
         order: 2;
@@ -139,19 +135,16 @@ $transition: all 0.3s ease;
     border-radius: 16px;
     padding: 25px;
     text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: $transition;
+    
+    // УБРАНО: opacity: 0 и transform, так как это делает .animateOnScroll
+    // Оставляем transition только для hover-эффектов
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
     position: relative;
     z-index: 2;
     
-    &.loaded {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
     &:hover {
-        transform: translateY(-5px);
+        transform: translateY(-5px) !important; // !important чтобы перебить возможный конфликт с animate-in
         box-shadow: 0 10px 20px rgba(255, 107, 0, 0.3);
     }
     

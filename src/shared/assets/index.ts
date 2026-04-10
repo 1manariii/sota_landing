@@ -17,5 +17,21 @@ import photo4 from './photo4.png'
 import franchiseImg1 from './assets-1.png'
 import franchiseImg2 from './assets-2.png'
 import franchiseImg3 from './assets-3.png'
-
-export { logo, banner1, banner2, banner3, banner4, invest1, invest2, invest3, vk, instagram, tg, youtube, photo1, photo2, photo3, photo4, franchiseImg1, franchiseImg2, franchiseImg3}
+import benefitIcon1 from './benefit-1.svg'
+import benefitIcon2 from './benefit-2.svg'
+import benefitIcon3 from './benefit-3.svg'
+import benefitIcon4 from './benefit-4.svg'
+import processIcon1 from './process-1.svg'
+import processIcon2 from './process-2.svg'
+import processIcon3 from './process-3.svg'
+import processIcon4 from './process-4.svg'
+export {
+    logo,
+    banner1, banner2, banner3, banner4,
+    invest1, invest2, invest3,
+    vk, instagram, tg, youtube,
+    photo1, photo2, photo3, photo4,
+    franchiseImg1, franchiseImg2, franchiseImg3,
+    benefitIcon1, benefitIcon2, benefitIcon3, benefitIcon4,
+    processIcon1, processIcon2, processIcon3, processIcon4
+}

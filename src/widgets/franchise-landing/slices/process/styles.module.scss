@@ -1,6 +1,5 @@
 @use '../../../../app/styles/variables.scss' as *;
 
-// === Переменные секции ===
 $primary-orange: #FF6B00;
 $secondary-orange: #FF8533;
 $dark-bg: #1a1a1a;
@@ -9,7 +8,6 @@ $text-dark: #2c2c2c;
 $text-light: #ffffff;
 $transition: all 0.3s ease;
 
-// === Основной контейнер секции ===
 .processSection {
     padding: 100px 20px;
     background: $light-bg;
@@ -19,8 +17,6 @@ $transition: all 0.3s ease;
 .glassSection {
     position: relative;
     overflow: hidden;
-    
-    // Эффект матового стекла
     background: rgba(255, 255, 255, 0.05); 
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -48,18 +44,16 @@ $transition: all 0.3s ease;
     }
 }
 
-// === Заголовки колонок ===
 .processColumnTitle,
 .benefitsColumnTitle {
     font-size: 24px;
     font-weight: 900;
-    color: $text-dark;
+    color: $text-light;
     text-transform: uppercase;
     line-height: 1.3;
     margin-bottom: 20px;
 }
 
-// === Списки (процесс и преимущества) ===
 .processList,
 .benefitsList {
     display: flex;
@@ -74,6 +68,18 @@ $transition: all 0.3s ease;
     gap: 30px;
 }
 
+// === ИКОНКИ ===
+.icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0; // Запрещаем сжатие иконки
+    object-fit: contain; // Сохраняем пропорции изображения
+    display: block;
+    
+    // Для темных карточек (преимуществ) можно добавить фильтр, если иконки черные
+    // filter: invert(1); 
+}
+
 // === Карточка шага процесса ===
 .processStep {
     background: $primary-orange;
@@ -82,26 +88,18 @@ $transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 20px;
-    opacity: 0;
-    transform: translateX(-30px);
-    transition: $transition;
+    
+    // Прозрачность и трансформация управляются через глобальный класс .animateOnScroll
+    // Здесь задаем только transition для плавности hover-эффектов
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
     position: relative;
     z-index: 2;
     
-    &.loaded {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    
     &:hover {
-        transform: translateX(10px);
+        transform: translateX(10px) !important; // !important может понадобиться, если animate-in перебивает
         box-shadow: 0 10px 30px rgba(255, 107, 0, 0.2);
     }
-}
-
-.processIcon {
-    font-size: 40px;
-    flex-shrink: 0;
 }
 
 .processContent {
@@ -121,7 +119,6 @@ $transition: all 0.3s ease;
     opacity: 0.9;
 }
 
-// === Центральная иллюстрация постамата ===
 .centerPostamat {
     position: sticky;
     top: 100px;
@@ -200,26 +197,19 @@ $transition: all 0.3s ease;
     display: flex;
     align-items: flex-start;
     gap: 20px;
-    opacity: 0;
-    transform: translateX(30px);
-    transition: $transition;
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     z-index: 2;
     
-    &.loaded {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    
     &:hover {
-        transform: translateX(-10px);
+        transform: translateX(-10px) !important;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 }
 
 .benefitIcon {
-    font-size: 40px;
-    flex-shrink: 0;
+    // Если нужно специфичное позиционирование для benefitIcon, но у нас общий класс .icon
 }
 
 .benefitContent {
@@ -250,174 +240,67 @@ $transition: all 0.3s ease;
     text-transform: uppercase;
 }
 
-// === АНИМАЦИЯ ПРИ СКРОЛЛЕ ===
+// === АДАПТИВНОСТЬ ===
 
-/* Базовое состояние: скрыто */
-.animateOnScroll {
-    opacity: 0;
-}
-
-/* Класс, добавляемый при появлении */
-.animate-in {
-    opacity: 1;
-    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Класс, добавляемый при уходе с экрана */
-.animate-out {
-    opacity: 0;
-    transition: opacity 0.5s ease-in, transform 0.5s ease-in;
-}
-
-/* Логика для процесс-листа (слева) */
-.processColumn {
-    .processList {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .processStep {
-        /* По умолчанию скрыт */
-        opacity: 0;
-        transform: translateX(-50px); /* Сдвиг влево */
-        transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        
-        &.loaded {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    /* Когда контейнер виден, показываем шаги по очереди */
-    &:not(.animate-out) {
-        .processStep {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    /* При уходе скрываем */
-    &.animate-out {
-        .processStep {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-    }
-}
-
-/* Логика для списка преимуществ (справа) */
-.benefitsColumn {
-    .benefitsList {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .benefitCard {
-        opacity: 0;
-        transform: translateX(50px); /* Сдвиг вправо */
-        transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        
-        &.loaded {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    &:not(.animate-out) {
-        .benefitCard {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    &.animate-out {
-        .benefitCard {
-            opacity: 0;
-            transform: translateX(50px);
-        }
-    }
-}
-
-// === АДАПТИВ ДЛЯ МОБИЛЬНЫХ ===
 @media (max-width: 1024px) {
     .processColumn, .benefitsColumn {
         width: 100%;
         margin: 0 auto;
         text-align: center;
-    }
-    
-    .processColumn, .benefitsColumn {
+        
         .processStep, .benefitCard {
-            /* На мобильных убираем боковой сдвиг */
-            transform: translateY(30px); 
-            
-            /* При появлении */
-            &:not(.animate-out) {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            
-            /* При уходе */
-            &.animate-out {
-                opacity: 0;
-                transform: translateY(30px);
+            // Сбрасываем горизонтальные трансформации при ховере на планшетах, если нужно
+            &:hover {
+                transform: translateY(-5px) !important;
             }
         }
     }
 }
 
 @media (max-width: 768px) {
-    .processSection {
-        padding: 60px 20px;
+    .processSection { padding: 60px 20px; }
+    
+    .processColumnTitle, .benefitsColumnTitle { 
+        font-size: 20px; 
+        text-align: center;
     }
-
-    .processColumnTitle, .benefitsColumnTitle {
-        font-size: 20px;
-        margin-bottom: 15px;
+    
+    .postamatIllustration { width: 200px; padding: 20px; }
+    .qrCode { width: 60px; height: 60px; }
+    .postamatButton { padding: 12px; font-size: 14px; }
+    
+    .processStep, .benefitCard { 
+        padding: 20px; 
+        // На мобильных часто лучше центрировать контент внутри карточки
+        justify-content: center;
     }
-
-    .postamatIllustration {
-        width: 200px;
-        padding: 20px;
-    }
-
-    .qrCode {
-        width: 60px;
-        height: 60px;
-    }
-
-    .postamatButton {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .processStep, .benefitCard {
-        padding: 20px;
-    }
-
-    .processTitle, .benefitTitle {
-        font-size: 16px;
-    }
-
-    .processDesc, .benefitDesc {
-        font-size: 13px;
+    
+    .icon {
+        width: 40px;
+        height: 40px;
     }
 }
 
 @media (max-width: 480px) {
-    .postamatIllustration {
-        width: 180px;
-    }
     
     .processStep, .benefitCard {
-        flex-direction: column;
+        flex-direction: column; // Вертикальное расположение: иконка сверху, текст снизу
         text-align: center;
-        gap: 10px;
+        gap: 15px;
+        align-items: center;
+        
+        &:hover {
+            transform: translateY(-5px) !important;
+        }
     }
     
-    .processIcon, .benefitIcon {
-        font-size: 32px;
+    .icon {
+        width: 48px; // Возвращаем крупный размер для вертикального вида
+        height: 48px;
+        margin-bottom: 5px;
+    }
+    
+    .processContent, .benefitContent {
+        width: 100%;
     }
 }

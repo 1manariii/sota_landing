@@ -37,6 +37,10 @@
   @media (hover: none) and (pointer: coarse) {
     display: none;
   }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 /* Увеличение курсора при наведении на кликабельные элементы */
