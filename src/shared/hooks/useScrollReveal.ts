@@ -1,37 +1,40 @@
 import { useEffect } from "react";
-import styles from '../../widgets/franchise-landing/Franchise.module.scss'
 
-const useScrollReveal = () => {
+interface UseScrollRevealOptions {
+    selector?: string;
+    rootMargin?: string;
+    threshold?: number;
+}
+
+const useScrollReveal = ({ 
+    selector = '.animateOnScroll', 
+    rootMargin = '-10% 0px -10% 0px', 
+    threshold = 0.1 
+}: UseScrollRevealOptions = {}) => {
     useEffect(() => {
         const observerOptions = {
             root: null,
-            rootMargin: '-10% 0px -10% 0px', // Срабатывает, когда элемент в центре экрана
-            threshold: 0.1
+            rootMargin,
+            threshold
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add(styles['animate-in']);
-                    entry.target.classList.remove(styles['animate-out']);
+                    entry.target.classList.add('animate-in');
+                    entry.target.classList.remove('animate-out');
                 } else {
-                    // Опционально: можно убрать класс animateIn при уходе, если нужно скрыть обратно
-                    // entry.target.classList.remove(styles['animate-in']);
-                    // Но по ТЗ "когда скроллом пропадает", значит нужно скрывать.
-                    // Однако, чтобы не было резкого исчезновения при скролле вверх, 
-                    // часто оставляют состояние "включено".
-                    // Реализуем полное исчезновение при уходе из зоны видимости.
-                    entry.target.classList.remove(styles['animate-in']);
-                    entry.target.classList.add(styles['animate-out']);
+                    entry.target.classList.remove('animate-in');
+                    entry.target.classList.add('animate-out');
                 }
             });
         }, observerOptions);
 
-        const elements = document.querySelectorAll(`.${styles.animateOnScroll}`);
+        const elements = document.querySelectorAll(selector);
         elements.forEach((el) => observer.observe(el));
 
         return () => observer.disconnect();
-    }, []);
+    }, [selector, rootMargin, threshold]);
 };
 
 export default useScrollReveal
