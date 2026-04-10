@@ -249,6 +249,13 @@ $transition: all 0.3s ease;
         width: 100%;
         height: 250px;
     }
+    
+    // Отключаем анимацию появления на мобильных для предотвращения "резкого" появления
+    .animateOnScroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 @media (max-width: 480px) {
