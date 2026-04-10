@@ -1,5 +1,6 @@
 // shared/hooks/useScrollReveal.ts
 import { useEffect } from "react";
+// Убедитесь, что путь правильный к вашему SCSS модулю
 import styles from '../../widgets/franchise-landing/Franchise.module.scss'; 
 
 const isIOS = () => {
@@ -12,18 +13,21 @@ const isIOS = () => {
 
 const useScrollReveal = () => {
     useEffect(() => {
-        // Если iOS, просто выходим, не создавая Observer
+        const elements = document.querySelectorAll(`.${styles.animateOnScroll}`);
+        
+        // Если iOS — сразу показываем всё без анимации и наблюдателей
         if (isIOS()) {
-            // Опционально: можно сразу добавить класс animate-in ко всем элементам,
-            // чтобы они были видны сразу без анимации появления
-            const elements = document.querySelectorAll(`.${styles.animateOnScroll}`);
             elements.forEach(el => {
                 el.classList.add(styles['animate-in']);
                 el.classList.remove(styles['animate-out']);
+                // Принудительно сбрасываем стили трансформации, если они были заданы инлайново или через другие классы
+                (el as HTMLElement).style.transform = 'none';
+                (el as HTMLElement).style.opacity = '1';
             });
             return;
         }
 
+        // Логика для Desktop/Android
         const observerOptions = {
             root: null,
             rootMargin: '0px 0px -10% 0px',
@@ -35,19 +39,15 @@ const useScrollReveal = () => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add(styles['animate-in']);
                     entry.target.classList.remove(styles['animate-out']);
-                    // Опционально: перестать следить за элементом после появления, чтобы улучшить производительность
-                    // observer.unobserve(entry.target); 
                 } else {
-                    // Если нужно, чтобы анимация сбрасывалась при уходе со страницы
                     entry.target.classList.remove(styles['animate-in']);
                     entry.target.classList.add(styles['animate-out']);
                 }
             });
         }, observerOptions);
 
-        // Небольшая задержка, чтобы DOM точно отрисовался
+        // Небольшая задержка для стабильности DOM
         const timer = setTimeout(() => {
-            const elements = document.querySelectorAll(`.${styles.animateOnScroll}`);
             elements.forEach((el) => observer.observe(el));
         }, 100);
 

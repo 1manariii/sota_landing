@@ -17,10 +17,16 @@ const MARKET_SEGMENTS: MarketSegment[] = [
     { label: 'Другое', percentage: '7%', color: '#FFC199' },
 ];
 
+// Простая проверка iOS внутри компонента
+const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+
 const MarketStatCard: React.FC<{ stat: MarketStat; index: number; isLoaded: boolean }> = ({ stat, index, isLoaded }) => {
     const height = 120 + (index * 40);
     return (
-        <div className={`${styles.marketStatCard} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms`, height: `${height}px` }}>
+        <div 
+            className={`${styles.marketStatCard} ${isLoaded ? styles.loaded : ''}`} 
+            style={{ height: `${height}px` }}
+        >
             <div className={styles.statValue}>{stat.value}</div>
             <div className={styles.statYear}>{stat.year}</div>
         </div>
@@ -63,12 +69,18 @@ const PieChart: React.FC<{ segments: MarketSegment[] }> = ({ segments }) => {
 const MarketHero = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Инициализируем наблюдатель скролла
     useScrollReveal();
 
     useEffect(() => {
-        setIsLoaded(true);
+        // На iOS нам не нужно ждать эффекта, но для унификации кода оставим
+        if (!isIOSDevice) {
+            setIsLoaded(true);
+        }
     }, []);
+
+    // Для iOS всегда считаем, что всё загружено
+    const displayLoadedState = isIOSDevice || isLoaded;
+
     return (
         <section className={styles.marketHero}>
             <div className={`${styles.heroContent} container`}>
@@ -78,9 +90,14 @@ const MarketHero = () => {
                 </h1>
                 <div className={styles.marketStats}>
                     {MARKET_STATS.map((stat, index) => (
-                        <MarketStatCard key={stat.year} stat={stat} index={index} isLoaded={isLoaded} />
+                        <MarketStatCard 
+                            key={stat.year} 
+                            stat={stat} 
+                            index={index} 
+                            isLoaded={displayLoadedState} 
+                        />
                     ))}
-                    <div className={`${styles.forecastCard} ${isLoaded ? styles.loaded : ''}`}>
+                    <div className={`${styles.forecastCard} ${displayLoadedState ? styles.loaded : ''}`}>
                         <div className={styles.forecastValue}>300 МЛРД ₽</div>
                         <div className={styles.forecastLabel}>ПРОГНОЗ 2026</div>
                         <div className={styles.rocket}>🚀</div>
