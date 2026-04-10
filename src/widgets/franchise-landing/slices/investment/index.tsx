@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import styles from './styles.module.scss'
 // Импортируем глобальные стили с классами анимации
 import stylesScroll from '../../Franchise.module.scss' 
 import useScrollReveal from '../../../../shared/hooks/useScrollReveal';
+import type { IProps } from '../market-hero';
 
 interface InvestmentMetric { label: string; value: string; sublabel?: string; highlight?: boolean; }
 
@@ -25,15 +26,7 @@ const InvestmentMetricCard: React.FC<{ metric: InvestmentMetric; index: number; 
     );
 };
 
-const Investment = () => {
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    // Инициализируем наблюдатель скролла
-    useScrollReveal();
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
+const Investment:FC<IProps> = ({isLoaded=true}) => {
 
     return (
         <section className={styles.investmentSection}>

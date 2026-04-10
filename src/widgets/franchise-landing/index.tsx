@@ -6,6 +6,8 @@ import Features from './slices/features';
 import Investment from './slices/investment';
 import Process from './slices/process';
 import Contact from './slices/contact';
+import { useEffect, useState } from 'react';
+import useScrollReveal from '../../shared/hooks/useScrollReveal';
 
 // === Вспомогательный компонент: Фоновые соты ===
 const HoneycombBackground: React.FC<{ type: 'light' | 'dark' }> = ({ type }) => {
@@ -50,15 +52,22 @@ const HoneycombBackground: React.FC<{ type: 'light' | 'dark' }> = ({ type }) => 
 };
 
 export const FranchiseLanding = () => {
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useScrollReveal();
+    
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
     return (
         <div className='franchise-page'>
             <HoneycombBackground type="dark" />
             <Header />
-            <MarketHero />
-            <Features />
-            <Investment />
-            <Process />
-            <Contact />
+            <MarketHero isLoaded={isLoaded} />
+            <Features isLoaded={isLoaded} />
+            <Investment isLoaded={isLoaded} />
+            <Process isLoaded={isLoaded} />
+            <Contact isLoaded={isLoaded} />
             <Footer />
         </div>
     );

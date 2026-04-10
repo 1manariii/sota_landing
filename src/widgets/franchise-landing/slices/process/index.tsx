@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import styles from './styles.module.scss'
 import stylesScroll from '../../Franchise.module.scss'
 import useScrollReveal from '../../../../shared/hooks/useScrollReveal';
 import { benefitIcon1, benefitIcon2, benefitIcon3, benefitIcon4, processIcon1, processIcon2, processIcon3, processIcon4 } from '../../../../shared/assets';
+import type { IProps } from '../market-hero';
 
 interface ProcessStep { title: string; description: string; icon: string; }
 interface BenefitItem { title: string; description: string; icon: string; comingSoon?: boolean; }
@@ -48,15 +49,7 @@ const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isLoaded: boo
     );
 };
 
-const Process = () => {
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    useScrollReveal();
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
-
+const Process:FC<IProps> = ({isLoaded=true}) => {
     return (
         <section className={`${styles.processSection} ${styles.glassSection}`}>
             <div className={`${styles.processContainer} container`}>

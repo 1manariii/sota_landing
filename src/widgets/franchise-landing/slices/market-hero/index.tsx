@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import useScrollReveal from '../../../../shared/hooks/useScrollReveal';
+import { type FC } from 'react';
 import styles from './styles.module.scss'
 
 interface MarketStat { year: string; value: string; growth?: string; }
@@ -60,15 +59,11 @@ const PieChart: React.FC<{ segments: MarketSegment[] }> = ({ segments }) => {
     );
 };
 
-const MarketHero = () => {
-    const [isLoaded, setIsLoaded] = useState(false);
+export interface IProps {
+    isLoaded: boolean;
+}
 
-    // Инициализируем наблюдатель скролла
-    useScrollReveal();
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
+const MarketHero: FC<IProps> = ({ isLoaded = true }) => {
     return (
         <section className={styles.marketHero}>
             <div className={`${styles.heroContent} container`}>

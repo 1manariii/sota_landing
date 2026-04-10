@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { franchiseImg1, franchiseImg2, franchiseImg3 } from '../../../../shared/assets';
 import styles from './styles.module.scss'
 // Импортируем глобальные стили, где лежат классы анимации
 import stylesScroll from '../../Franchise.module.scss' 
 import useScrollReveal from '../../../../shared/hooks/useScrollReveal';
+import type { IProps } from '../market-hero';
 
 interface FeatureColumn { title: string; icon: string; items: string[]; img: string }
 
@@ -32,16 +33,7 @@ const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number; isLoad
     );
 };
 
-const Features = () => {
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    // Инициализируем наблюдатель скролла
-    useScrollReveal();
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
-
+const Features:FC<IProps> = ({isLoaded=true}) => {
     return (
         <section className={`${styles.featuresSection} ${styles.glassSection}`}>
             <div className={`${styles.featuresContent} container`}>
