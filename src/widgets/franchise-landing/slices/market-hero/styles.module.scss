@@ -80,12 +80,6 @@ $transition: all 0.3s ease;
         border-color: $primary-orange;
         transform: translateY(-5px);
     }
-
-    @media (max-width: 768px) {
-        opacity: 1;
-        transform: none !important;
-        transition: none !important;
-    }
 }
 
 .statValue {
