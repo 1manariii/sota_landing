@@ -1,0 +1,99 @@
+@use '../../../../app/styles/variables.scss' as *;
+
+// === Переменные секции ===
+$primary-orange: #FF6B00;
+$secondary-orange: #FF8533;
+$text-light: #ffffff;
+$text-dark: #2c2c2c;
+$transition: all 0.3s ease;
+
+// === Основной контейнер секции ===
+.ctaSection {
+    padding: 100px 20px;
+    background: linear-gradient(135deg, $primary-orange 0%, $secondary-orange 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.ctaContent {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.ctaTitle {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900;
+    color: $text-light;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.ctaText {
+    font-size: 20px;
+    color: $text-light;
+    margin-bottom: 40px;
+    opacity: 0.95;
+    line-height: 1.5;
+}
+
+.ctaButton {
+    background: $text-dark;
+    color: $text-light;
+    border: none;
+    padding: 20px 60px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: $transition;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        background: darken($color: $text-dark, $amount: 10); // Немного темнее при наведении
+    }
+    
+    &:active {
+        transform: translateY(-1px);
+    }
+}
+
+// === Адаптив ===
+@media (max-width: 768px) {
+    .ctaSection {
+        padding: 60px 20px;
+    }
+
+    .ctaTitle {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .ctaText {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .ctaButton {
+        width: 100%;
+        max-width: 300px;
+        padding: 18px 30px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ctaTitle {
+        font-size: 20px;
+    }
+    
+    .ctaText {
+        font-size: 14px;
+    }
+}

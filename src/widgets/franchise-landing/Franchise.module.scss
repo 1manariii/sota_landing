@@ -1,0 +1,79 @@
+@use '../../app/styles/variables.scss' as *;
+
+// === Глобальная страница с градиентом ===
+.franchise-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a0a 0%, #2d2d2d 100%); // Черно-серый градиент
+    position: relative;
+    overflow-x: hidden;
+}
+
+// === Фоновые соты (Fixed) ===
+.honeycombLayer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.honeycombCell {
+    position: absolute;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    border: 1px solid transparent;
+    animation: floatHoneycomb 15s infinite ease-in-out alternate;
+    transform-origin: center;
+    will-change: transform, opacity;
+}
+
+.cellInner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.6), transparent 70%);
+    filter: blur(8px);
+    opacity: 0.8;
+    animation: pulseInner 4s infinite ease-in-out;
+}
+
+@keyframes floatHoneycomb {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+    100% { transform: translateY(20px) scale(0.95); }
+}
+
+@keyframes pulseInner {
+    0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+// === Общие анимации при скролле ===
+/* Базовое состояние: скрыто */
+.animateOnScroll {
+    opacity: 0;
+}
+
+/* Класс, добавляемый при появлении */
+.animate-in {
+    opacity: 1;
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Класс, добавляемый при уходе с экрана */
+.animate-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+}
+
+// === Адаптив для общих элементов (если потребуется) ===
+@media (max-width: 768px) {
+    .franchise-page {
+        // Можно добавить глобальные отступы если нужно
+    }
+}

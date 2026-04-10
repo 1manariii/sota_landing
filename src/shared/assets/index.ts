@@ -14,5 +14,8 @@ import photo1 from './photo1.png'
 import photo2 from './photo2.png'
 import photo3 from './photo3.png'
 import photo4 from './photo4.png'
+import franchiseImg1 from './assets-1.png'
+import franchiseImg2 from './assets-2.png'
+import franchiseImg3 from './assets-3.png'
 
-export { logo, banner1, banner2, banner3, banner4, invest1, invest2, invest3, vk, instagram, tg, youtube, photo1, photo2, photo3, photo4}
+export { logo, banner1, banner2, banner3, banner4, invest1, invest2, invest3, vk, instagram, tg, youtube, photo1, photo2, photo3, photo4, franchiseImg1, franchiseImg2, franchiseImg3}

@@ -11,8 +11,9 @@ export const Footer = () => {
   // ✅ Меню с поддержкой якорей и маршрутов
   const menuLinks = [
     { href: '/#instructions', label: 'Как арендовать' },
-    { href: '/about', label: 'О нас' },
-    { href: '/#map', label: 'Товары' }, // ✅ Исправлено: #carousel → #map (по id секции)
+    { href: '/about', label: 'Команда' },
+    { href: '/franchise', label: 'Для франчайзи' },
+    { href: '/catalog', label: 'Каталог' }// ✅ Исправлено: #carousel → #map (по id секции)
   ];
 
   return (

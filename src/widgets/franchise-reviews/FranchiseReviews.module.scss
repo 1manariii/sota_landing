@@ -4,6 +4,7 @@
   padding: 80px 0;
   background-color: var(--color-bg);
   overflow: hidden;
+  position: relative;
 }
 
 .container {
@@ -27,29 +28,25 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
   perspective: 1000px;
-  /* Важно для 3D эффекта */
 }
 
-/* Контейнер карточки */
+/* --- КОНТЕЙНЕР КАРТОЧКИ --- */
 .cardContainer {
   background-color: transparent;
   height: 500px;
-  /* Фиксированная высота */
   cursor: none;
   position: relative;
-
-  /* Передача цвета из JS */
   --card-color: #FF6B00;
+  --parallax-y: 0px; /* Переменная для JS */
 }
 
-/* Внутренняя обертка, которая будет вращаться */
+/* --- ВНУТРЕННЯЯ ОБЕРТКА (ВРАЩЕНИЕ) --- */
 .cardInner {
   position: relative;
   width: 100%;
   height: 100%;
   text-align: center;
   transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  /* Пружинистый эффект */
   transform-style: preserve-3d;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -59,13 +56,11 @@
   }
 }
 
-/* Общие стили для сторон */
+/* --- ОБЩИЕ СТИЛИ ДЛЯ ЛИЦА И ОБРАТА --- */
 .cardFace {
   position: absolute;
   width: 100%;
   height: 100%;
-  -webkit-backface-visibility: hidden;
-  /* Скрываем заднюю часть при вращении */
   backface-visibility: hidden;
   border-radius: 20px;
   overflow: hidden;
@@ -73,11 +68,12 @@
   flex-direction: column;
 }
 
-/* --- ЛИЦЕВАЯ СТОРОНА (ОТЗЫВ) --- */
+/* --- ЛИЦЕВАЯ СТОРОНА --- */
 .cardFront {
   background: #1a1a1a;
   color: #fff;
-
+  z-index: 2; // Поверх фона
+  
   .cardContainer.active & {
     pointer-events: none;
   }
@@ -166,34 +162,93 @@
 }
 
 @keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 0.4;
-  }
-
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
-/* --- ОБРАТНАЯ СТОРОНА (ФРАНШИЗА) --- */
+/* --- ОБРАТНАЯ СТОРОНА (СТЕКЛО + СОТЫ) --- */
 .cardBack {
-  background: var(--card-color);
-  /* Цвет берется из инлайн-стиля */
-  color: #fff;
   transform: rotateY(180deg);
-  /* Изначально перевернута */
   position: relative;
   justify-content: center;
   align-items: center;
   padding: 30px;
+  
+  /* Эффект матового стекла */
+  background: rgba(255, 255, 255, 0.1); // Полупрозрачный белый
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  
+  // Цвет текста и элементов берется из CSS переменных или наследуется
+  color: #fff;
+}
+
+// Фоновые соты ПОЗАДИ стекла (на контейнере)
+.honeycombBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+// Соты внутри контента (для задней стороны)
+.backHoneycombLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; // Под контентом, над фоном
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+// Стиль самой соты
+.honeycombCell {
+  position: absolute;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.4), rgba(255, 69, 0, 0.1));
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  animation: floatHoneycomb 15s infinite ease-in-out alternate;
+  transform-origin: center;
+}
+
+.cellInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(255, 102, 0, 0.6), transparent 70%);
+  filter: blur(8px);
+  opacity: 0.8;
+  animation: pulseInner 4s infinite ease-in-out;
+}
+
+@keyframes floatHoneycomb {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+  100% { transform: translateY(20px) scale(0.95); }
+}
+
+@keyframes pulseInner {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
 }
 
 .backContent {
   position: relative;
   z-index: 2;
   width: 100%;
+  // Добавляем тень текста для читаемости на стекле
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .franchiseTitle {
@@ -202,7 +257,6 @@
   margin-bottom: 10px;
   text-transform: uppercase;
   color: #fff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .franchiseDesc {
@@ -214,7 +268,7 @@
 
 .statsList {
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 25px;
@@ -261,19 +315,6 @@
     background: #1a1a1a;
     color: #fff;
   }
-}
-
-/* Фоновый узор для задней стороны (опционально) */
-.backPattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
-  z-index: 1;
-  opacity: 0.5;
 }
 
 /* Адаптив */

@@ -1,6 +1,5 @@
-// ✅ Исправленный импорт
-import { Link, useLocation } from 'react-router'; // 🔹 Было 'react-router'
-import { useEffect, useState } from 'react'; // 🔹 Добавили useState, useEffect
+import { Link, useLocation } from 'react-router';
+import { useEffect, useState, type FC } from 'react';
 import { useMobileMenu } from '../../features/mobile-menu/useMobileMenu';
 import { useAnchorScroll } from '../../features/anchor-scroll/useAnchorScroll';
 import { openTelegramBot } from '../../features/open-bot/openSotaBot';
@@ -9,14 +8,27 @@ import { logo } from '../../shared/assets';
 import { Button } from '../../shared/ui/button';
 import styles from './Header.module.scss';
 
-export const Header = () => {
+interface IProps {
+  isVisibleInitial?: boolean;
+}
+
+export const Header: FC<IProps> = ({ isVisibleInitial = false }) => {
   const { isOpen, toggle, close } = useMobileMenu();
   const location = useLocation();
 
-  // 🔹 Состояние для видимости хедера
-  const [isVisible, setIsVisible] = useState(false);
+  // 🔹 Инициализируем состояние переданным значением
+  const [isVisible, setIsVisible] = useState(isVisibleInitial);
 
   useAnchorScroll(80);
+
+  // ✅ ЛОГИКА ПРОКРУТКИ ВВЕРХ ПРИ ПЕРЕХОДЕ НА НОВУЮ СТРАНИЦУ
+  useEffect(() => {
+    // Проверяем, не является ли текущий путь якорной ссылкой (содержит #)
+    // Если нет — скроллим вверх
+    if (!location.pathname.includes('#')) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location.pathname, location.state]); // Перезапуск при смене пути или состояния навигации
 
   // 🔹 Отслеживаем скролл
   useEffect(() => {
@@ -27,14 +39,16 @@ export const Header = () => {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
 
-          // 🔹 Показываем хедер если:
-          // 1. Прокрутили больше 50px вниз, ИЛИ
-          // 2. Меню открыто (чтобы можно было закрыть)
-          if (currentScrollY > 50 || isOpen) {
-            setIsVisible(true);
+          if (isVisibleInitial) {
+            setIsVisible(true); 
           } else {
-            setIsVisible(false);
+            if (currentScrollY > 50 || isOpen) {
+              setIsVisible(true);
+            } else {
+              setIsVisible(false);
+            }
           }
+          
           ticking = false;
         });
         ticking = true;
@@ -42,16 +56,16 @@ export const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // 🔹 Проверка при монтировании (если страница загружена со скроллом)
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isOpen]); // 🔹 Зависимость от isOpen для корректной работы
+  }, [isOpen, isVisibleInitial]);
 
   const navLinks = [
     { href: '/#instructions', label: 'Как арендовать' },
-    { href: '/about', label: 'О нас' },
-    { href: 'https://docs.google.com/forms/d/1V-kvVo2-4-B11L6t__o51U3nsYyrQbJ2-fhsdfmjw4A/viewform?edit_requested=true', label: 'Франчайзи' }
+    { href: '/about', label: 'Команда' },
+    { href: '/franchise', label: 'Для франчайзи' },
+    { href: '/catalog', label: 'Каталог' }
   ];
 
   const isActive = (path: string) => {
@@ -61,98 +75,97 @@ export const Header = () => {
   };
 
   return (
-      // 🔹 Добавляем классы для анимации
-      <header
-          className={`${styles.header} ${isVisible ? styles['header--visible'] : styles['header--hidden']}`}
-          id="header"
-      >
-        <div className={`${styles.header__container} container`}>
-          {/* Логотип */}
-          <Link to="/" className={styles.header__logo} onClick={close}>
-            <img src={logo} alt="SOTA Logo" />
-          </Link>
+    <header
+      className={`${styles.header} ${isVisible ? styles['header--visible'] : styles['header--hidden']}`}
+      id="header"
+    >
+      <div className={`${styles.header__container} container`}>
+        {/* Логотип */}
+        <Link to="/" className={styles.header__logo} onClick={close}>
+          <img src={logo} alt="SOTA Logo" />
+        </Link>
 
-          {/* Навигация */}
-          <nav className={`${styles.header__nav} ${isOpen ? styles['header__nav--open'] : ''}`}>
-            <ul className={styles.header__list}>
-              {navLinks.map((link) => {
-                const isAnchor = link.href.includes('#');
+        {/* Навигация */}
+        <nav className={`${styles.header__nav} ${isOpen ? styles['header__nav--open'] : ''}`}>
+          <ul className={styles.header__list}>
+            {navLinks.map((link) => {
+              const isAnchor = link.href.includes('#');
 
-                return (
-                    <li
-                        key={link.href}
-                        className={`${styles.header__item} ${isActive(link.href) ? styles['header__item--active'] : ''}`}
+              return (
+                <li
+                  key={link.href}
+                  className={`${styles.header__item} ${isActive(link.href) ? styles['header__item--active'] : ''}`}
+                >
+                  {isAnchor ? (
+                    <a
+                      href={link.href}
+                      className={styles.header__link}
+                      onClick={(e) => handleAnchorClick(e, link.href, close)}
                     >
-                      {isAnchor ? (
-                          <a
-                              href={link.href}
-                              className={styles.header__link}
-                              onClick={(e) => handleAnchorClick(e, link.href, close)}
-                          >
-                            {link.label}
-                          </a>
-                      ) : (
-                          <Link
-                              to={link.href}
-                              className={styles.header__link}
-                              onClick={close}
-                          >
-                            {link.label}
-                          </Link>
-                      )}
-                    </li>
-                );
-              })}
-              <li className={styles.header__item}>
-                <Button onClick={openTelegramBot}>Арендовать товар</Button>
-              </li>
-            </ul>
-          </nav>
-
-          {/* Бургер меню */}
-          <button className={styles.header__burger} onClick={toggle} aria-label="Меню">
-            <span className={styles['header__burger-line']}></span>
-            <span className={styles['header__burger-line']}></span>
-            <span className={styles['header__burger-line']}></span>
-          </button>
-        </div>
-
-        {/* Полноэкранное мобильное меню */}
-        {isOpen && (
-            <div className={styles['header__fullscreen-menu']} onClick={close}>
-              <ul className={styles['header__fullscreen-list']}>
-                {navLinks.map((link) => {
-                  const isAnchor = link.href.includes('#');
-
-                  return (
-                      <li key={link.href} className={styles['header__fullscreen-item']}>
-                        {isAnchor ? (
-                            <a
-                                href={link.href}
-                                className={styles['header__fullscreen-link']}
-                                onClick={(e) => handleAnchorClick(e, link.href, close)}
-                            >
-                              {link.label}
-                            </a>
-                        ) : (
-                            <Link
-                                to={link.href}
-                                className={styles['header__fullscreen-link']}
-                                onClick={close}
-                            >
-                              {link.label}
-                            </Link>
-                        )}
-                      </li>
-                  );
-                })}
-                <li className={styles['header__fullscreen-item']}>
-                  <Button onClick={openTelegramBot}>Арендовать товар</Button>
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className={styles.header__link}
+                      onClick={close}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
-              </ul>
-              <img src={logo} alt="SOTA" className={styles['menu-logo']} />
-            </div>
-        )}
-      </header>
+              );
+            })}
+            <li className={styles.header__item}>
+              <Button onClick={openTelegramBot}>Арендовать товар</Button>
+            </li>
+          </ul>
+        </nav>
+
+        {/* Бургер меню */}
+        <button className={styles.header__burger} onClick={toggle} aria-label="Меню">
+          <span className={styles['header__burger-line']}></span>
+          <span className={styles['header__burger-line']}></span>
+          <span className={styles['header__burger-line']}></span>
+        </button>
+      </div>
+
+      {/* Полноэкранное мобильное меню */}
+      {isOpen && (
+        <div className={styles['header__fullscreen-menu']} onClick={close}>
+          <ul className={styles['header__fullscreen-list']}>
+            {navLinks.map((link) => {
+              const isAnchor = link.href.includes('#');
+
+              return (
+                <li key={link.href} className={styles['header__fullscreen-item']}>
+                  {isAnchor ? (
+                    <a
+                      href={link.href}
+                      className={styles['header__fullscreen-link']}
+                      onClick={(e) => handleAnchorClick(e, link.href, close)}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className={styles['header__fullscreen-link']}
+                      onClick={close}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
+            <li className={styles['header__fullscreen-item']}>
+              <Button onClick={openTelegramBot}>Арендовать товар</Button>
+            </li>
+          </ul>
+          <img src={logo} alt="SOTA" className={styles['menu-logo']} />
+        </div>
+      )}
+    </header>
   );
 };
