@@ -1,6 +1,5 @@
 @use '../../../../app/styles/variables.scss' as *;
 
-// === Переменные секции ===
 $primary-orange: #FF6B00;
 $secondary-orange: #FF8533;
 $dark-bg: #1a1a1a;
@@ -8,13 +7,20 @@ $text-light: #ffffff;
 $text-dark: #2c2c2c;
 $transition: all 0.3s ease;
 
-// === Основной контейнер секции ===
 .marketHero {
     position: relative;
     padding: 120px 20px 80px;
     background: rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    
+    // FIX IOS: Убираем overflow: hidden, если он не критичен для фона.
+    // Если он нужен для декоративных элементов, убедитесь, что они не вылезают за пределы.
+    // Часто именно overflow: hidden + min-height вызывает обрезку на iOS.
+    overflow: visible; 
+    
+    // FIX IOS: Вместо фиксированного min-height лучше полагаться на контент,
+    // но если нужен фон, оставим min-height, но добавим display: flow-root для контекста форматирования.
     min-height: 700px;
+    display: flow-root; 
 }
 
 .heroContent {
@@ -22,9 +28,10 @@ $transition: all 0.3s ease;
     margin: 0 auto;
     position: relative;
     z-index: 2;
+    // FIX IOS: Гарантируем, что контент растягивает родителя
+    width: 100%;
 }
 
-// === Заголовки ===
 .heroTitle {
     font-size: clamp(28px, 5vw, 48px);
     font-weight: 900;
@@ -42,7 +49,6 @@ $transition: all 0.3s ease;
     margin-top: 10px;
 }
 
-// === Статистика рынка ===
 .marketStats {
     display: flex;
     justify-content: center;
@@ -55,6 +61,8 @@ $transition: all 0.3s ease;
     @media (max-width: 768px) {
         flex-direction: column;
         align-items: center;
+        // FIX IOS: Добавляем отступ снизу для безопасности
+        padding-bottom: 20px;
     }
 }
 
@@ -64,9 +72,15 @@ $transition: all 0.3s ease;
     padding: 30px 25px;
     min-width: 140px;
     text-align: center;
+    
+    // FIX IOS: Начальное состояние
     opacity: 0;
     transform: translateY(30px);
     transition: $transition;
+    
+    // FIX IOS: Подсказка браузеру, что элемент будет меняться, чтобы избежать глюков рендеринга
+    will-change: transform, opacity; 
+    
     border: 2px solid rgba(255, 107, 0, 0.3);
     position: relative;
     z-index: 2;
@@ -95,16 +109,20 @@ $transition: all 0.3s ease;
     color: $primary-orange;
 }
 
-// === Прогноз 2026 ===
 .forecastCard {
     background: linear-gradient(135deg, $primary-orange 0%, $secondary-orange 100%);
     border-radius: 16px;
     padding: 40px 30px;
     min-width: 180px;
     text-align: center;
+    
     opacity: 0;
     transform: translateY(30px) scale(0.9);
     transition: $transition;
+    
+    // FIX IOS
+    will-change: transform, opacity;
+    
     position: relative;
     z-index: 2;
 
@@ -138,13 +156,17 @@ $transition: all 0.3s ease;
     right: -10px;
     font-size: 48px;
     animation: float 3s ease-in-out infinite;
+    // FIX IOS: Чтобы ракета не создавала скроллбары или обрезку, если вылезает
+    z-index: 3;
 }
 
-// === Круговая диаграмма ===
 .marketChart {
     display: flex;
     justify-content: center;
     margin-top: 40px;
+    // FIX IOS: Явная ширина и позиционирование
+    width: 100%;
+    position: relative;
 }
 
 .pieChart {
@@ -154,17 +176,32 @@ $transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
+    // FIX IOS: На мобильных меняем layout
+    @media (max-width: 768px) {
+        flex-direction: column;
+        height: auto; // Важно: высота авто, чтобы легенда влезла
+        gap: 20px;
+    }
 }
 
 .pieSvg {
     width: 100%;
     height: 100%;
     transform: rotate(-90deg);
+    
+    // FIX IOS: Ограничиваем размер SVG на мобильных, чтобы оно не было гигантским
+    max-width: 300px;
+    max-height: 300px;
+    
+    @media (max-width: 768px) {
+        width: 280px;
+        height: 280px;
+    }
 }
 
 .pieSlice {
     transition: $transition;
-
     &:hover {
         opacity: 0.8;
     }
@@ -174,13 +211,23 @@ $transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-top: 30px;
+    
+    // FIX IOS: На десктопе можно оставить margin-top, на мобильном уберем лишние отступы
+    margin-top: 0; 
+    
     padding: 20px;
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 12px;
+    
+    // FIX IOS: На мобильных легенда должна быть полной ширины
     width: 100%;
     max-width: 280px;
+    
+    @media (max-width: 768px) {
+        max-width: 100%;
+        margin-top: 20px;
+    }
 }
 
 .pieLegendItem {
@@ -211,7 +258,6 @@ $transition: all 0.3s ease;
     color: $text-dark;
 }
 
-// === Анимации ===
 @keyframes float {
     0%, 100% {
         transform: translateY(0) rotate(0deg);
@@ -228,19 +274,11 @@ $transition: all 0.3s ease;
     }
 }
 
-// === Адаптив для диаграммы ===
-@media (max-width: 768px) {
-    .pieChart {
-        width: 100%;
-        height: 250px;
-    }
-}
-
 @media (max-width: 480px) {
     .heroTitle {
         font-size: 24px;
     }
-
+    
     .pieChart {
         height: auto;
         flex-direction: column;
