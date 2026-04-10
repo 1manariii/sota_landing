@@ -1,8 +1,7 @@
-import { useEffect, useState, type FC } from 'react';
+import { type FC } from 'react';
 import styles from './styles.module.scss'
 // Импортируем глобальные стили с классами анимации
-import stylesScroll from '../../Franchise.module.scss' 
-import useScrollReveal from '../../../../shared/hooks/useScrollReveal';
+import stylesScroll from '../../Franchise.module.scss'
 import type { IProps } from '../market-hero';
 
 interface InvestmentMetric { label: string; value: string; sublabel?: string; highlight?: boolean; }

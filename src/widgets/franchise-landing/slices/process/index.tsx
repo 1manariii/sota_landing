@@ -1,7 +1,6 @@
-import { useEffect, useState, type FC } from 'react';
+import { type FC } from 'react';
 import styles from './styles.module.scss'
 import stylesScroll from '../../Franchise.module.scss'
-import useScrollReveal from '../../../../shared/hooks/useScrollReveal';
 import { benefitIcon1, benefitIcon2, benefitIcon3, benefitIcon4, processIcon1, processIcon2, processIcon3, processIcon4 } from '../../../../shared/assets';
 import type { IProps } from '../market-hero';
 

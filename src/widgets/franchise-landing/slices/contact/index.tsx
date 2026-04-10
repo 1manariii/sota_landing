@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import styles from './styles.module.scss'
 import type { IProps } from '../market-hero';
 
-const Contact:FC<IProps> = ({isLoaded=true}) => {
+const Contact:FC<IProps> = () => {
     return (
         <section className={styles.ctaSection}>
             <div className={`${styles.ctaContent} container`}>
