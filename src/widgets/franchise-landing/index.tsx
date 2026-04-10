@@ -6,7 +6,6 @@ import Features from './slices/features';
 import Investment from './slices/investment';
 import Process from './slices/process';
 import Contact from './slices/contact';
-import useScrollReveal from '../../shared/hooks/useScrollReveal';
 
 // === Вспомогательный компонент: Фоновые соты ===
 const HoneycombBackground: React.FC<{ type: 'light' | 'dark' }> = ({ type }) => {
@@ -51,7 +50,6 @@ const HoneycombBackground: React.FC<{ type: 'light' | 'dark' }> = ({ type }) => 
 };
 
 export const FranchiseLanding = () => {
-    useScrollReveal();
     
     return (
         <div className='franchise-page'>

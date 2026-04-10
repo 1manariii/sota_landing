@@ -1,6 +1,5 @@
 import { type FC } from 'react';
 import styles from './styles.module.scss'
-import stylesScroll from '../../Franchise.module.scss'
 import { benefitIcon1, benefitIcon2, benefitIcon3, benefitIcon4, processIcon1, processIcon2, processIcon3, processIcon4 } from '../../../../shared/assets';
 import type { IProps } from '../market-hero';
 
@@ -21,10 +20,9 @@ const BENEFITS: BenefitItem[] = [
     { title: 'Доступ к личному кабинету', description: 'Управление и аналитика в реальном времени', icon: benefitIcon4, comingSoon: true },
 ];
 
-// Добавлен styles.animateOnScroll
 const ProcessStepCard: React.FC<{ step: ProcessStep; index: number; isLoaded: boolean }> = ({ step, index, isLoaded }) => {
     return (
-        <div className={`${styles.processStep} ${stylesScroll.animateOnScroll} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+        <div className={`${styles.processStep} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
             <img src={step.icon} className={styles.icon} />
             <div className={styles.processContent}>
                 <h4 className={styles.processTitle}>{step.title}</h4>
@@ -34,10 +32,9 @@ const ProcessStepCard: React.FC<{ step: ProcessStep; index: number; isLoaded: bo
     );
 };
 
-// Добавлен styles.animateOnScroll
 const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isLoaded: boolean; isRight?: boolean }> = ({ benefit, index, isLoaded, isRight = false }) => {
     return (
-        <div className={`${styles.benefitCard} ${stylesScroll.animateOnScroll} ${isRight ? styles.right : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+        <div className={`${styles.benefitCard} ${isRight ? styles.right : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
             <img src={benefit.icon} className={styles.icon} />
             <div className={styles.benefitContent}>
                 <h4 className={styles.benefitTitle}>{benefit.title}</h4>
@@ -53,8 +50,6 @@ const Process:FC<IProps> = ({isLoaded=true}) => {
         <section className={`${styles.processSection} ${styles.glassSection}`}>
             <div className={`${styles.processContainer} container`}>
 
-                {/* Список процесса (слева) */}
-                {/* Убрали animateOnScroll с колонки */}
                 <div className={styles.processColumn}>
                     <h3 className={styles.processColumnTitle}>ЧТО МЫ ДЕЛАЕМ ПОСЛЕ ВАШИХ ИНВЕСТИЦИЙ В SOTA BOX?</h3>
                     <div className={styles.processList}>
@@ -69,7 +64,6 @@ const Process:FC<IProps> = ({isLoaded=true}) => {
                     </div>
                 </div>
 
-                {/* Постамат по центру */}
                 <div className={styles.centerPostamat}>
                     <div className={styles.postamatIllustration}>
                         <div className={styles.postamatBody}>
@@ -83,8 +77,6 @@ const Process:FC<IProps> = ({isLoaded=true}) => {
                     </div>
                 </div>
 
-                {/* Список преимуществ (справа) */}
-                {/* Убрали animateOnScroll с колонки */}
                 <div className={styles.benefitsColumn}>
                     <h3 className={styles.benefitsColumnTitle}>ЧТО В ИТОГЕ ПОЛУЧАЕТЕ ВЫ?</h3>
                     <div className={styles.benefitsList}>

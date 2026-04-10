@@ -1,7 +1,5 @@
 import { type FC } from 'react';
 import styles from './styles.module.scss'
-// Импортируем глобальные стили с классами анимации
-import stylesScroll from '../../Franchise.module.scss'
 import type { IProps } from '../market-hero';
 
 interface InvestmentMetric { label: string; value: string; sublabel?: string; highlight?: boolean; }
@@ -16,8 +14,7 @@ const INVESTMENT_METRICS: InvestmentMetric[] = [
 
 const InvestmentMetricCard: React.FC<{ metric: InvestmentMetric; index: number; isLoaded: boolean }> = ({ metric, index, isLoaded }) => {
     return (
-        // Добавлен stylesScroll.animateOnScroll
-        <div className={`${styles.investmentCard} ${stylesScroll.animateOnScroll} ${metric.highlight ? styles.highlight : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+        <div className={`${styles.investmentCard} ${metric.highlight ? styles.highlight : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
             <div className={styles.investmentValue}>{metric.value}</div>
             <div className={styles.investmentLabel}>{metric.label}</div>
             {metric.sublabel && <div className={styles.investmentSublabel}>{metric.sublabel}</div>}
@@ -29,13 +26,11 @@ const Investment:FC<IProps> = ({isLoaded=true}) => {
 
     return (
         <section className={styles.investmentSection}>
-            {/* Исправлена опечатка: был дублирующийся класс investmentSection, теперь container отдельно */}
             <div className={`${styles.investmentContent} container`}>
                 <h2 className={styles.sectionTitle}>ЧТО ПРЕДЛАГАЕМ ВАМ?</h2>
                 
                 <div className={styles.investmentGrid}>
-                    {/* Визуальная часть (Постамат) - можно тоже добавить анимацию, если нужно */}
-                    <div className={`${styles.postamatVisual} ${stylesScroll.animateOnScroll}`}>
+                    <div className={`${styles.postamatVisual}`}>
                         <div className={styles.postamatMockup}>
                             <div className={styles.postamatScreen}><span className={styles.screenText}>СКАНИРУЙ QR</span></div>
                             <div className={styles.postamatSlots}>{[...Array(6)].map((_, i) => <div key={i} className={styles.slot} />)}</div>
