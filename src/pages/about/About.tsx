@@ -42,7 +42,7 @@ const EMPLOYEES: Employee[] = [
         responsibilities: [
             'В рамках развития продукта прокат совместно с командой пришёл к идее создания сервиса SOTA Box'
         ],
-        social: { telegram: '@vlad_sota', email: 'vlad@sota.ru' }
+        social: { telegram: '@vladiavelly', email: 'teterskiy.vs@sotamail.ru' }
     },
     {
         id: 2,
@@ -55,7 +55,7 @@ const EMPLOYEES: Employee[] = [
             'Обеспечение клиентского сервиса и бесперебойности процессов',
             'Повышение операционной эффективности и масштабирование'
         ],
-        social: { telegram: '@vadim_ops' }
+        social: { telegram: '@vmkr96', email: "makarov.va@sotamail.ru" }
     },
     {
         id: 3,
@@ -68,7 +68,7 @@ const EMPLOYEES: Employee[] = [
             'Расширение географии и точек присутствия',
             'Поиск и запуск новых направлений роста'
         ],
-        social: { email: 'airat@sota.ru' }
+        social: { email: 'enikeev.am@sotamail.ru', telegram: '@enikeevvAM' }
     },
     {
         id: 4,
@@ -81,7 +81,7 @@ const EMPLOYEES: Employee[] = [
             'R&D и инновации',
             'Техническая стратегия'
         ],
-        social: { telegram: '@musheg_tech' }
+        social: { telegram: '@frostar', email: 'avanesov.ma@sotamail.ru' }
     },
 ];
 

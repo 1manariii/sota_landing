@@ -23,10 +23,6 @@ export const HomePage = () => {
         {/*<FranchiseReviews />*/}
         {/* <FaqSection /> */}
         <TeamSection />
-        {/* Декоративные элементы (соты) */}
-        <img src="/assets/sota-1.png" className="decor sota-1" alt="" />
-        <img src="/assets/sota-2.png" className="decor sota-2" alt="" />
-        <img src="/assets/sota-3.png" className="decor sota-3" alt="" />
       </main>
       <Footer />
     </div>

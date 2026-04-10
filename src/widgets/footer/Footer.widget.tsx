@@ -83,8 +83,8 @@ export const Footer = () => {
           {/* Контакты */}
           <div className={styles.footerContacts}>
             <h4 className={styles.menuTitle}>Контакты</h4>
-            <p className={styles.contactText}><strong>Телефон:</strong> <a href="tel:+79143607230">+7(914) 360-72-30</a></p>
-            <p className={styles.contactText}><strong>Email:</strong> <a href="mailto:team@sotarent.ru">team@sotarent.ru</a></p>
+            <p className={styles.contactText}><strong>Телефон:</strong> <a href="tel:+79143607230">+7 (921) 400 99-99</a></p>
+            <p className={styles.contactText}><strong>Email:</strong> <a href="mailto:team@sotarent.ru">team@sotamail.ru</a></p>
           </div>
 
           {/* Реквизиты */}
