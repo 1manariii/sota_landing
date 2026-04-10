@@ -6,7 +6,6 @@ import Features from './slices/features';
 import Investment from './slices/investment';
 import Process from './slices/process';
 import Contact from './slices/contact';
-import { useEffect, useState } from 'react';
 // import useScrollReveal from '../../shared/hooks/useScrollReveal';
 
 // === Вспомогательный компонент: Фоновые соты ===
