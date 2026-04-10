@@ -4,8 +4,7 @@ import { BASE_URL } from '../../shared/lib/config';
 import useYandexMaps from '../../shared/hooks/useYandexMaps';
 
 // --- Типы для Яндекс Карт (упрощенные для примера) ---
-type VectorCustomization = any; // Замените на реальный тип из ymaps3, если есть
-type CustomizationRule = any;
+type VectorCustomization = any; 
 
 // --- Типы данных приложения ---
 interface Coordinates {
