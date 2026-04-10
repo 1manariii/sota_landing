@@ -207,6 +207,7 @@ export const MapProducts = () => {
         const data: Platform[] = await response.json();
         setPlatforms(data.filter(p => !p.hidden));
       } catch (error) {
+        console.log(error)
         console.error('Error loading platforms:', error);
       }
     };
