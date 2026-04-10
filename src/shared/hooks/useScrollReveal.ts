@@ -1,11 +1,31 @@
+// shared/hooks/useScrollReveal.ts
 import { useEffect } from "react";
-import styles from '../../widgets/franchise-landing/Franchise.module.scss'
+import styles from '../../widgets/franchise-landing/Franchise.module.scss';
 
 const useScrollReveal = () => {
     useEffect(() => {
+        // Проверка: Мобильное устройство?
+        // 1. По ширине окна (стандартная breakpoint точка для планшетов/мобилок)
+        // 2. По User Agent (для надежности iOS/Android)
+        const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        const elements = document.querySelectorAll(`.${styles.animateOnScroll}`);
+
+        if (isMobile) {
+            // === ЛОГИКА ДЛЯ МОБИЛЬНЫХ ===
+            // Просто делаем все элементы видимыми сразу
+            elements.forEach((el) => {
+                el.classList.add(styles['animate-in']);
+                el.classList.remove(styles['animate-out']);
+            });
+            // Observer не создаем, чтобы не грузить процессор и избежать багов скролла
+            return; 
+        }
+
+        // === ЛОГИКА ДЛЯ ДЕСКТОПА ===
         const observerOptions = {
             root: null,
-            rootMargin: '-10% 0px -10% 0px', // Срабатывает, когда элемент в центре экрана
+            rootMargin: '-10% 0px -10% 0px',
             threshold: 0.1
         };
 
@@ -21,11 +41,10 @@ const useScrollReveal = () => {
             });
         }, observerOptions);
 
-        const elements = document.querySelectorAll(`.${styles.animateOnScroll}`);
         elements.forEach((el) => observer.observe(el));
 
         return () => observer.disconnect();
     }, []);
 };
 
-export default useScrollReveal
+export default useScrollReveal;
