@@ -72,15 +72,15 @@
 
 // === Общие анимации при скролле ===
 .animateOnScroll {
-    opacity: 0;
+    // opacity: 0;
     /* Важно: добавляем начальный сдвиг, чтобы был эффект движения */
-    transform: translateY(30px);
+    // transform: translateY(30px);
 
-    @media (max-width: 768px) {
+    // @media (max-width: 768px) {
         opacity: 1;
         transform: none !important;
         transition: none !important;
-    }
+    // }
 }
 
 .animate-in {
