@@ -80,6 +80,12 @@ $transition: all 0.3s ease;
         border-color: $primary-orange;
         transform: translateY(-5px);
     }
+
+    @media (max-width: 768px) {
+        opacity: 1;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 .statValue {
@@ -115,6 +121,12 @@ $transition: all 0.3s ease;
 
     &:hover {
         transform: translateY(-5px) scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        opacity: 1;
+        transform: none !important;
+        transition: none !important;
     }
 }
 
@@ -196,6 +208,12 @@ $transition: all 0.3s ease;
             animation-delay: #{$i * 100}ms;
         }
     }
+
+    @media (max-width: 768px) {
+        opacity: 1;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 .pieLegendDot {
@@ -213,9 +231,12 @@ $transition: all 0.3s ease;
 
 // === Анимации ===
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) rotate(0deg);
     }
+
     50% {
         transform: translateY(-20px) rotate(5deg);
     }
