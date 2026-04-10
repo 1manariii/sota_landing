@@ -58,11 +58,6 @@ $transition: all 0.3s ease;
     background: $primary-orange;
     border-radius: 20px;
     padding: 40px 30px;
-    
-    // УБРАНО: opacity: 0 и transform, так как это делает .animateOnScroll
-    // Оставляем transition только для hover-эффектов, 
-    // но важно, чтобы глобальный .animate-in перебивал начальные значения
-    
     position: relative;
     z-index: 2;
     
@@ -70,9 +65,6 @@ $transition: all 0.3s ease;
     &:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 40px rgba(255, 107, 0, 0.3);
-        // Важно: при ховере мы не хотим сбрасывать анимацию появления,
-        // поэтому используем !important или более специфичный селектор, 
-        // если глобальные стили конфликтуют.
     }
 }
 
@@ -133,11 +125,6 @@ $transition: all 0.3s ease;
     margin-top: 40px;
     position: relative;
     z-index: 2;
-    
-    // Начальное состояние для анимации этого блока
-    // Если вы добавили класс animateOnScroll в JSX, то эти свойства будут перебиты глобальными,
-    // но для надежности можно продублировать логику здесь, если глобальные стили не подгрузятся.
-    // Однако лучше полагаться на глобальный класс.
 }
 
 .shareLabel {
@@ -145,20 +132,6 @@ $transition: all 0.3s ease;
     font-weight: 900;
     color: $primary-orange;
     line-height: 1;
-    // Можно добавить небольшой сдвиг для эффекта
-    transition: all 0.8s ease-out;
-    
-    // Класс .animate-in добавляется родителю .marketShare, но нам нужно анимировать цифру.
-    // Проще всего добавить класс animateOnScroll самому блоку .marketShare, 
-    // тогда весь блок появится целиком.
-    // Если хотите анимировать цифру отдельно, нужна более сложная структура.
-    // В текущем решении .marketShare появится целиком благодаря stylesScroll.animateOnScroll.
-}
-
-// Переопределяем стили для shareLabel, когда родитель имеет класс animate-in
-.marketShare.animate-in .shareLabel {
-    transform: translateY(0);
-    opacity: 1;
 }
 
 .shareText {
@@ -177,13 +150,6 @@ $transition: all 0.3s ease;
     .featureItem { font-size: 14px; }
     .shareLabel { font-size: 56px; }
     .shareText { font-size: 16px; }
-    
-    // Отключаем анимацию появления на мобильных для предотвращения "резкого" появления
-    .animateOnScroll {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
 }
 
 @media (max-width: 480px) {

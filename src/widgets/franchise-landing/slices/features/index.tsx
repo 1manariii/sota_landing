@@ -1,8 +1,6 @@
 import { type FC } from 'react';
 import { franchiseImg1, franchiseImg2, franchiseImg3 } from '../../../../shared/assets';
 import styles from './styles.module.scss'
-// Импортируем глобальные стили, где лежат классы анимации
-import stylesScroll from '../../Franchise.module.scss'
 import type { IProps } from '../market-hero';
 
 interface FeatureColumn { title: string; icon: string; items: string[]; img: string }
@@ -15,8 +13,7 @@ const FEATURE_COLUMNS: FeatureColumn[] = [
 
 const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number; isLoaded: boolean }> = ({ column, index, isLoaded }) => {
     return (
-        // Добавлен stylesScroll.animateOnScroll для работы со скроллом
-        <div className={`${styles.featureColumn} ${stylesScroll.animateOnScroll} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 150}ms` }}>
+        <div className={`${styles.featureColumn} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 150}ms` }}>
             <div className={styles.featureHeader}>
                 <img className={styles.featureImg} src={column.img} alt={column.title} />
                 <h3 className={styles.featureTitle}>{column.title}</h3>
@@ -49,8 +46,7 @@ const Features:FC<IProps> = ({isLoaded=true}) => {
                     ))}
                 </div>
 
-                {/* Блок с долей рынка тоже можно анимировать, если нужно */}
-                <div className={`${styles.marketShare} ${stylesScroll.animateOnScroll}`}>
+                <div className={`${styles.marketShare}`}>
                     <div className={styles.shareLabel}>33%</div>
                     <div className={styles.shareText}>наш целевой сегмент рынка</div>
                 </div>
