@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 import { franchiseImg1, franchiseImg2, franchiseImg3 } from '../../../../shared/assets';
 import styles from './styles.module.scss'
-import type { IProps } from '../market-hero';
 
 interface FeatureColumn { title: string; icon: string; items: string[]; img: string }
 
@@ -11,7 +10,7 @@ const FEATURE_COLUMNS: FeatureColumn[] = [
     { title: 'УНИФИКАЦИЯ', icon: '🔄', items: ['Приведение всех объектов инфраструктуры к единому формату', 'Стандартизация процессов', 'Единая экосистема'], img: franchiseImg3 },
 ];
 
-const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({ column, index }) => {
+const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({ column }) => {
     return (
         <div className={styles.featureColumn}>
             <div className={styles.featureHeader}>
@@ -29,7 +28,7 @@ const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({
     );
 };
 
-const Features:FC<IProps> = ({isLoaded=true}) => {
+const Features: FC = () => {
     return (
         <section className={`${styles.featuresSection} ${styles.glassSection}`}>
             <div className={`${styles.featuresContent} container`}>

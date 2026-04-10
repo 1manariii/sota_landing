@@ -19,7 +19,7 @@ const BENEFITS: BenefitItem[] = [
     { title: 'Доступ к личному кабинету', description: 'Управление и аналитика в реальном времени', icon: benefitIcon4, comingSoon: true },
 ];
 
-const ProcessStepCard: React.FC<{ step: ProcessStep; index: number }> = ({ step, index }) => {
+const ProcessStepCard: React.FC<{ step: ProcessStep; index: number }> = ({ step }) => {
     return (
         <div className={styles.processStep}>
             <img src={step.icon} className={styles.icon} />
@@ -31,7 +31,7 @@ const ProcessStepCard: React.FC<{ step: ProcessStep; index: number }> = ({ step,
     );
 };
 
-const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isRight?: boolean }> = ({ benefit, index, isRight = false }) => {
+const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isRight?: boolean }> = ({ benefit, isRight = false }) => {
     return (
         <div className={`${styles.benefitCard} ${isRight ? styles.right : ''}`}>
             <img src={benefit.icon} className={styles.icon} />
