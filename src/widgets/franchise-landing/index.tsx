@@ -54,8 +54,8 @@ const HoneycombBackground: React.FC<{ type: 'light' | 'dark' }> = ({ type }) => 
 export const FranchiseLanding = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useScrollReveal();
-    
+    // useScrollReveal();
+
     useEffect(() => {
         setIsLoaded(true);
     }, []);
