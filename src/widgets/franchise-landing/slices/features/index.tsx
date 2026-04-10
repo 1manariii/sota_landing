@@ -11,9 +11,9 @@ const FEATURE_COLUMNS: FeatureColumn[] = [
     { title: 'УНИФИКАЦИЯ', icon: '🔄', items: ['Приведение всех объектов инфраструктуры к единому формату', 'Стандартизация процессов', 'Единая экосистема'], img: franchiseImg3 },
 ];
 
-const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number; isLoaded: boolean }> = ({ column, index, isLoaded }) => {
+const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({ column, index }) => {
     return (
-        <div className={`${styles.featureColumn} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 150}ms` }}>
+        <div className={styles.featureColumn}>
             <div className={styles.featureHeader}>
                 <img className={styles.featureImg} src={column.img} alt={column.title} />
                 <h3 className={styles.featureTitle}>{column.title}</h3>
@@ -41,7 +41,6 @@ const Features:FC<IProps> = ({isLoaded=true}) => {
                             key={column.title} 
                             column={column} 
                             index={index} 
-                            isLoaded={isLoaded} 
                         />
                     ))}
                 </div>

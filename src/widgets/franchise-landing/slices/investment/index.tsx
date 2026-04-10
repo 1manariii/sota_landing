@@ -1,6 +1,5 @@
 import { type FC } from 'react';
 import styles from './styles.module.scss'
-import type { IProps } from '../market-hero';
 
 interface InvestmentMetric { label: string; value: string; sublabel?: string; highlight?: boolean; }
 
@@ -12,9 +11,9 @@ const INVESTMENT_METRICS: InvestmentMetric[] = [
     { label: 'Срок изготовления', value: '45 рабочих дней' },
 ];
 
-const InvestmentMetricCard: React.FC<{ metric: InvestmentMetric; index: number; isLoaded: boolean }> = ({ metric, index, isLoaded }) => {
+const InvestmentMetricCard: React.FC<{ metric: InvestmentMetric; index: number }> = ({ metric, index }) => {
     return (
-        <div className={`${styles.investmentCard} ${metric.highlight ? styles.highlight : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+        <div className={`${styles.investmentCard} ${metric.highlight ? styles.highlight : ''}`}>
             <div className={styles.investmentValue}>{metric.value}</div>
             <div className={styles.investmentLabel}>{metric.label}</div>
             {metric.sublabel && <div className={styles.investmentSublabel}>{metric.sublabel}</div>}
@@ -22,7 +21,7 @@ const InvestmentMetricCard: React.FC<{ metric: InvestmentMetric; index: number; 
     );
 };
 
-const Investment:FC<IProps> = ({isLoaded=true}) => {
+const Investment:FC = () => {
 
     return (
         <section className={styles.investmentSection}>
@@ -45,7 +44,6 @@ const Investment:FC<IProps> = ({isLoaded=true}) => {
                                     key={metric.label} 
                                     metric={metric} 
                                     index={index} 
-                                    isLoaded={isLoaded} 
                                 />
                             ))}
                         </div>

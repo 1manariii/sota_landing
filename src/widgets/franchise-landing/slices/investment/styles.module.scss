@@ -105,17 +105,9 @@ $transition: all 0.3s ease;
     border-radius: 16px;
     padding: 25px 20px;
     text-align: center;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: $transition;
     border: 2px solid rgba(255, 107, 0, 0.3);
     position: relative;
     z-index: 2;
-
-    &.loaded {
-        opacity: 1;
-        transform: translateY(0);
-    }
 
     &.highlight {
         background: linear-gradient(135deg, $primary-orange 0%, $secondary-orange 100%);

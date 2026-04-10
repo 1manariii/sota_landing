@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 import styles from './styles.module.scss'
 import { benefitIcon1, benefitIcon2, benefitIcon3, benefitIcon4, processIcon1, processIcon2, processIcon3, processIcon4 } from '../../../../shared/assets';
-import type { IProps } from '../market-hero';
 
 interface ProcessStep { title: string; description: string; icon: string; }
 interface BenefitItem { title: string; description: string; icon: string; comingSoon?: boolean; }
@@ -20,9 +19,9 @@ const BENEFITS: BenefitItem[] = [
     { title: 'Доступ к личному кабинету', description: 'Управление и аналитика в реальном времени', icon: benefitIcon4, comingSoon: true },
 ];
 
-const ProcessStepCard: React.FC<{ step: ProcessStep; index: number; isLoaded: boolean }> = ({ step, index, isLoaded }) => {
+const ProcessStepCard: React.FC<{ step: ProcessStep; index: number }> = ({ step, index }) => {
     return (
-        <div className={`${styles.processStep} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+        <div className={styles.processStep}>
             <img src={step.icon} className={styles.icon} />
             <div className={styles.processContent}>
                 <h4 className={styles.processTitle}>{step.title}</h4>
@@ -32,9 +31,9 @@ const ProcessStepCard: React.FC<{ step: ProcessStep; index: number; isLoaded: bo
     );
 };
 
-const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isLoaded: boolean; isRight?: boolean }> = ({ benefit, index, isLoaded, isRight = false }) => {
+const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isRight?: boolean }> = ({ benefit, index, isRight = false }) => {
     return (
-        <div className={`${styles.benefitCard} ${isRight ? styles.right : ''} ${isLoaded ? styles.loaded : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
+        <div className={`${styles.benefitCard} ${isRight ? styles.right : ''}`}>
             <img src={benefit.icon} className={styles.icon} />
             <div className={styles.benefitContent}>
                 <h4 className={styles.benefitTitle}>{benefit.title}</h4>
@@ -45,7 +44,7 @@ const BenefitCard: React.FC<{ benefit: BenefitItem; index: number; isLoaded: boo
     );
 };
 
-const Process:FC<IProps> = ({isLoaded=true}) => {
+const Process:FC = () => {
     return (
         <section className={`${styles.processSection} ${styles.glassSection}`}>
             <div className={`${styles.processContainer} container`}>
@@ -58,7 +57,6 @@ const Process:FC<IProps> = ({isLoaded=true}) => {
                                 key={step.title}
                                 step={step}
                                 index={index}
-                                isLoaded={isLoaded}
                             />
                         ))}
                     </div>
@@ -85,7 +83,6 @@ const Process:FC<IProps> = ({isLoaded=true}) => {
                                 key={benefit.title}
                                 benefit={benefit}
                                 index={index}
-                                isLoaded={isLoaded}
                                 isRight={true}
                             />
                         ))}
