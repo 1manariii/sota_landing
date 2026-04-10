@@ -183,3 +183,25 @@ $transition: all 0.3s ease;
     .shareLabel { font-size: 48px; }
     .featureImg { max-height: 120px; }
 }
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (hover: none) and (pointer: coarse) {
+    /* Заменяем .animateOnScroll на реальный класс, который вы используете для инициализации */
+    :global(.animateOnScroll), 
+    .animateOnScroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        visibility: visible !important;
+    }
+    
+    /* Если у вас есть специфичные классы состояний */
+    .marketStatCard, 
+    .forecastCard, 
+    .featureColumn, 
+    .investmentCard, 
+    .processStep, 
+    .benefitCard {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
