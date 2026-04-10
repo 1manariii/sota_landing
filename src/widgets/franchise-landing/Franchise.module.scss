@@ -43,25 +43,49 @@
 }
 
 @keyframes floatHoneycomb {
-    0% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
-    100% { transform: translateY(20px) scale(0.95); }
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.05);
+    }
+
+    100% {
+        transform: translateY(20px) scale(0.95);
+    }
 }
 
 @keyframes pulseInner {
-    0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
 }
 
 // === Общие анимации при скролле ===
 .animateOnScroll {
     opacity: 0;
     /* Важно: добавляем начальный сдвиг, чтобы был эффект движения */
-    transform: translateY(30px); 
+    transform: translateY(30px);
+
+    @media (max-width: 768px) {
+        opacity: 1;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 .animate-in {
-    opacity: 1 !important; /* !important нужен, чтобы перебить inline-стили или высокую специфичность */
+    opacity: 1 !important;
+    /* !important нужен, чтобы перебить inline-стили или высокую специфичность */
     transform: translateY(0) !important;
     transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
