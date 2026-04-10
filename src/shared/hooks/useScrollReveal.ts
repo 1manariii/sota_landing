@@ -13,12 +13,9 @@ const useScrollReveal = () => {
 
         if (isMobile) {
             // === ЛОГИКА ДЛЯ МОБИЛЬНЫХ ===
-            // Просто делаем все элементы видимыми сразу
-            elements.forEach((el) => {
-                el.classList.add(styles['animate-in']);
-                el.classList.remove(styles['animate-out']);
-            });
-            // Observer не создаем, чтобы не грузить процессор и избежать багов скролла
+            // На мобильных отключаем анимацию появления через CSS media query,
+            // поэтому здесь просто не создаем Observer
+            // Элементы будут видимы сразу благодаря CSS правилам
             return; 
         }
 

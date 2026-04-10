@@ -215,6 +215,13 @@ $transition: all 0.3s ease;
     .investmentCard.highlight {
         grid-column: span 1;
     }
+    
+    // Отключаем анимацию появления на мобильных для предотвращения "резкого" появления
+    .animateOnScroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 @media (max-width: 480px) {
