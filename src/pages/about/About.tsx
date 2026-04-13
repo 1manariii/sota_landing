@@ -17,19 +17,19 @@ interface Employee {
     social?: { telegram?: string; vk?: string; email?: string };
 }
 
-interface CompanyStats {
-    label: string;
-    value: string;
-    icon?: string;
-}
+// interface CompanyStats {
+//     label: string;
+//     value: string;
+//     icon?: string;
+// }
 
 // === Данные: статистика компании ===
-const COMPANY_STATS: CompanyStats[] = [
-    { label: 'Лет на рынке', value: '5+', icon: '🚀' },
-    { label: 'Постаматов', value: '500+', icon: '📦' },
-    { label: 'Партнёров', value: '1200+', icon: '🤝' },
-    { label: 'Городов', value: '45', icon: '🌍' },
-];
+// const COMPANY_STATS: CompanyStats[] = [
+//     { label: 'Лет на рынке', value: '5+', icon: '🚀' },
+//     { label: 'Постаматов', value: '500+', icon: '📦' },
+//     { label: 'Партнёров', value: '1200+', icon: '🤝' },
+//     { label: 'Городов', value: '45', icon: '🌍' },
+// ];
 
 // === Данные: команда (4 человека) ===
 const EMPLOYEES: Employee[] = [
@@ -221,11 +221,6 @@ const EmployeeModal: React.FC<{
 // === Основной компонент страницы ===
 export const About = () => {
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
 
     return (
         <div className='about-page'>

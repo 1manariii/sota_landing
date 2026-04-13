@@ -36,7 +36,7 @@ export const HeroBanner = () => {
         <div className={styles.content}>
           <h1 className={styles.title}>
             ВЛАДЕЙТЕ МЕНЬШИМ <br /> 
-            <span className={styles.highlight}>ЖИВИТЕ ЛУЧШИМ</span>
+            <span className={styles.highlight}>ЖИВИТЕ ЛУЧШЕ</span>
           </h1>
           
           <p className={styles.subtitle}>
