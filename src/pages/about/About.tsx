@@ -253,7 +253,7 @@ export const About = () => {
                         </div>
 
                         {/* Статистика */}
-                        <div className={styles.statsGrid}>
+                        {/* <div className={styles.statsGrid}>
                             {COMPANY_STATS.map((stat, idx) => (
                                 <div
                                     key={idx}
@@ -265,7 +265,7 @@ export const About = () => {
                                     <span className={styles.statLabel}>{stat.label}</span>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Декоративный фон */}
