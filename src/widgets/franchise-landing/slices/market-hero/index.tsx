@@ -59,9 +59,7 @@ const PieChart: React.FC<{ segments: MarketSegment[] }> = ({ segments }) => {
     );
 };
 
-export interface IProps {}
-
-const MarketHero: FC<IProps> = () => {
+const MarketHero: FC = () => {
     return (
         <section className={styles.marketHero}>
             <div className={`${styles.heroContent} container`}>
