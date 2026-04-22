@@ -7,6 +7,7 @@ import './app/styles/global.scss';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { Navigate } from 'react-router';
 import Catalog from './pages/cataloge/Catalog';
+import PdfViewer from './pages/pdf-viewer/PdfViewer';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route path="/about" element={<><About /><CursorFilter /></>} />
       <Route path="/franchise" element={<><FranchisePage /><CursorFilter /></>} />
       <Route path="/catalog" element={<><Catalog /><CursorFilter /></>} />
+      <Route path="/pdf/:fileId" element={<PdfViewer />} />
       <Route path="*" element={<Navigate to={'/'} />} />
     </Routes>
   </BrowserRouter>

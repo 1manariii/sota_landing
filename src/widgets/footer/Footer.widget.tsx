@@ -1,4 +1,4 @@
-import { Link } from 'react-router'; // ✅ Для маршрутов типа /about
+import { Link } from 'react-router'; // Убедитесь, что импорт из react-router-dom
 import { handleAnchorClick } from '../../shared/utils/scrollToSection';
 import { openTelegramBot } from '../../features/open-bot/openSotaBot';
 import { instagram, logo, tg, vk, youtube } from '../../shared/assets';
@@ -8,12 +8,19 @@ import styles from './Footer.module.scss';
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  // ✅ Меню с поддержкой якорей и маршрутов
   const menuLinks = [
     { href: '/#instructions', label: 'Как арендовать' },
     { href: '/about', label: 'Команда' },
     { href: '/franchise', label: 'Для франчайзи' },
-    { href: '/catalog', label: 'Каталог' }// ✅ Исправлено: #carousel → #map (по id секции)
+    { href: '/catalog', label: 'Каталог' }
+  ];
+
+  // Ссылки на документы
+  const docLinks = [
+    { id: 'consent', label: 'Согласие на обработку персональных данных' },
+    { id: 'license', label: 'Лицензионное соглашение' },
+    { id: 'privacy', label: 'Политика конфиденциальности' },
+    { id: 'offer', label: 'Публичная оферта' },
   ];
 
   return (
@@ -31,7 +38,6 @@ export const Footer = () => {
             <div className={styles.footerSocial}>
               <p className={styles.footerSocialTitle}>Мы в соцсетях:</p>
               <div className={styles.footerSocialIcons}>
-                {/* ✅ Исправлены лишние пробелы в URL */}
                 <a href="https://vk.com/sotarent" target="_blank" rel="noreferrer" className={styles.socialLink}>
                   <img src={vk} alt="VK" />
                 </a>
@@ -57,7 +63,6 @@ export const Footer = () => {
                 return (
                   <li key={link.href}>
                     {hasHash ? (
-                      // ✅ Якорная ссылка
                       <a
                         href={link.href}
                         className={styles.menuLink}
@@ -66,7 +71,6 @@ export const Footer = () => {
                         {link.label}
                       </a>
                     ) : (
-                      // ✅ Обычный маршрут
                       <Link to={link.href} className={styles.menuLink}>
                         {link.label}
                       </Link>
@@ -74,25 +78,38 @@ export const Footer = () => {
                   </li>
                 );
               })}
-              {/* <li><a href="#faq" className={styles.menuLink}>Вопросы</a></li> */}
-              {/* <li><a href="/policy" className={styles.menuLink}>Политика конфиденциальности</a></li> */}
-              {/* <li><a href="/terms" className={styles.menuLink}>Офферта</a></li> */}
+            </ul>
+          </div>
+
+          {/* Документы (Новый блок) */}
+          <div className={styles.footerMenu}>
+            <h4 className={styles.menuTitle}>Документы</h4>
+            <ul className={styles.menuList}>
+              {docLinks.map((doc) => (
+                <li key={doc.id}>
+                  <Link to={`/pdf/${doc.id}`} className={styles.menuLink}>
+                    {doc.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Контакты */}
           <div className={styles.footerContacts}>
             <h4 className={styles.menuTitle}>Контакты</h4>
-            <p className={styles.contactText}><strong>Телефон:</strong> <a href="tel:+79143607230">+7 (921) 400 99-99</a></p>
-            <p className={styles.contactText}><strong>Email:</strong> <a href="mailto:team@sotarent.ru">team@sotamail.ru</a></p>
+            <p className={styles.contactText}><strong>Телефон:</strong> <a href="tel:+79214009999">+7 (921) 400 99-99</a></p>
+            <p className={styles.contactText}><strong>Email:</strong> <a href="mailto:team@sotamail.ru">team@sotamail.ru</a></p>
           </div>
 
           {/* Реквизиты */}
           <div className={styles.footerRequisites}>
             <h4 className={styles.menuTitle}>Реквизиты</h4>
-            <p className={styles.contactText}><strong>ИП:</strong> Тетерский В.С.</p>
-            <p className={styles.contactText}><strong>ОГРН:</strong> 323750000008481</p>
-            <p className={styles.contactText}><strong>ИНН:</strong> 753617173507</p>
+            <p className={styles.contactText}><strong>НАИМЕНОВАНИЕ:</strong> ООО "Сота Бокс"</p>
+            <p className={styles.contactText}><strong>ЮРИДИЧЕСКИЙ АДРЕС: </strong> 190000, Российская Федерация, город Санкт-Петербург, набережная Реки Фонтанки, дом 40/68, литера А, помещение 21-Н</p>
+            <p className={styles.contactText}><strong>ОГРН:</strong> 1267800027010</p>
+            <p className={styles.contactText}><strong>ИНН:</strong> 7840125093</p>
+            <p className={styles.contactText}><strong>КПП:</strong> 784001001</p>
             
             <Button onClick={openTelegramBot} variant="primary" className={styles.footerAppButton}>
               Перейти в приложение
