@@ -6,6 +6,8 @@ import Features from './slices/features';
 import Investment from './slices/investment';
 import Process from './slices/process';
 import Contact from './slices/contact';
+import TechSupportButton from '../tech-support-button/TechSupportButton.widget';
+import ScrollToTopButton from '../scroll-to-top-button/ScrollToTopButton.widget';
 
 // === Вспомогательный компонент: Фоновые соты ===
 const HoneycombBackground: React.FC<{ type: 'light' | 'dark' }> = ({ type }) => {
@@ -50,7 +52,7 @@ const HoneycombBackground: React.FC<{ type: 'light' | 'dark' }> = ({ type }) => 
 };
 
 export const FranchiseLanding = () => {
-    
+
     return (
         <div className='franchise-page'>
             <HoneycombBackground type="dark" />
@@ -60,6 +62,8 @@ export const FranchiseLanding = () => {
             <Investment />
             <Process />
             <Contact />
+            <TechSupportButton />
+            <ScrollToTopButton />
             <Footer />
         </div>
     );

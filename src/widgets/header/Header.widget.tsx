@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router';
 import { useEffect, useState, type FC } from 'react';
 import { useMobileMenu } from '../../features/mobile-menu/useMobileMenu';
 import { useAnchorScroll } from '../../features/anchor-scroll/useAnchorScroll';
-import { openTelegramBot } from '../../features/open-bot/openSotaBot';
+import { openBot } from '../../features/open-bot/openSotaBot';
 import { handleAnchorClick } from '../../shared/utils/scrollToSection';
 import { logo } from '../../shared/assets';
 import { Button } from '../../shared/ui/button';
@@ -40,7 +40,7 @@ export const Header: FC<IProps> = ({ isVisibleInitial = false }) => {
           const currentScrollY = window.scrollY;
 
           if (isVisibleInitial) {
-            setIsVisible(true); 
+            setIsVisible(true);
           } else {
             if (currentScrollY > 50 || isOpen) {
               setIsVisible(true);
@@ -48,7 +48,7 @@ export const Header: FC<IProps> = ({ isVisibleInitial = false }) => {
               setIsVisible(false);
             }
           }
-          
+
           ticking = false;
         });
         ticking = true;
@@ -63,9 +63,13 @@ export const Header: FC<IProps> = ({ isVisibleInitial = false }) => {
 
   const navLinks = [
     { href: '/#instructions', label: 'Как арендовать' },
+    { href: '/#map', label: 'Карта' },
     { href: '/about', label: 'Команда' },
-    { href: '/franchise', label: 'Для франчайзи' },
-    { href: '/catalog', label: 'Каталог' }
+    { href: '/franchise', label: 'Франчайзи' },
+    
+    { href: '/catalog', label: 'Каталог' },
+    { href: '#footer', label: 'Контакты' },
+    { href: '/faq', label: 'F.A.Q' },
   ];
 
   const isActive = (path: string) => {
@@ -116,10 +120,8 @@ export const Header: FC<IProps> = ({ isVisibleInitial = false }) => {
                 </li>
               );
             })}
-            <li className={styles.header__item}>
-              <Button onClick={openTelegramBot}>Арендовать товар</Button>
-            </li>
           </ul>
+          <Button onClick={openBot}>Арендовать товар</Button>
         </nav>
 
         {/* Бургер меню */}
@@ -160,7 +162,7 @@ export const Header: FC<IProps> = ({ isVisibleInitial = false }) => {
               );
             })}
             <li className={styles['header__fullscreen-item']}>
-              <Button onClick={openTelegramBot}>Арендовать товар</Button>
+              <Button onClick={openBot}>Арендовать товар</Button>
             </li>
           </ul>
           <img src={logo} alt="SOTA" className={styles['menu-logo']} />

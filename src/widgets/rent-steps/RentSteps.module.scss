@@ -2,7 +2,6 @@
 
 .rentStepsSection {
   padding: 100px 0;
-  background-color: var(--color-bg);
   overflow: hidden;
   position: relative;
 }
@@ -15,6 +14,8 @@
   align-items: center;
 
   display: flex;
+  flex-direction: column;
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -22,9 +23,10 @@
 
 .sectionTitle {
   /* --- БАЗОВЫЕ СТИЛИ (МОБИЛЬНЫЕ <= 768px) --- */
-  writing-mode: horizontal-tb; /* Горизонтальный текст */
+  writing-mode: horizontal-tb;
+  /* Горизонтальный текст */
   text-orientation: mixed;
-  
+
   text-align: center;
   font-size: 1.8rem;
   font-weight: 800;
@@ -32,8 +34,10 @@
   margin-bottom: 40px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  position: relative; /* Для позиционирования линии на мобильных */
-  display: block;
+  position: relative;
+  /* Для позиционирования линии на мобильных */
+  display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 0 15px;
   line-height: 1.3;
@@ -45,7 +49,8 @@
     width: 40%;
     height: 3px;
     background: var(--color-accent);
-    margin: 12px auto 0; /* Центрируем снизу */
+    margin: 12px auto 0;
+    /* Центрируем снизу */
     border-radius: 2px;
     box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
     transition: all 0.3s ease;
@@ -53,49 +58,40 @@
 
   /* --- ДЕСКТОП (> 768px) --- */
   @media (min-width: 768px) {
-    writing-mode: sideways-lr; /* Вертикальный текст */
+    writing-mode: horizontal-tb;
+    /* Вертикальный текст */
     text-orientation: mixed;
     width: max-content;
     font-size: 2.5rem;
-    margin: 0 auto 40px; /* Отступ только снизу (визуально справа при верт. тексте, но мы это исправим высотой) */
+    margin: 0 auto 40px;
+    /* Отступ только снизу (визуально справа при верт. тексте, но мы это исправим высотой) */
     padding: 0;
-    
-    /* Задаем фиксированную высоту, чтобы текст центрировался внутри неё, 
-       а линия могла встать ровно под последним символом */
-    height: 320px; 
     display: flex;
-    align-items: center; /* Центрируем текст по вертикали (внутри высоты) */
+    align-items: center;
+    /* Центрируем текст по вертикали (внутри высоты) */
     justify-content: center;
     position: relative;
 
     /* Исправленная линия для десктопа */
     &::after {
-      position: absolute;
-      
-      /* Позиционируем СПРАВА от текста */
-      right: -25px; /* Отступ справа от конца строки (который теперь справа) */
-      top: 50%;     /* Начинаем с середины высоты контейнера */
-      transform: translateY(-50%); /* Сдвигаем вверх на 50% своей высоты для идеального центра */
-      
-      /* Размеры линии (теперь она ВЕРТИКАЛЬНАЯ, так как стоит сбоку от вертикального текста) */
-      width: 4px;   /* Толщина линии */
-      height: 320px; /* Длина линии */
-      
-      margin: 0;
-      
+      content: '';
+      display: block;
+      width: 60%;
+      height: 3px;
       background: var(--color-accent);
+      margin: 12px auto 0;
+      /* Центрируем снизу */
       border-radius: 2px;
-      box-shadow: 0 0 15px rgba(255, 107, 0, 0.6);
-      
-      /* Опционально: если хочешь, чтобы линия росла вместе с текстом, 
-         можно убрать height и использовать проценты, но фиксированный размер надежнее */
+      box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+      transition: all 0.3s ease;
     }
   }
 }
+
 .hexagonContainer {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,8 +108,13 @@
 }
 
 @keyframes spinReverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
 }
 
 /* Обертка */
@@ -141,11 +142,16 @@
 .hexagon {
   position: relative;
   width: 100px;
-  height: 115px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent; 
+  background: transparent;
+
+  @media (min-width: 1024px) {
+    width: 100px;
+    height: 110px;
+  }
 }
 
 
@@ -157,14 +163,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--color-accent); 
+  background: var(--color-accent);
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   z-index: 1;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Плавная пружина */
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Плавная пружина */
   box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
   /* Важно: transform-origin в центре для равномерного масштабирования */
   transform-origin: center center;
-  transform: scale(1); 
+  transform: scale(1);
 }
 
 /* 2. Передний слой - Внутренняя часть (черная/прозрачная) */
@@ -174,10 +181,12 @@
   top: 50%;
   left: 50%;
   /* Фиксированный размер внутренней части относительно родителя */
-  width: 84%;  /* Толщина рамки = (100% - 84%) / 2 = 8% с каждой стороны */
-  height: 84%; 
-  background: #1a1a1a; 
-  transform: translate(-50%, -50%) scale(1); /* Центрирование + скейл */
+  width: 84%;
+  /* Толщина рамки = (100% - 84%) / 2 = 8% с каждой стороны */
+  height: 84%;
+  background: #1a1a1a;
+  transform: translate(-50%, -50%) scale(1);
+  /* Центрирование + скейл */
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   z-index: 2;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -186,26 +195,37 @@
 
 /* Состояние Active */
 .hexagonWrapper.active .hexagon::after {
-  background: #000; /* Черный центр */
+  background: #000;
+  /* Черный центр */
   /* Чуть уменьшаем внутреннюю часть, чтобы рамка казалась толще при увеличении внешней */
   /* Подбираем коэффициент так, чтобы визуальная толщина была красивой */
-  width: 80%; 
+  width: 80%;
   height: 80%;
   /* Сохраняем центрирование */
-  transform: translate(-50%, -50%) scale(1); 
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .hexagonWrapper.active .hexagon::after {
-   animation: pulseInner 2s infinite ease-in-out;
+  animation: pulseInner 2s infinite ease-in-out;
 }
+
 @keyframes pulseInner {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -50%) scale(0.98); }
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(0.98);
+  }
 }
+
 /* Контейнер для контента (цифра и текст) */
 .hexagonInner {
   position: relative;
-  z-index: 3; /* Поверх псевдо-элементов */
+  z-index: 3;
+  /* Поверх псевдо-элементов */
   width: 100%;
   height: 100%;
   display: flex;
@@ -215,7 +235,7 @@
   padding: 10px;
   text-align: center;
   /* Важно: pointer-events none, чтобы клики проходили сквозь текст на соту, если нужно */
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .stepNumber {
@@ -227,11 +247,11 @@
   background: linear-gradient(to bottom, var(--color-accent), #ff9e55);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  
+
   .active & {
     background: linear-gradient(to bottom, #fff, #ffe0b2);
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
   }
 }
@@ -243,7 +263,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   line-height: 1.1;
-  
+
   .active & {
     color: #eee;
   }
@@ -263,7 +283,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
 
-  .active &, .hexagonWrapper:hover & {
+  .active &,
+  .hexagonWrapper:hover & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -274,7 +295,7 @@
   .hexagonContainer {
     height: 400px;
   }
-  
+
   // .hexagonWrapper {
   //    --x: calc(var(--x) * 0.6) !important;
   //    --y: calc(var(--y) * 0.6) !important;
@@ -284,14 +305,22 @@
     width: 80px;
     height: 92px;
   }
-  
+
   .hexagon::after {
-    width: 86%; /* Сохраняем пропорции рамки */
+    width: 86%;
+    /* Сохраняем пропорции рамки */
     height: 86%;
   }
 
-  .stepNumber { font-size: 1.6rem; }
-  .stepText { font-size: 0.6rem; }
-  .sectionTitle { font-size: 1.8rem; }
-}
+  .stepNumber {
+    font-size: 1.6rem;
+  }
 
+  .stepText {
+    font-size: 0.6rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+}

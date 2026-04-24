@@ -1,19 +1,21 @@
 .catalog-page {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden; /* Разрешаем вертикальный скролл, если контента много */
   background-color: #0a0a0a; 
   background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
   
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  // justify-content удален, чтобы контент мог растягиваться
+  padding-top: 100px; // Отступ под фиксированный хедер
+  padding-bottom: 50px;
 }
 
-/* --- Контейнер сот --- */
+/* --- Контейнер сот (Фон) --- */
 .honeycomb-container {
-  position: absolute;
+  position: fixed; /* Fixed, чтобы фон оставался на месте при скролле страницы */
   top: 0;
   left: 0;
   width: 100%;
@@ -27,7 +29,6 @@
 /* Базовая форма соты */
 .honeycomb-cell {
   position: absolute;
-  /* Размеры и позиции задаются через inline-style из JS */
   
   background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 69, 0, 0.05));
   border: 1px solid rgba(255, 165, 0, 0.2);
@@ -38,8 +39,6 @@
   /* Анимация */
   animation: floatHoneycomb infinite ease-in-out alternate;
   transform-origin: center;
-  
-  /* Плавное появление */
   animation-fill-mode: forwards;
 }
 
@@ -79,33 +78,38 @@
   50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
 }
 
+/* --- Обертка стекла --- */
 .glass-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  user-select: none; 
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
+  margin-top: 50px;
+  // Убраны height: 100vh и justify-content, чтобы блок растягивался по контенту
+  display: block; 
 }
 
 /* --- Стекло и контент --- */
 .glass-content {
   position: relative;
-  z-index: 10;
-  background: rgba(20, 20, 20, 0.6); 
+  background: rgba(20, 20, 20, 0.65); 
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 140, 0, 0.3);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7), 
               0 0 20px rgba(255, 102, 0, 0.1);
-  padding: 3rem 4rem;
-  border-radius: 20px;
+  padding: 3rem;
+  border-radius: 24px;
   text-align: center;
   color: #ffffff;
   
   transition: transform 0.1s linear; 
-  
-  h1 {
+  min-height: 60vh; // Минимальная высота для красоты
+
+  // Заголовки и текст из старого макета (сохранены по запросу)
+  .development-title {
     font-size: 3rem;
     margin-bottom: 1rem;
     font-weight: 800;
@@ -117,15 +121,191 @@
     animation: fadeInDown 1s ease-out;
   }
 
-  p {
+  .development-subtitle {
     font-size: 1.2rem;
     line-height: 1.6;
     color: #cccccc;
     animation: fadeInUp 1s ease-out 0.3s backwards;
   }
+
+  // Новые элементы каталога
+  .page-title {
+    @extend .development-title; // Наследуем стили заголовка
+    margin-bottom: 2rem;
+  }
 }
 
-/* --- Анимации текста --- */
+/* --- Категории --- */
+.categories-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-btn {
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ccc;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 140, 0, 0.15);
+    border-color: rgba(255, 140, 0, 0.8);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #ff8c00, #ff4500);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+  }
+}
+
+/* --- Контент каталога --- */
+.catalog-body {
+  width: 100%;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  color: #888;
+  font-size: 1.2rem;
+  text-align: center;
+  
+  p {
+    @extend .development-subtitle;
+  }
+}
+
+.loader {
+  padding: 2rem;
+  color: #ff8c00;
+  font-size: 1.2rem;
+}
+
+/* --- Сетка товаров --- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.product-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 140, 0, 0.4);
+  }
+}
+
+.product-image-wrapper {
+  height: 220px;
+  background: #151515;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+.product-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.product-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff8c00;
+  margin: 0 0 1rem 0;
+}
+
+.product-desc {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  flex-grow: 1; // Чтобы кнопка всегда была внизу
+  
+  // Обрезка текста до 3 строк
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rent-btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: auto;
+
+  &:hover {
+    background: #ff8c00;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+  }
+}
+
+/* --- Анимации текста (из оригинала) --- */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-30px); }
   to { opacity: 1; transform: translateY(0); }
@@ -138,17 +318,49 @@
 
 /* --- АДАПТИВ --- */
 @media (max-width: 768px) {
+  .catalog-page {
+    padding-top: 80px;
+  }
+
   .glass-content {
-    padding: 2rem;
-    width: 90%;
-    max-width: 500px;
+    padding: 1.5rem;
+    width: 100%;
+    // Отключаем параллакс трансформацию на мобильных
     transition: none !important; 
     transform: none !important;
   }
   
-  h1 { font-size: 2rem; line-height: 1.2; }
-  p { font-size: 1rem; }
+  .development-title, .page-title { 
+    font-size: 2rem; 
+    line-height: 1.2; 
+  }
   
-  /* На мобильных можно уменьшить количество сот или оставить как есть, 
-     так как JS сам рассчитает размеры под ширину экрана */
+  .development-subtitle { 
+    font-size: 1rem; 
+  }
+
+  .categories-list {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    // Скрываем скроллбар
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .category-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }

@@ -48,7 +48,7 @@ export const TeamSection = () => {
     return (
         <section className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.sectionTitle}>КОМАНДА SOTA</h2>
+                <h2 className={styles.sectionTitle}>КОМАНДА СОТА БОКС</h2>
 
                 <p className={styles.instruction}>
                     <span className={styles.instructionIcon}>👆</span>

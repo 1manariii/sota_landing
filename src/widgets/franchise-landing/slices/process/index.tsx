@@ -50,7 +50,7 @@ const Process:FC = () => {
             <div className={`${styles.processContainer} container`}>
 
                 <div className={styles.processColumn}>
-                    <h3 className={styles.processColumnTitle}>ЧТО МЫ ДЕЛАЕМ ПОСЛЕ ВАШИХ ИНВЕСТИЦИЙ В SOTA BOX?</h3>
+                    <h3 className={styles.processColumnTitle}>ЧТО МЫ ДЕЛАЕМ ПОСЛЕ ВАШИХ ИНВЕСТИЦИЙ В СОТА БОКС?</h3>
                     <div className={styles.processList}>
                         {PROCESS_STEPS.map((step, index) => (
                             <ProcessStepCard
@@ -65,7 +65,7 @@ const Process:FC = () => {
                 <div className={styles.centerPostamat}>
                     <div className={styles.postamatIllustration}>
                         <div className={styles.postamatBody}>
-                            <div className={styles.postamatHeader}><span>SOTA BOX</span></div>
+                            <div className={styles.postamatHeader}><span>СОТА БОКС</span></div>
                             <div className={styles.postamatQR}>
                                 <div className={styles.qrCode} />
                                 <span>СКАНИРУЙ QR-КОД</span>

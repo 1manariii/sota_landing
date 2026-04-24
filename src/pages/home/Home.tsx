@@ -4,7 +4,9 @@ import { Header } from '../../widgets/header/Header.widget';
 import { HeroBanner } from '../../widgets/hero-banner/HeroBanner.widget';
 import { MapProducts } from '../../widgets/map-section/MapSection.widget';
 import { RentSteps } from '../../widgets/rent-steps/RentSteps';
+import ScrollToTopButton from '../../widgets/scroll-to-top-button/ScrollToTopButton.widget';
 import { TeamSection } from '../../widgets/team-section/TeamSection';
+import TechSupportButton from '../../widgets/tech-support-button/TechSupportButton.widget';
 import './Home.module.scss';
 
 // import { FranchiseReviews } from '../../widgets/franchise-reviews/FranchiseReviews';
@@ -24,6 +26,8 @@ export const HomePage = () => {
         {/* <FaqSection /> */}
         <TeamSection />
       </main>
+      <TechSupportButton />
+      <ScrollToTopButton />
       <Footer />
     </div>
   );

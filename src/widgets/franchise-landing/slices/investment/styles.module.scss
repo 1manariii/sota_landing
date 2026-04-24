@@ -4,13 +4,18 @@ $primary-orange: #FF6B00;
 $secondary-orange: #FF8533;
 $dark-bg: #1a1a1a;
 $text-light: #ffffff;
-$text-dark: #2c2c2c;
-$transition: all 0.3s ease;
+$text-gray: #cccccc;
+$transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
+// Основной контейнер секции
 .investmentSection {
     padding: 100px 20px;
-    background: rgba(0, 0, 0, 0.2);
+    background: $dark-bg; // Единый темный фон
     position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .investmentContent {
@@ -28,120 +33,244 @@ $transition: all 0.3s ease;
     margin-bottom: 60px;
     text-transform: uppercase;
     line-height: 1.3;
+    letter-spacing: 1px;
 }
 
 .investmentGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    grid-template-columns: 1fr 1.2fr; // Правая часть чуть шире
+    gap: 60px;
     align-items: center;
     
     @media (max-width: 968px) {
         grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+// === Левая часть: Постамат ===
+.postamatVisualWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255, 107, 0, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        top: -50px;
+        left: -50px;
+        z-index: -1;
     }
 }
 
 .postamatVisual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.postamatMockup {
-    background: $dark-bg;
-    border-radius: 20px;
-    padding: 30px;
+    position: relative;
     width: 100%;
     max-width: 400px;
-    border: 2px solid rgba(255, 107, 0, 0.3);
+    perspective: 1000px;
+    
+    .boxImage {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        transition: transform 0.5s ease;
+        
+        &:hover {
+            transform: scale(1.02) rotateY(-5deg);
+        }
+    }
 }
 
-.postamatScreen {
-    background: linear-gradient(135deg, $primary-orange 0%, $secondary-orange 100%);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.screenText {
+.visualBadge {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: linear-gradient(135deg, $primary-orange, $secondary-orange);
     color: $text-light;
+    padding: 15px 25px;
+    border-radius: 12px;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 14px;
+    box-shadow: 0 10px 20px rgba(255, 107, 0, 0.3);
+    animation: floatBadge 3s ease-in-out infinite;
+    
+    @media (max-width: 768px) {
+        bottom: 10px;
+        right: 10px;
+        font-size: 12px;
+        padding: 10px 15px;
+    }
 }
 
-.postamatSlots {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.slot {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    height: 60px;
-}
-
-.postamatLogo {
-    text-align: center;
-    color: $primary-orange;
-    font-weight: 900;
-    font-size: 24px;
-}
-
+// === Правая часть: Метрики ===
 .metricsContainer {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.metricsGrid {
+.mainHighlight {
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.highlightCard {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(255, 133, 51, 0.05));
+    border: 1px solid rgba(255, 107, 0, 0.3);
+    border-radius: 20px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, $primary-orange, $secondary-orange);
+    }
+    
+    .highlightValue {
+        font-size: 48px;
+        font-weight: 900;
+        color: $primary-orange;
+        line-height: 1;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+    }
+    
+    .highlightLabel {
+        font-size: 24px;
+        font-weight: 700;
+        color: $text-light;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    
+    .highlightSublabel {
+        font-size: 14px;
+        color: $text-gray;
+        opacity: 0.8;
+    }
+}
+
+.graphPlaceholder {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    
+    @media (max-width: 768px) {
+        order: -1; // График сверху на мобильных
+    }
+    
+    .graphLine {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, transparent 0%, rgba(255, 107, 0, 0.2) 100%);
+        clip-path: polygon(0 100%, 20% 80%, 40% 60%, 60% 40%, 80% 20%, 100% 0%, 100% 100%);
+        opacity: 0.5;
+    }
+}
+
+.secondaryMetricsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
+    
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 }
 
-.investmentCard {
-    background: $dark-bg;
+.metricCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     padding: 25px 20px;
     text-align: center;
-    border: 2px solid rgba(255, 107, 0, 0.3);
+    transition: $transition;
     position: relative;
-    z-index: 2;
-
-    &.highlight {
-        background: linear-gradient(135deg, $primary-orange 0%, $secondary-orange 100%);
-        grid-column: span 2;
+    overflow: hidden;
+    
+    &:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 107, 0, 0.3);
         
-        @media (max-width: 768px) {
-            grid-column: span 1;
+        .metricValue {
+            color: $primary-orange;
         }
     }
-
-    &:hover {
-        border-color: $primary-orange;
-        transform: translateY(-5px);
+    
+    &.highlight {
+        background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(255, 133, 51, 0.05));
+        border-color: rgba(255, 107, 0, 0.3);
+        
+        .metricValue {
+            color: $primary-orange;
+        }
+    }
+    
+    .cardIcon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        color: $primary-orange;
+        font-size: 20px;
+        opacity: 0.5;
+    }
+    
+    .metricValue {
+        font-size: 24px;
+        font-weight: 900;
+        color: $text-light;
+        margin-bottom: 8px;
+        transition: color 0.3s ease;
+    }
+    
+    .metricLabel {
+        font-size: 14px;
+        color: $text-light;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .metricSublabel {
+        font-size: 12px;
+        color: $text-gray;
+        opacity: 0.7;
     }
 }
 
-.investmentValue {
-    font-size: 28px;
-    font-weight: 900;
-    color: $text-light;
-    margin-bottom: 8px;
-}
-
-.investmentLabel {
-    font-size: 14px;
-    color: $text-light;
-    opacity: 0.8;
-}
-
-.investmentSublabel {
-    font-size: 12px;
-    color: $text-light;
-    opacity: 0.6;
-    margin-top: 5px;
+// === Анимации ===
+@keyframes floatBadge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 // === Адаптив ===
@@ -149,6 +278,9 @@ $transition: all 0.3s ease;
     .investmentSection { padding: 60px 20px; }
     .sectionTitle { font-size: 24px; margin-bottom: 40px; }
     .investmentGrid { gap: 30px; }
-    .investmentCard { padding: 20px 15px; }
-    .investmentValue { font-size: 24px; }
+    .highlightCard { padding: 30px 20px; }
+    .highlightValue { font-size: 36px; }
+    .highlightLabel { font-size: 18px; }
+    .metricCard { padding: 20px 15px; }
+    .metricValue { font-size: 20px; }
 }

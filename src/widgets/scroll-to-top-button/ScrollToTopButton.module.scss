@@ -1,0 +1,58 @@
+.scrollToTopBtn {
+    position: fixed;
+    left: 20px; // Лучше использовать px для точности
+    bottom: 20px;
+
+    width: 50px;
+    height: 50px;
+
+    background-color: var(--color-accent); // Используйте ваш основной цвет
+    color: white;
+
+    border: none;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 999;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    transition: all 0.3s ease;
+
+    // Анимация появления
+    animation: fadeIn 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--color-accent-hover);
+        transform: translateY(-5px); // Легкий подскок при наведении
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    @media (min-width: 1024px) {
+        bottom: 5%;
+        left: auto;
+        right: 9%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -20,9 +20,42 @@
   z-index: -1;
   opacity: 0.1;
   pointer-events: none;
-  
-  &.sota-1 { top: 10%; left: -5%; width: 300px; }
-  &.sota-2 { top: 40%; right: -5%; width: 200px; }
-  &.sota-3 { bottom: 10%; left: 10%; width: 250px; }
+
+  &.sota-1 {
+    top: 10%;
+    left: -5%;
+    width: 300px;
+  }
+
+  &.sota-2 {
+    top: 40%;
+    right: -5%;
+    width: 200px;
+  }
+
+  &.sota-3 {
+    bottom: 10%;
+    left: 10%;
+    width: 250px;
+  }
+
   // Добавь остальные позиции
+}
+
+main {
+  // 1. Указываем цвет и картинку через запятую
+  // Сначала идет ЦВЕТ, потом КАРТИНКА
+  background-color: rgba(0, 0, 0, 0.85); // Темный цвет с прозрачностью (настройте 0.85 под себя)
+  background-image: url('../../shared/assets/bg-lenta.png');
+
+  // 2. Включаем режим наложения
+  // multiply или overlay дадут хороший эффект затемнения
+  background-blend-mode: multiply; 
+
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center top;
+  
+  // Важно: убедитесь, что у main есть минимальная высота, чтобы фон был виден
+  min-height: 100vh;
 }

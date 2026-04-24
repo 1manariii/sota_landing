@@ -4,6 +4,8 @@ import styles from './About.module.scss';
 import { Header } from '../../widgets/header/Header.widget';
 import { Footer } from '../../widgets/footer/Footer.widget';
 import { photo1, photo2, photo4, photo3 } from '../../shared/assets';
+import TechSupportButton from '../../widgets/tech-support-button/TechSupportButton.widget';
+import ScrollToTopButton from '../../widgets/scroll-to-top-button/ScrollToTopButton.widget';
 
 // === Типы данных ===
 interface Employee {
@@ -40,7 +42,7 @@ const EMPLOYEES: Employee[] = [
         photo: photo1,
         bio: 'Более 8 лет в IT. Последние 5 лет занимается развитием, улучшением и продвижением IT-продуктов. За последние 2 года удалось создать устойчивую модель бизнеса 3х IT-продуктов с суммарным объемом выручки более 500 млн руб/год.',
         responsibilities: [
-            'В рамках развития продукта прокат совместно с командой пришёл к идее создания сервиса SOTA Box'
+            'В рамках развития продукта прокат совместно с командой пришёл к идее создания сервиса СОТА БОКС'
         ],
         social: { telegram: '@vladiavelly', email: 'teterskiy.vs@sotamail.ru' }
     },
@@ -196,7 +198,7 @@ const EmployeeModal: React.FC<{
 
                         {employee.responsibilities && employee.responsibilities.length > 0 && (
                             <>
-                                <h4 className={styles.modalSectionTitle}>В SOTA Box отвечает за</h4>
+                                {/* <h4 className={styles.modalSectionTitle}>В СОТА БОКС отвечает за</h4> */}
                                 <ul className={styles.responsibilitiesList}>
                                     {employee.responsibilities.map((resp, idx) => (
                                         <li key={idx} className={styles.responsibilityItem}>
@@ -297,7 +299,8 @@ export const About = () => {
                 <div className={`${styles.floatingHex} ${styles.hex2}`} />
                 <div className={`${styles.floatingHex} ${styles.hex3}`} />
             </section>
-
+            <TechSupportButton />
+            <ScrollToTopButton />
             <Footer />
         </div>
     );

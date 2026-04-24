@@ -1,6 +1,6 @@
 import { Link } from 'react-router'; // Убедитесь, что импорт из react-router-dom
 import { handleAnchorClick } from '../../shared/utils/scrollToSection';
-import { openTelegramBot } from '../../features/open-bot/openSotaBot';
+import { openBot } from '../../features/open-bot/openSotaBot';
 import { instagram, logo, tg, vk, youtube } from '../../shared/assets';
 import { Button } from '../../shared/ui/button';
 import styles from './Footer.module.scss';
@@ -24,7 +24,7 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} id='footer'>
       <div className={styles.container}>
         <div className={styles.footerContent}>
           
@@ -111,7 +111,7 @@ export const Footer = () => {
             <p className={styles.contactText}><strong>ИНН:</strong> 7840125093</p>
             <p className={styles.contactText}><strong>КПП:</strong> 784001001</p>
             
-            <Button onClick={openTelegramBot} variant="primary" className={styles.footerAppButton}>
+            <Button onClick={openBot} variant="primary" className={styles.footerAppButton}>
               Перейти в приложение
             </Button>
           </div>

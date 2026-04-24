@@ -14,8 +14,8 @@ const FeatureColumnCard: React.FC<{ column: FeatureColumn; index: number }> = ({
     return (
         <div className={styles.featureColumn}>
             <div className={styles.featureHeader}>
-                <img className={styles.featureImg} src={column.img} alt={column.title} />
                 <h3 className={styles.featureTitle}>{column.title}</h3>
+                <img className={styles.featureImg} src={column.img} alt={column.title} />
             </div>
             <ul className={styles.featureList}>
                 {column.items.map((item, idx) => (
@@ -33,13 +33,13 @@ const Features: FC = () => {
         <section className={`${styles.featuresSection} ${styles.glassSection}`}>
             <div className={`${styles.featuresContent} container`}>
                 <h2 className={styles.sectionTitle}>ЧТО МЫ ДЕЛАЕМ ДЛЯ ПОКРЫТИЯ И УВЕЛИЧЕНИЯ ЭТОГО ПОКАЗАТЕЛЯ?</h2>
-                
+
                 <div className={styles.featuresGrid}>
                     {FEATURE_COLUMNS.map((column, index) => (
-                        <FeatureColumnCard 
-                            key={column.title} 
-                            column={column} 
-                            index={index} 
+                        <FeatureColumnCard
+                            key={column.title}
+                            column={column}
+                            index={index}
                         />
                     ))}
                 </div>

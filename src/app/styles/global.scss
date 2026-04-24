@@ -27,19 +27,7 @@ body {
   line-height: 1.5;
   overflow-x: hidden;
   /* Скрываем стандартный курсор, так как у нас свой */
-  cursor: none; 
-}
-
-.leaflet-control-attribution {
-  svg {
-    display: none !important;
-  }
-  
-  /* Опционально: убрать отступ слева, который был под иконку */
-  a:first-child {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-  }
+  // cursor: none; 
 }
 
 a {

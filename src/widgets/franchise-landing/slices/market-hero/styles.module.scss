@@ -1,5 +1,3 @@
-@use '../../../../app/styles/variables.scss' as *;
-
 // === Переменные секции ===
 $primary-orange: #FF6B00;
 $secondary-orange: #FF8533;
@@ -124,66 +122,177 @@ $transition: all 0.3s ease;
     animation: float 3s ease-in-out infinite;
 }
 
-// === Круговая диаграмма ===
-.marketChart {
+// === Обертка для диаграммы и панели ===
+.marketChartWrapper {
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
-    margin-top: 40px;
+    gap: 40px;
+    position: relative;
+    min-height: 500px; // Чтобы не прыгало при появлении/исчезновении панели
+}
+
+.marketChart {
+    width: 100%;
+    max-width: 400px;
+    flex-shrink: 0;
 }
 
 .pieChart {
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 400px; // Фиксированная высота для SVG
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .pieSvg {
     width: 100%;
     height: 100%;
-    transform: rotate(-90deg);
 }
 
 .pieSlice {
     transition: $transition;
+    cursor: pointer;
 
-    &:hover {
-        opacity: 0.8;
+    /* ИСПРАВЛЕНИЕ: Сбрасываем все стандартные стили для кнопок */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* Убираем выделение при фокусе (если нужно) */
+    outline: none;
+
+    /* Гарантируем, что fill не меняется на белый */
+    // fill: currentColor !important; 
+
+    &.interactiveSlice:hover {
+        opacity: 0.85;
+        transform: scale(1.02);
+        transform-origin: center;
     }
 }
 
-.pieLegend {
+.pieSlice:focus,
+.pieSlice:active {
+    // fill: inherit !important;
+    stroke: inherit !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.interactiveSlice:hover {
+    opacity: 0.85;
+    transform: scale(1.02); // Легкое увеличение при наведении
+    transform-origin: center;
+}
+
+.pieCenterText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: 900;
+    color: $text-light;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    text-align: center;
+    z-index: 10;
+}
+
+// === Панель информации (Info Panel) ===
+.infoPanel {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 107, 0, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 30px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    width: 100%;
-    max-width: 280px;
-}
-
-.pieLegendItem {
-    display: flex;
     align-items: center;
-    gap: 10px;
-}
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
-.pieLegendDot {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
+    &.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
 
-.pieLegendText {
-    font-size: 14px;
-    font-weight: 600;
-    color: $text-dark;
+    .closeBtn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: transparent;
+        border: none;
+        color: $text-light;
+        font-size: 24px;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 1;
+            color: $primary-orange;
+        }
+    }
+
+    .infoImageWrapper {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .infoImage {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        object-position: bottom;
+        transition: transform 0.5s ease;
+    }
+
+    .infoContent {
+        text-align: center;
+        width: 100%;
+    }
+
+    .infoTitle {
+        font-size: 20px;
+        font-weight: 700;
+        color: $text-light;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+
+    .infoDesc {
+        font-size: 14px;
+        color: #ccc;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .infoPercentage {
+        font-size: 18px;
+        font-weight: 700;
+        color: $primary-orange;
+        background: rgba(255, 107, 0, 0.1);
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: inline-block;
+    }
 }
 
 // === Анимации ===
@@ -199,29 +308,59 @@ $transition: all 0.3s ease;
     }
 }
 
-// === Адаптив для диаграммы ===
-@media (max-width: 768px) {
+// === АДАПТИВ ===
+@media (max-width: 992px) {
+    .marketChartWrapper {
+        flex-direction: column;
+        gap: 30px;
+        min-height: auto;
+    }
+
+    .marketChart {
+        max-width: 350px;
+    }
+
     .pieChart {
+        height: 350px;
+    }
+
+    .infoPanel {
         width: 100%;
-        height: 250px;
+        max-width: 100%;
+        order: 2; // Панель всегда под диаграммой на планшетах
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .heroTitle {
         font-size: 24px;
     }
 
+    .marketChartWrapper {
+        gap: 20px;
+    }
+
+    .marketChart {
+        max-width: 300px;
+    }
+
     .pieChart {
-        height: auto;
-        flex-direction: column;
+        height: 300px;
     }
 
-    .pieLegend {
-        padding: 15px;
+    .infoPanel {
+        padding: 1.5rem;
     }
 
-    .pieLegendText {
-        font-size: 12px;
+    .infoImageWrapper {
+        height: 150px;
+    }
+
+    .infoTitle {
+        font-size: 18px;
+    }
+
+    .infoDesc {
+        font-size: 13px;
     }
 }

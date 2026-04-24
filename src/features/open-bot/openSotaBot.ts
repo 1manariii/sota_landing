@@ -1,3 +1,3 @@
-export const openTelegramBot = () => {
-  window.open('https://t.me/sota_rental_bot', '_blank');
+export const openBot = () => {
+  window.open('https://sotarental.online/', '_blank');
 };

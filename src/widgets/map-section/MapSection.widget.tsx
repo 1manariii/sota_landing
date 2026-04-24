@@ -2,9 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './MapSection.module.scss';
 import { BASE_URL } from '../../shared/lib/config';
 import useYandexMaps from '../../shared/hooks/useYandexMaps';
-
-// --- Типы для Яндекс Карт (упрощенные для примера) ---
-type VectorCustomization = any; 
+import createSotaCustomization from '../../shared/utils/createSotaCustomization';
 
 // --- Типы данных приложения ---
 interface Coordinates {
@@ -29,159 +27,6 @@ interface Platform {
   code: number | null;
   coordinates: Coordinates;
 }
-
-// === ФУНКЦИЯ СОЗДАНИЯ ТЕМЫ SOTA ===
-// === ФУНКЦИЯ СОЗДАНИЯ ТЕМЫ SOTA (Orange/Black/Gray/White) ===
-const createSotaCustomization = (): VectorCustomization[] => {
-  // Цветовая палитра SOTA
-  const colors = {
-    // --- ФОН И СУША ---
-    background: '#121212',      // Почти черный фон (Deep Black)
-    land: '#1e1e1e',            // Темно-серый для суши (Dark Gray)
-    
-    // --- ВОДА ---
-    water: '#ffaf79',           // Очень темный серый, почти черный
-    waterOutline: '#7e5c46',    // Чуть светлее для границ воды
-
-    // --- ДОРОГИ ---
-    roadMajor: '#3a3a3a',       // Серый для основных дорог
-    roadMinor: '#2a2a2a',       // Темнее для второстепенных
-    roadOutline: '#000000',     // Черная обводка для четкости
-    roadLabel: '#ffffff',       // Белый текст названий улиц
-
-    // --- ЗДАНИЯ ---
-    building: '#262626',        // Темно-серые здания
-    buildingOutline: '#383838', // Светлая обводка зданий
-    buildingRoof: '#1a1a1a',    // Крыши чуть темнее
-
-    // --- ПАРКИ И ЗЕЛЕНЬ (Теперь серые, чтобы не выбиваться из темы) ---
-    park: '#1f1f1f',            // Парки как часть городского ландшафта (темно-серые)
-    vegetation: '#1a1a1a',      // Растительность темная
-
-    // --- ГРАНИЦЫ ---
-    border: '#444444',          // Серые границы районов/стран
-    borderAdmin: '#555555',
-
-    // --- ТЕКСТ ---
-    textPrimary: '#ffffff',     // Белый основной текст (города, районы)
-    textSecondary: '#aaaaaa',   // Светло-серый второстепенный текст
-    textOutline: '#000000',     // Черная обводка текста для читаемости
-    
-    // --- АКЦЕНТЫ (SOTA ORANGE) ---
-    poiIcon: '#FF6B00',         // Ярко-оранжевые иконки POI
-    poiLabel: '#FF8533',        // Оранжевый текст POI
-    metro: '#FF6B00',           // Метро оранжевое
-  };
-
-  const rules: VectorCustomization[] = [
-    // 🌍 СУША И ФОН
-    {
-      tags: { any: ['land'] },
-      elements: 'geometry.fill',
-      stylers: { color: colors.land, opacity: 1 },
-    },
-
-    // 💧 ВОДА
-    {
-      tags: { any: ['water'] },
-      elements: 'geometry.fill',
-      stylers: { color: colors.water, opacity: 1 },
-    },
-    {
-      tags: { any: ['water'] },
-      elements: 'geometry.outline',
-      stylers: { color: colors.waterOutline, opacity: 0.5 },
-    },
-    // 🏢 ЗДАНИЯ
-    {
-      tags: { any: ['building'] },
-      elements: 'geometry.fill',
-      stylers: { color: colors.building, opacity: 1 },
-    },
-    {
-      tags: { any: ['building'] },
-      elements: 'geometry.outline',
-      stylers: { color: colors.buildingOutline, opacity: 1 },
-    },
-
-    // 🛣️ ДОРОГИ
-    // Второстепенные дороги
-    {
-      tags: { any: ['road_1', 'road_2', 'road_3'] },
-      elements: 'geometry.fill',
-      stylers: { color: colors.roadMinor, opacity: 1 },
-    },
-    // Обводка всех дорог
-    {
-      tags: { any: ['road', 'road_1', 'road_2', 'road_3', 'road_4', 'road_5', 'road_6', 'road_7'] },
-      elements: 'geometry.outline',
-      stylers: { color: colors.roadOutline, opacity: 1 },
-    },
-    // 📍 POI (Интересные места) - ОРАНЖЕВЫЙ АКЦЕНТ
-    {
-      tags: { any: ['poi'] },
-      elements: 'label.icon',
-      stylers: { color: colors.poiIcon, opacity: 1 },
-    },
-    {
-      tags: { any: ['poi'] },
-      elements: 'label.text.fill',
-      stylers: { color: colors.poiLabel, opacity: 1, weight: 500 },
-    },
-
-    // 🏷️ АДМИНИСТРАТИВНЫЕ ГРАНИЦЫ
-    {
-      tags: { any: ['admin'] },
-      elements: 'geometry.outline',
-      stylers: { color: colors.border, opacity: 0.4 },
-    },
-
-    // 📝 ТЕКСТЫ
-    
-    // Населенные пункты (Белые)
-    {
-      tags: { any: ['locality'] },
-      elements: 'label.text.fill',
-      stylers: { color: colors.textPrimary, weight: 700, opacity: 1 },
-    },
-    {
-      tags: { any: ['locality'] },
-      elements: 'label.text.outline',
-      stylers: { color: colors.textOutline, opacity: 1 }, // Черная обводка для контраста
-    },
-    
-    // Улицы (Светло-серые)
-    {
-      tags: { any: ['address'] },
-      elements: 'label.text.fill',
-      stylers: { color: colors.textSecondary, opacity: 0.9, weight: 400 },
-    },
-    {
-      tags: { any: ['address'] },
-      elements: 'label.text.outline',
-      stylers: { color: colors.background, opacity: 1 }, // Обводка цветом фона
-    },
-
-    // Административные названия (Области, страны)
-    // {
-    //   tags: { any: ['admin'] },
-    //   elements: 'label.text.fill',
-    //   stylers: { color: '#888888', weight: 500, opacity: 0.8 },
-    // },
-
-    // Фон под иконками POI (чтобы читались на темном)
-    {
-      tags: { any: ['poi'] },
-      elements: 'label.icon',
-      stylers: { 
-        // Можно добавить легкую тень или фон, если иконки сливаются
-        // В API 3.0 это часто делается через SVG маркеры, но здесь стилизуем нативные
-      },
-    },
-  ];
-
-  return rules;
-};
 
 export const MapProducts = () => {
   const [platforms, setPlatforms] = useState<Platform[]>([]);
@@ -268,7 +113,7 @@ export const MapProducts = () => {
     };
 
     initMap();
-  }, [isLoaded, ymaps3, sotaCustomization]);
+  }, [isLoaded, ymaps3]);
 
   // Обновление маркеров
   useEffect(() => {
@@ -314,6 +159,11 @@ export const MapProducts = () => {
   };
 
   const selectedPlatform = platforms.find(p => p.id === selectedPlatformId);
+
+  // Функция для открытия страницы товара
+  const handleRentClick = (productId: number) => {
+    window.open(`https://sotarental.online/product/${productId}`, '_blank');
+  };
 
   return (
     <section className={styles.mapSection} id='map'>
@@ -369,6 +219,12 @@ export const MapProducts = () => {
                         <div className={styles.productInfo}>
                           <h3 className={styles.productName}>{product.name}</h3>
                           <p className={styles.productDesc}>{product.description}</p>
+                          <button 
+                            className={styles.rentButton}
+                            onClick={() => handleRentClick(product.id)}
+                          >
+                            Арендовать
+                          </button>
                         </div>
                       </div>
                     ))
