@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 
 
 import './Instructions.module.scss';
-import { openTelegramBot } from '../../features/open-bot/openSotaBot';
+import { openBot } from '../../features/open-bot/openSotaBot';
 import { Button } from '../../shared/ui/button';
 
 const steps = [
@@ -62,7 +62,7 @@ export const Instructions = () => {
         </div>
 
         <div className="instructions__action">
-          <Button onClick={openTelegramBot} variant="primary">К заказу</Button>
+          <Button onClick={openBot} variant="primary">К заказу</Button>
         </div>
         
         <div className="instructions-pagination"></div>
